@@ -1,8 +1,9 @@
--- 1. cambiar fuente
+// 1. cambiar fuente
 -- 2. degradado del titulo
 // 3. agregar links
 // 4. agregar x's y que borre el contenido del input 
 
 5. validacion de inputs
 6. deshabilitar inputs cambiando el color
+
 // 7. nombres de los componentes mas descriptivos
