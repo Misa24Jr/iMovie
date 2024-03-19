@@ -11,7 +11,8 @@ const style = StyleSheet.create({
     title: {
       color: '#fff',
       fontSize: 96,
-      fontWeight: 'normal',
+      fontWeight: '900',
+      fontFamily: 'Jura_Bold700',
     },
   });
 

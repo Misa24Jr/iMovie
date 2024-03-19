@@ -29,6 +29,7 @@ const style = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         fontSize: 20,
+        fontFamily: 'Jura_400Regular'
     }
 })
 export default BtnRegister;

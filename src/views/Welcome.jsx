@@ -56,6 +56,7 @@ const style = StyleSheet.create({
     subTitle:{
         color: '#fff',
         fontSize: 40,
+        fontFamily: 'Jura_400Regular'
     },
   });
 

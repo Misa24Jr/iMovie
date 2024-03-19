@@ -24,6 +24,7 @@ const style = StyleSheet.create({
         fontSize: 16,
         color: 'white',
         marginLeft: 15,
+        fontFamily: 'Jura_400Regular'
     },
     input:{
         width: 325,
@@ -34,6 +35,7 @@ const style = StyleSheet.create({
         paddingLeft: 30,
         fontSize: 16,
         color: '#fff',
+        fontFamily: 'Jura_400Regular',
         backgroundColor: '#8A909033',
       },
     containerInput:{
