@@ -1,11 +1,22 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text, TouchableOpacity} from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as Font from 'expo-font'; 
 
 const InitInput = ({name, placeholder, max}) => {
 
     const [text, setText] = useState('');
     const [isClear, setIsClear] = useState(true);
+
+    const loadFonts = async () => {
+        await Font.loadAsync({
+          'Jura': require('../../../assets/fonts/Jura.ttf')
+        })
+      }
+    
+      useEffect(() => {
+        loadFonts();
+      }, []);
 
     return(
 
@@ -45,6 +56,7 @@ const style = StyleSheet.create({
         fontSize: 16,
         color: 'white',
         marginLeft: 15,
+        fontFamily: 'Jura',
     },
     input:{
         width: 325,
@@ -56,6 +68,7 @@ const style = StyleSheet.create({
         fontSize: 16,
         color: '#fff',
         backgroundColor: '#8A909033',
+        fontFamily: 'Jura',
       },
     containerInput:{
         display: 'flex',

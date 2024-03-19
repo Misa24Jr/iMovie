@@ -1,9 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as Font from 'expo-font';
 
-const BtnLogin = ({text}) =>{
+
+const BtnLogin = ({text, }) =>{
     const navigarion = useNavigation();
+
+    const loadFonts = async () => {
+        await Font.loadAsync({
+          'Jura': require('../../../assets/fonts/Jura.ttf')
+        })
+      }
+    
+      useEffect(() => {
+        loadFonts();
+      }, []);
+
     return(
         <View>
             <TouchableOpacity
@@ -31,6 +44,8 @@ const style = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         fontSize: 20,
+        fontFamily: 'Jura',
+        fontWeight: 'bold',
     }
 })
 export default BtnLogin;

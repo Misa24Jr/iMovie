@@ -22,7 +22,9 @@ const LoginView = () =>{
             </View>
 
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'}/>
+                <BtnLogin 
+                    text={'Login'}
+                />
                 <LinkLogin text={"Don't have an acount yet?"}/>
             </View>
 

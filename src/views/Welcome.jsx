@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Text, View, StyleSheet } from "react-native";
+import * as Font from 'expo-font';
 
 // Components
 import BtnRegister from "../components/button/BtnRegister";
@@ -9,6 +10,16 @@ import Title from "../components/others/Title";
 
 const Welcome = () =>{
     
+    const loadFonts = async () => {
+        await Font.loadAsync({
+          'Jura': require('../../assets/fonts/Jura.ttf')
+        })
+      }
+    
+      useEffect(() => {
+        loadFonts();
+      }, []);
+
     return(
         <View style={style.container}>
 
@@ -56,6 +67,7 @@ const style = StyleSheet.create({
     subTitle:{
         color: '#fff',
         fontSize: 40,
+        fontFamily: 'Jura',
     },
   });
 
