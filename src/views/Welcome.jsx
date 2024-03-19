@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import LinearGradient from 'react-native-linear-gradient';
 
 // Components
 import BtnRegister from "../components/button/BtnRegister";
 import BtnLogin from "../components/button/BtnLogin";
+import Title from "../components/others/Title";
 
 
 const Welcome = () =>{
@@ -14,7 +14,7 @@ const Welcome = () =>{
 
             <View style={style.containerTitle}>
 
-                <Text style={style.title}>iMovie</Text>
+                <Title/>
                 <Text style={style.subTitle}>Get Started!</Text>
                 
             </View>
@@ -52,11 +52,6 @@ const style = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         gap: 20,
-    },
-    title: {
-      color: '#fff',
-      fontSize: 96,
-      fontWeight: 'normal',
     },
     subTitle:{
         color: '#fff',
