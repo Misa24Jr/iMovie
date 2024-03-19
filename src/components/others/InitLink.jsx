@@ -1,11 +1,11 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const InitLink = ({text}, {handleCLick}) =>{
+const InitLink = ({text, clickHandler}) =>{
 
     return(
         <TouchableOpacity
-            onPress={handleCLick}
+            onPress={clickHandler}
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>

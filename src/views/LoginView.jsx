@@ -49,7 +49,7 @@ const LoginView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
-                <InitLink text={"Don't have an acount yet?"} handleCLick={handleLink}/>
+                <InitLink text={"Don't have an acount yet?"} clickHandler={handleLink}/>
             </View>
         </View>
     )
@@ -84,6 +84,7 @@ const style = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        gap: 30,
     }
   });
   

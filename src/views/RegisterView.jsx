@@ -56,7 +56,7 @@ const RegisterView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick}/>
-                <InitLink text={"Already have an acount?"} handleCLick={handleLink}/>
+                <InitLink text={"Already have an acount?"} clickHandler={handleLink}/>
             </View>
         </View>
     )
@@ -92,6 +92,7 @@ const style = StyleSheet.create({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      gap: 30,
   }
 });
 
