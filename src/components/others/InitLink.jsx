@@ -15,7 +15,6 @@ const style = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         fontSize: 20,
-        fontStyle: 'italic',
         fontFamily: 'Jura_400Regular'
     }
 })
