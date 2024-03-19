@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text} from "react-native";
 
-const Input = ({name, placeholder, max, changeTextHandler}) => {
+const InitInput = ({name, placeholder, max, changeTextHandler}) => {
     return(
 
         <View style={style.containerInput}>
@@ -42,4 +42,4 @@ const style = StyleSheet.create({
     }
 })
 
-export default Input;
+export default InitInput;

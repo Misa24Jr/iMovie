@@ -1,6 +1,6 @@
 1. degradado del titulo
-2. agregar links
-3. agregar x's y que borre el contenido del input 
+// 2. agregar links
+// 3. agregar x's y que borre el contenido del input 
 4. validacion de inputs
 5. deshabilitar inputs cambiando el color
-6. nombres de los componentes mas descriptivos
+//6. nombres de los componentes mas descriptivos

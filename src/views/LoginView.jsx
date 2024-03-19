@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 //import { saveToken, getAndSetToken } from "../utils/tokenHandler.js";
 
 // Components
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
-import Input from "../components/inputs/Input";
+import InitInput from "../components/inputs/InitInput";
+import InitLink from "../components/others/InitLink";
 
 const LoginView = () =>{
-
+    
+    const navigation = useNavigation();
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     //const [token, setToken] = useState('');
@@ -18,6 +21,8 @@ const LoginView = () =>{
         console.log('nickname: ', nickname);
         console.log('password: ', password);
     }
+
+    const handleLink = () => {navigation.navigate('RegisterView')};
 
     useEffect(() => {
 
@@ -29,13 +34,13 @@ const LoginView = () =>{
                 <Title/>
             </View>
             <View style={style.containerInput}>
-                <Input
+                <InitInput
                     name={'nickname'}
                     placeholder={'ej. misa24jr'}
                     max={10}
                     changeTextHandler={text => setNickname(text)}
                 />
-                <Input 
+                <InitInput 
                     name={'password'} 
                     placeholder={'min. 8 characters'}
                     max={8}
@@ -44,6 +49,7 @@ const LoginView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
+                <InitLink text={"Don't have an acount yet?"} handleCLick={handleLink}/>
             </View>
         </View>
     )

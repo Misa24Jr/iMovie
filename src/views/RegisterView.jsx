@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 //import { saveToken, getAndSetToken } from "../utils/tokenHandler.js";
 
 // Components
 import BtnRegister from "../components/button/BtnRegister";
 import Title from "../components/others/Title";
-import Input from "../components/inputs/Input";
+import InitInput from "../components/inputs/InitInput";
+import InitLink from "../components/others/InitLink";
 
 const RegisterView = () =>{
 
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
@@ -21,6 +24,8 @@ const RegisterView = () =>{
         console.log('password: ', password);
     }
 
+    const handleLink = () => {navigation.navigate('LoginView')};
+
     useEffect(() => {
 
     });
@@ -31,18 +36,18 @@ const RegisterView = () =>{
                 <Title/>
             </View>
             <View style={style.containerInput}>
-                <Input
+                <InitInput
                     name={'email'} 
                     placeholder={'ej. example@gmail.com'}
                     changeTextHandler={text => setEmail(text)}
                 />
-                <Input
+                <InitInput
                     name={'nickname'} 
                     placeholder={'ej. misa24jr'} 
                     max={10}
                     changeTextHandler={text => setNickname(text)}
                 />
-                <Input
+                <InitInput
                     name={'password'}
                     placeholder={'min. 8 characters'}
                     max={8}
@@ -51,6 +56,7 @@ const RegisterView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick}/>
+                <InitLink text={"Already have an acount?"} handleCLick={handleLink}/>
             </View>
         </View>
     )
