@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-//import { saveToken, getAndSetToken } from "../utils/tokenHandler.js";
+import { API_ROOT } from "@env";
 
 // Components
 import BtnRegister from "../components/button/BtnRegister";
@@ -16,24 +16,32 @@ const RegisterView = () =>{
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
-    //const [token, setToken] = useState('');
 
-    const handleRegisterButtonClick = () => {
-        console.log('Register button clicked');
-        console.log('email: ', email);
-        console.log('nickname: ', nickname);
-        console.log('password: ', password);
+    const handleRegisterButtonClick = async () => { 
+        try {
+            const response = await fetch(`${API_ROOT}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    nickname: nickname,
+                    password: password
+                })
+            });
+
+            if(response.status !== 201) return Alert.alert('Oops', 'Error in server, try again later.');
+
+            Alert.alert('Success', 'You have been registered successfully.');
+
+            return navigation.navigate('LoginView');
+        } catch (error) {
+            return Alert.alert('Error', 'Something went wrong trying to register.');
+        }
     }
 
-    const handleLink = () => {navigation.navigate('LoginView')};
-
     useEffect(() => {
-        if(email && nickname && password){
-            setButton('#3C5252');
-        }
-        else{
-            setButton('gray');
-        }
+        if(email && nickname && password) setButton('#3C5252');
+        else setButton('gray');
     });
 
     return(
@@ -62,7 +70,10 @@ const RegisterView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick} color={button}/>
-                <InitLink text={"Already have an acount?"} clickHandler={handleLink}/>
+                <InitLink 
+                    text={"Already have an acount?"} 
+                    clickHandler={() => navigation.navigate('LoginView')}
+                />
             </View>
         </View>
     )

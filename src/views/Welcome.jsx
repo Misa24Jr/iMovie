@@ -10,9 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 const Welcome = () =>{
     const navigation = useNavigation();
 
-    const handleLoginButtonClick = () => navigation.navigate('LoginView');
-    const handleRegisterButtonClick = () => navigation.navigate('RegisterView');
-
     return(
         <View style={style.container}>
             <View style={style.containerTitle}>
@@ -20,8 +17,16 @@ const Welcome = () =>{
                 <Text style={style.subTitle}>Get Started!</Text>  
             </View>
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick} color={'#8CCECC'}/>
-                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick} color={'#3C5252'}/>
+                <BtnLogin
+                    text={'Login'}
+                    clickHandler={() => navigation.navigate('LoginView')}
+                    color={'#8CCECC'}
+                />
+                <BtnRegister
+                    text={'Register'}
+                    clickHandler={() => navigation.navigate('RegisterView')}
+                    color={'#3C5252'}
+                />
             </View>
         </View>
     )

@@ -4,9 +4,7 @@ import { Text, TouchableOpacity, StyleSheet } from "react-native";
 const InitLink = ({text, clickHandler}) =>{
 
     return(
-        <TouchableOpacity
-            onPress={clickHandler}
-        >
+        <TouchableOpacity onPress={clickHandler}>
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>
     )
@@ -17,6 +15,7 @@ const style = StyleSheet.create({
         color: '#fff',
         textAlign: 'center',
         fontSize: 20,
+        fontStyle: 'italic',
         fontFamily: 'Jura_400Regular'
     }
 })

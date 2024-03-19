@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-//import { saveToken, getAndSetToken } from "../utils/tokenHandler.js";
+import { API_ROOT } from "@env";
+import { saveToken } from "../utils/tokenHandler.js";
 
 // Components
 import BtnLogin from "../components/button/BtnLogin";
@@ -15,25 +16,37 @@ const LoginView = () =>{
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
-    //const [token, setToken] = useState('');
 
-    const handleLoginButtonClick = () => {
-        console.log('Login button clicked');
-        console.log('nickname: ', nickname);
-        console.log('password: ', password);
+    const handleLoginButtonClick = async () => {
+        try {
+            const response = await fetch(`${API_ROOT}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nickname: nickname,
+                    password: password
+                })
+            });
+
+            if(response.status !== 200) return Alert.alert('Oops', 'Error in server, try again later.');
+
+            const data = await response.json();
+
+            if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
+
+            await saveToken(data.token);
+
+            return console.log('Login successfully');
+        } catch (error) {
+            console.log(error);
+            return Alert.alert('Error', 'Something went wrong trying to login.');
+        }
     }
 
-    const handleLink = () => {navigation.navigate('RegisterView')};
-
     useEffect(() => {
-
-        if(nickname && password){
-            setButton('#8CCECC');
-        }
-        else{
-            setButton('gray');
-        }
-        
+        if(nickname && password) setButton('#8CCECC');
+        else setButton('gray');
+      
     }, [nickname, password]);
 
     return(
@@ -57,7 +70,10 @@ const LoginView = () =>{
             </View>
             <View style={style.containerBtn}>
                 <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick} color={button}/>
-                <InitLink text={"Don't have an acount yet?"} clickHandler={handleLink}/>
+                <InitLink 
+                    text={"Don't have an acount yet?"} 
+                    clickHandler={() => navigation.navigate('RegisterView')}
+                />
             </View>
         </View>
     )

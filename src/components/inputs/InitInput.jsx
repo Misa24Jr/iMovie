@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Text} from "react-native";
+import { View, StyleSheet, TextInput, Text } from "react-native";
 
 const InitInput = ({name, placeholder, max, changeTextHandler}) => {
     return(
