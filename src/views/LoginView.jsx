@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TextInput} from "react-native";
+import { View, StyleSheet } from "react-native";
 
 // Components
 import BtnLogin from "../components/button/BtnLogin";
