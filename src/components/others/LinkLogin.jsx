@@ -1,9 +1,14 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 const Link = ({text}) =>{
+    const navigation = useNavigation();
+
     return(
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={()=> navigation.navigate('RegisterView')}
+        >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>
     )

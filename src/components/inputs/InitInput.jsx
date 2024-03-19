@@ -1,7 +1,7 @@
 import React from "react";
-import { View, StyleSheet, TextInput, Text} from "react-native";
+import { View, StyleSheet, TextInput, Text, TouchableOpacity} from "react-native";
 
-const Input = ({name, placeholder, max}) => {
+const InitInput = ({name, placeholder, max}) => {
     return(
 
         <View style={style.containerInput}>
@@ -14,6 +14,10 @@ const Input = ({name, placeholder, max}) => {
                 maxLength={max}
                 placeholderTextColor={'#444747'}
             />
+
+            <TouchableOpacity style={style.clear}>
+                <Text style={style.textClear}>X</Text>
+            </TouchableOpacity>
 
         </View>
     )
@@ -39,7 +43,16 @@ const style = StyleSheet.create({
     containerInput:{
         display: 'flex',
         gap: 15,
+    },
+    clear:{
+        position: 'absolute',
+        right: 25,
+        top: 50,
+    },
+    textClear:{
+        fontSize: 15,
+        color: 'white',
     }
 })
 
-export default Input;
+export default InitInput;

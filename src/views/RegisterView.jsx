@@ -5,8 +5,8 @@ import { View, StyleSheet } from "react-native";
 // Components
 import BtnRegister from "../components/button/BtnRegister";
 import Title from "../components/others/Title";
-import Input from "../components/inputs/Input";
-import Link from "../components/others/Link";
+import InitInput from "../components/inputs/InitInput";
+import LinkRegister from "../components/others/LinkRegister";
 
 const RegisterView = () =>{
 
@@ -18,14 +18,14 @@ const RegisterView = () =>{
           </View>
 
           <View style={style.containerInput}>
-              <Input name={'email'} placeholder={'ej. example@gmail.com'}/>
-              <Input name={'nickname'} placeholder={'ej. misa24jr'} max={10}/>
-              <Input name={'password'} placeholder={'min. 8 characters'} max={8}/>
+              <InitInput name={'email'} placeholder={'ej. example@gmail.com'}/>
+              <InitInput name={'nickname'} placeholder={'ej. misa24jr'} max={10}/>
+              <InitInput name={'password'} placeholder={'min. 8 characters'} max={8}/>
           </View>
 
           <View style={style.containerBtn}>
               <BtnRegister text={'Register'}/>
-              <Link text={'Already have an account?'}/>
+              <LinkRegister text={'Already have an account?'}/>
           </View>
 
       </View>

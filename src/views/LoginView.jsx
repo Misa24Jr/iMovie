@@ -4,8 +4,8 @@ import { View, StyleSheet } from "react-native";
 // Components
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
-import Input from "../components/inputs/Input";
-import Link from "../components/others/Link";
+import InitInput from "../components/inputs/InitInput";
+import LinkLogin from "../components/others/LinkLogin";
 
 const LoginView = () =>{
 
@@ -17,13 +17,13 @@ const LoginView = () =>{
             </View>
 
             <View style={style.containerInput}>
-                <Input name={'nickname'} placeholder={'ej. misa24jr'} max={10}/>
-                <Input name={'password'} placeholder={'min. 8 characters'} max={8}/>
+                <InitInput name={'nickname'} placeholder={'ej. misa24jr'} max={10}/>
+                <InitInput name={'password'} placeholder={'min. 8 characters'} max={8}/>
             </View>
 
             <View style={style.containerBtn}>
                 <BtnLogin text={'Login'}/>
-                <Link text={"Don't have an acount yet?"}/>
+                <LinkLogin text={"Don't have an acount yet?"}/>
             </View>
 
         </View>
