@@ -1,7 +1,12 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text, TouchableOpacity} from "react-native";
+import { useState } from "react";
 
 const InitInput = ({name, placeholder, max}) => {
+
+    const [text, setText] = useState('');
+    const [isClear, setIsClear] = useState(true);
+
     return(
 
         <View style={style.containerInput}>
@@ -9,15 +14,27 @@ const InitInput = ({name, placeholder, max}) => {
             <Text style={style.name}>{name}</Text>
 
             <TextInput
+                value={text}
+                onChangeText={newText => {
+                    setText(newText);
+                    setIsClear(newText === '');
+                }}
+
+
                 style={style.input}
                 placeholder={placeholder}
                 maxLength={max}
                 placeholderTextColor={'#444747'}
             />
 
-            <TouchableOpacity style={style.clear}>
-                <Text style={style.textClear}>X</Text>
-            </TouchableOpacity>
+            {!isClear && (
+                <TouchableOpacity style={style.clear}
+                    onPress={()=> setText('')}
+                        >
+                    <Text style={style.textClear}>X</Text>
+                </TouchableOpacity>
+            )}
+
 
         </View>
     )
