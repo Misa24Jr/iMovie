@@ -20,8 +20,8 @@ const Welcome = () =>{
                 <Text style={style.subTitle}>Get Started!</Text>  
             </View>
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
-                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick}/>
+                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick} color={'#8CCECC'}/>
+                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick} color={'#3C5252'}/>
             </View>
         </View>
     )

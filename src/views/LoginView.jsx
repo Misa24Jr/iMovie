@@ -14,6 +14,7 @@ const LoginView = () =>{
     const navigation = useNavigation();
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
+    const [button, setButton] = useState('gray');
     //const [token, setToken] = useState('');
 
     const handleLoginButtonClick = () => {
@@ -26,7 +27,14 @@ const LoginView = () =>{
 
     useEffect(() => {
 
-    });
+        if(nickname && password){
+            setButton('#8CCECC');
+        }
+        else{
+            setButton('gray');
+        }
+        
+    }, [nickname, password]);
 
     return(
         <View style={style.container}> 
@@ -48,7 +56,7 @@ const LoginView = () =>{
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
+                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick} color={button}/>
                 <InitLink text={"Don't have an acount yet?"} clickHandler={handleLink}/>
             </View>
         </View>

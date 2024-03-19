@@ -1,11 +1,14 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const BtnLogin = ({ text, clickHandler }) =>{
+const BtnLogin = ({ text, clickHandler, color }) =>{
     return(
         <TouchableOpacity
             onPress={clickHandler}
-            style={style.container}
+            style={{
+                ...style.container,
+                backgroundColor: color
+            }}  
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>
@@ -16,7 +19,6 @@ const style = StyleSheet.create({
     container:{
         width: 325,
         height: 50,
-        backgroundColor: '#8CCECC',
         borderRadius: 25,
         display: 'flex',
         justifyContent: 'center',

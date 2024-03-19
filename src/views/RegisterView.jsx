@@ -15,6 +15,7 @@ const RegisterView = () =>{
     const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
+    const [button, setButton] = useState('gray');
     //const [token, setToken] = useState('');
 
     const handleRegisterButtonClick = () => {
@@ -27,7 +28,12 @@ const RegisterView = () =>{
     const handleLink = () => {navigation.navigate('LoginView')};
 
     useEffect(() => {
-
+        if(email && nickname && password){
+            setButton('#3C5252');
+        }
+        else{
+            setButton('gray');
+        }
     });
 
     return(
@@ -55,7 +61,7 @@ const RegisterView = () =>{
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick}/>
+                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick} color={button}/>
                 <InitLink text={"Already have an acount?"} clickHandler={handleLink}/>
             </View>
         </View>
