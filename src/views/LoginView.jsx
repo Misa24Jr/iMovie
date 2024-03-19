@@ -5,6 +5,7 @@ import { View, StyleSheet } from "react-native";
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
 import Input from "../components/inputs/Input";
+import Link from "../components/others/Link";
 
 const LoginView = () =>{
 
@@ -22,6 +23,7 @@ const LoginView = () =>{
 
             <View style={style.containerBtn}>
                 <BtnLogin text={'Login'}/>
+                <Link text={"Don't have an acount yet?"}/>
             </View>
 
         </View>
@@ -57,6 +59,7 @@ const style = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        gap: 20,
     }
   });
   

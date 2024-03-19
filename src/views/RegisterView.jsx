@@ -6,6 +6,7 @@ import { View, StyleSheet } from "react-native";
 import BtnRegister from "../components/button/BtnRegister";
 import Title from "../components/others/Title";
 import Input from "../components/inputs/Input";
+import Link from "../components/others/Link";
 
 const RegisterView = () =>{
 
@@ -24,6 +25,7 @@ const RegisterView = () =>{
 
           <View style={style.containerBtn}>
               <BtnRegister text={'Register'}/>
+              <Link text={'Already have an account?'}/>
           </View>
 
       </View>
@@ -60,6 +62,7 @@ const style = StyleSheet.create({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      gap: 20,
   }
 });
 
