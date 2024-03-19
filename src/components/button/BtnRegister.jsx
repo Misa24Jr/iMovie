@@ -1,14 +1,11 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-const BtnRegister = ({text}) =>{
-    const navigarion = useNavigation();
+const BtnRegister = ( {text, clickHandler }) =>{
     return(
         <TouchableOpacity
-            onPress={() => navigarion.navigate('RegisterView')}
+            onPress={clickHandler}
             style={style.container}
-
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>

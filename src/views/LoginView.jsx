@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+//import { saveToken, getAndSetToken } from "../utils/tokenHandler.js";
 
 // Components
 import BtnLogin from "../components/button/BtnLogin";
@@ -8,22 +9,42 @@ import Input from "../components/inputs/Input";
 
 const LoginView = () =>{
 
+    const [nickname, setNickname] = useState('');
+    const [password, setPassword] = useState('');
+    //const [token, setToken] = useState('');
+
+    const handleLoginButtonClick = () => {
+        console.log('Login button clicked');
+        console.log('nickname: ', nickname);
+        console.log('password: ', password);
+    }
+
+    useEffect(() => {
+
+    });
+
     return(
-        <View style={style.container}>
-            
+        <View style={style.container}> 
             <View style={style.containerTitle}>
                 <Title/>
             </View>
-
             <View style={style.containerInput}>
-                <Input name={'nickname'} placeholder={'ej. misa24jr'} max={10}/>
-                <Input name={'password'} placeholder={'min. 8 characters'} max={8}/>
+                <Input
+                    name={'nickname'}
+                    placeholder={'ej. misa24jr'}
+                    max={10}
+                    changeTextHandler={text => setNickname(text)}
+                />
+                <Input 
+                    name={'password'} 
+                    placeholder={'min. 8 characters'}
+                    max={8}
+                    changeTextHandler={text => setPassword(text)}
+                />
             </View>
-
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'}/>
+                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
             </View>
-
         </View>
     )
 }

@@ -1,14 +1,11 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-const BtnLogin = ({text}) =>{
-    const navigarion = useNavigation();
+const BtnLogin = ({ text, clickHandler }) =>{
     return(
         <TouchableOpacity
-            onPress={() => navigarion.navigate('LoginView')}
+            onPress={clickHandler}
             style={style.container}
-
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>

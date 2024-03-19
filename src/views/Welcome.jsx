@@ -5,25 +5,24 @@ import { Text, View, StyleSheet } from "react-native";
 import BtnRegister from "../components/button/BtnRegister";
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
-
+import { useNavigation } from "@react-navigation/native";
 
 const Welcome = () =>{
-    
+    const navigation = useNavigation();
+
+    const handleLoginButtonClick = () => navigation.navigate('LoginView');
+    const handleRegisterButtonClick = () => navigation.navigate('RegisterView');
+
     return(
         <View style={style.container}>
-
             <View style={style.containerTitle}>
-
                 <Title/>
-                <Text style={style.subTitle}>Get Started!</Text>
-                
+                <Text style={style.subTitle}>Get Started!</Text>  
             </View>
-
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'}/>
-                <BtnRegister text={'Register'}/>
+                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick}/>
+                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick}/>
             </View>
-
         </View>
     )
 }

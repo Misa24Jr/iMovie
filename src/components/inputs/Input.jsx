@@ -1,20 +1,18 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text} from "react-native";
 
-const Input = ({name, placeholder, max}) => {
+const Input = ({name, placeholder, max, changeTextHandler}) => {
     return(
 
         <View style={style.containerInput}>
-
             <Text style={style.name}>{name}</Text>
-
             <TextInput
                 style={style.input}
                 placeholder={placeholder}
+                onChangeText={changeTextHandler}
                 maxLength={max}
                 placeholderTextColor={'#444747'}
             />
-
         </View>
     )
 }
