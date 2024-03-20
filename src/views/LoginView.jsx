@@ -9,6 +9,7 @@ import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
 import InitInput from "../components/inputs/InitInput";
 import InitLink from "../components/others/InitLink";
+import InputValidator from "../utils/inputValidators.js";
 
 const LoginView = () =>{
     
@@ -16,39 +17,10 @@ const LoginView = () =>{
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
-
-
-    const isInputValid = () => {
-        if (nickname.trim() === '' || password.trim() === '') {
-            Alert.alert('Invalid Input', 'Nickname and password cannot be empty.');
-            return false;
-        }
-        if(nickname.length < 5){
-            Alert.alert('Invalid Input', 'Nickname must be at least 5 characters.');
-            return false;
-        }
-        if(password.length < 8){
-            Alert.alert('Invalid Input', 'Password must be at least 8 characters.');
-            return false;
-        }
-        if(nickname && password.trim() === ''){
-            Alert.alert('Invalid Input', 'Password is required.');
-            return false;
-        }
-        if(nickname && password){
-            Alert.alert('Invalid Input', 'Password is required.');
-            return false;
-        }
-        // setButton('blue');
-        return true;
-    }
     
-
-
     const handleLoginButtonClick = async () => {
-        if (!isInputValid()) {
-            return;
-        }
+        if (!InputValidator.loginInputsValidation(nickname, password)) return;
+
         try {
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
                 method: 'POST',
@@ -59,10 +31,10 @@ const LoginView = () =>{
                 })
             });
 
-            if(response.status !== 200) return Alert.alert('Oops', 'Error in server, try again later.');
-
             const data = await response.json();
 
+            if(response.status === 400) return Alert.alert('Oops', `${data.message}, try again.`);
+            if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
             if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
 
             await saveToken(data.token);

@@ -8,6 +8,7 @@ import BtnRegister from "../components/button/BtnRegister";
 import Title from "../components/others/Title";
 import InitInput from "../components/inputs/InitInput";
 import InitLink from "../components/others/InitLink";
+import InputValidator from "../utils/inputValidators.js";
 
 const RegisterView = () =>{
 
@@ -17,33 +18,9 @@ const RegisterView = () =>{
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
 
-
-    const isInputValid = () => {
-
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (email.trim() === '' || nickname.trim() === '' || password.trim() === '') {
-            Alert.alert('Invalid Input', 'Email, nickname and password cannot be empty.');
-            return false;
-        }
-        if (password.length < 8) {
-            Alert.alert('Invalid Input', 'Password must be at least 8 characters long.');
-            return false;
-        }
-        if (emailRegex.test(email) === false) {
-            Alert.alert('Invalid Input', 'Invalid email format.');
-            return false;
-        }
-        if(nickname.length < 5){
-            Alert.alert('Invalid Input', 'Nickname must be at least 5 characters long.');
-            return false;
-        }
-    }
-
     const handleRegisterButtonClick = async () => { 
-        if (!isInputValid()) {
-            return;
-        }
+        if (!InputValidator.registerInputsValidation(email, nickname, password)) return;
+
         try {
             const response = await fetch(`${API_ROOT}/api/auth/register`, {
                 method: 'POST',
@@ -55,7 +32,14 @@ const RegisterView = () =>{
                 })
             });
 
-            if(response.status !== 201) return Alert.alert('Oops', 'Error in server, try again later.');
+            if(response.status === 400) {
+                const data = await response.json();
+                return Alert.alert('Oops', `${data.message}, try again.`);
+            }
+
+            if(response.status !== 201 && response.status !== 400) {
+                return Alert.alert('Oops', 'Unknown error in server, try again later.');
+            } 
 
             Alert.alert('Success', 'You have been registered successfully.');
 
@@ -92,7 +76,6 @@ const RegisterView = () =>{
                 <InitInput
                     name={'password'}
                     placeholder={'min. 8 characters'}
-                    max={8}
                     changeTextHandler={text => setPassword(text)}
                     secureEntry={true}
                 />
