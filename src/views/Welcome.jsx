@@ -6,6 +6,7 @@ import BtnRegister from "../components/button/BtnRegister";
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
 import { useNavigation } from "@react-navigation/native";
+import LinearGradient from 'react-native-linear-gradient';
 
 const Welcome = () =>{
     const navigation = useNavigation();
@@ -39,6 +40,12 @@ const style = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5
+      },
     containerTitle:{
         width: '100%',
         height: '60%',
