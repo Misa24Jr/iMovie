@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TextInput, Text } from "react-native";
 
-const InitInput = ({name, placeholder, max, changeTextHandler}) => {
+const InitInput = ({name, placeholder, max, changeTextHandler, secureEntry}) => {
     return(
 
         <View style={style.containerInput}>
@@ -12,6 +12,7 @@ const InitInput = ({name, placeholder, max, changeTextHandler}) => {
                 onChangeText={changeTextHandler}
                 maxLength={max}
                 placeholderTextColor={'#444747'}
+                secureTextEntry={secureEntry}
             />
         </View>
     )

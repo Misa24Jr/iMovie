@@ -60,12 +60,14 @@ const LoginView = () =>{
                     placeholder={'ej. misa24jr'}
                     max={10}
                     changeTextHandler={text => setNickname(text)}
+                    secureEntry={false}
                 />
                 <InitInput 
                     name={'password'} 
                     placeholder={'min. 8 characters'}
                     max={8}
                     changeTextHandler={text => setPassword(text)}
+                    secureEntry={true}
                 />
             </View>
             <View style={style.containerBtn}>
