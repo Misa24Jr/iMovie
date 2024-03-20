@@ -1,4 +1,4 @@
-1. degradado del titulo
+-- 1. degradado del titulo (Va hacer una foto)
 // 3. agregar x's y que borre el contenido del input 
 4. validacion de inputs
 // 5. ocultar el contenido del input password

@@ -17,7 +17,38 @@ const LoginView = () =>{
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
 
+
+    const isInputValid = () => {
+        if (nickname.trim() === '' || password.trim() === '') {
+            Alert.alert('Invalid Input', 'Nickname and password cannot be empty.');
+            return false;
+        }
+        if(nickname.length < 5){
+            Alert.alert('Invalid Input', 'Nickname must be at least 5 characters.');
+            return false;
+        }
+        if(password.length < 8){
+            Alert.alert('Invalid Input', 'Password must be at least 8 characters.');
+            return false;
+        }
+        if(nickname && password.trim() === ''){
+            Alert.alert('Invalid Input', 'Password is required.');
+            return false;
+        }
+        if(nickname && password){
+            Alert.alert('Invalid Input', 'Password is required.');
+            return false;
+        }
+        // setButton('blue');
+        return true;
+    }
+    
+
+
     const handleLoginButtonClick = async () => {
+        if (!isInputValid()) {
+            return;
+        }
         try {
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
                 method: 'POST',
@@ -43,11 +74,7 @@ const LoginView = () =>{
         }
     }
 
-    useEffect(() => {
-        if(nickname && password) setButton('#8CCECC');
-        else setButton('gray');
-      
-    }, [nickname, password]);
+    useEffect(() => {}, []);
 
     return(
         <View style={style.container}> 
@@ -58,14 +85,14 @@ const LoginView = () =>{
                 <InitInput
                     name={'nickname'}
                     placeholder={'ej. misa24jr'}
-                    max={10}
+                    max={20}
                     changeTextHandler={text => setNickname(text)}
                     secureEntry={false}
                 />
                 <InitInput 
                     name={'password'} 
                     placeholder={'min. 8 characters'}
-                    max={8}
+                    max={20}
                     changeTextHandler={text => setPassword(text)}
                     secureEntry={true}
                 />
