@@ -1,4 +1,3 @@
- 1. degradado del titulo (Va hacer una foto)
-1. degradado del titulo
+1. degradado del titulo (Va hacer una foto)
 4. validacion de inputs
 6. disable al boton de login y register si los inputs no cumplen con las validaciones

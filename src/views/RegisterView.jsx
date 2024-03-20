@@ -17,7 +17,33 @@ const RegisterView = () =>{
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
 
+
+    const isInputValid = () => {
+
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        if (email.trim() === '' || nickname.trim() === '' || password.trim() === '') {
+            Alert.alert('Invalid Input', 'Email, nickname and password cannot be empty.');
+            return false;
+        }
+        if (password.length < 8) {
+            Alert.alert('Invalid Input', 'Password must be at least 8 characters long.');
+            return false;
+        }
+        if (emailRegex.test(email) === false) {
+            Alert.alert('Invalid Input', 'Invalid email format.');
+            return false;
+        }
+        if(nickname.length < 5){
+            Alert.alert('Invalid Input', 'Nickname must be at least 5 characters long.');
+            return false;
+        }
+    }
+
     const handleRegisterButtonClick = async () => { 
+        if (!isInputValid()) {
+            return;
+        }
         try {
             const response = await fetch(`${API_ROOT}/api/auth/register`, {
                 method: 'POST',
