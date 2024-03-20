@@ -1,22 +1,33 @@
-import React from "react";
-import { View, StyleSheet, TextInput, Text } from "react-native";
+import React, {useState} from "react";
+import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
 
-const InitInput = ({name, placeholder, max, changeTextHandler, secureEntry}) => {
-    return(
-
-        <View style={style.containerInput}>
-            <Text style={style.name}>{name}</Text>
-            <TextInput
-                style={style.input}
-                placeholder={placeholder}
-                onChangeText={changeTextHandler}
-                maxLength={max}
-                placeholderTextColor={'#444747'}
-                secureTextEntry={secureEntry}
-            />
-        </View>
-    )
-}
+const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry }) => {
+    const [text, setText] = useState('');
+  
+    return (
+      <View style={style.containerInput}>
+        <Text style={style.name}>{name}</Text>
+        <TextInput
+          style={style.input}
+          placeholder={placeholder}
+          onChangeText={(input) => {
+            setText(input);
+            changeTextHandler(input); // Call the changeTextHandler to update the state
+          }}
+          maxLength={max}
+          placeholderTextColor={'#444747'}
+          secureTextEntry={secureEntry}
+          value={text}
+        />
+  
+        {text !== '' && (  // Only show the clear button when there is text in the input
+          <TouchableOpacity style={style.clear} onPress={() => setText('')}>
+            <Text style={style.textClear}>X</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  };
 
 const style = StyleSheet.create({
     name:{
@@ -40,6 +51,16 @@ const style = StyleSheet.create({
     containerInput:{
         display: 'flex',
         gap: 15,
+    },
+    clear:{
+        position: 'absolute',
+        right: 25,
+        top: 48,
+    },
+    textClear:{
+        fontSize: 18,
+        color: 'white',
+        fontFamily: 'Jura_400Regular'
     }
 })
 

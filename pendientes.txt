@@ -1,6 +1,6 @@
 1. degradado del titulo
 3. agregar x's y que borre el contenido del input 
 4. validacion de inputs
-5. ocultar el contenido del input password
+// 5. ocultar el contenido del input password
 6. disable al boton de login y register si los inputs no cumplen con las validaciones
-7. en login y register view, subir más el title, los inputs, el boton y el link (darle más altura pues porque se ve muy pegado al borde de abajo)
+// 7. en login y register view, subir más el title, los inputs, el boton y el link (darle más altura pues porque se ve muy pegado al borde de abajo)

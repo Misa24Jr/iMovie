@@ -113,6 +113,7 @@ const style = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       gap: 30,
+      marginBottom: '20%',
   }
 });
 
