@@ -1,18 +1,25 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 
 const Title = () =>{
   return(
-    <Text style={style.title}>iMovie</Text>
+    <View>
+      <Image
+        source={require('../../../assets/iMovie.png')}
+        style={style.title}
+      />
+    </View>
   )
 }
 
 const style = StyleSheet.create({
   title: {
-    color: '#ffffff',
-    fontSize: 96,
-    fontWeight: '900',
-    fontFamily: 'Jura_Bold700',
+    width: 350,
+    height: 100,
+    // color: '#ffffff',
+    // fontSize: 96,
+    // fontWeight: '900',
+    // fontFamily: 'Jura_Bold700',
   },
 });
 
