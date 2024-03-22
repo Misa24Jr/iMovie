@@ -1,33 +1,37 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
 
 const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry }) => {
     const [text, setText] = useState('');
-  
+
+    const resetState = () => {
+        setText('');
+    };
+
     return (
-      <View style={style.containerInput}>
-        <Text style={style.name}>{name}</Text>
-        <TextInput
-          style={style.input}
-          placeholder={placeholder}
-          onChangeText={(input) => {
-            setText(input);
-            changeTextHandler(input); // Call the changeTextHandler to update the state
-          }}
-          maxLength={max}
-          placeholderTextColor={'#444747'}
-          secureTextEntry={secureEntry}
-          value={text}
-        />
-  
-        {text !== '' && (  // Only show the clear button when there is text in the input
-          <TouchableOpacity style={style.clear} onPress={() => setText('')}>
-            <Text style={style.textClear}>X</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+        <View style={style.containerInput}>
+            <Text style={style.name}>{name}</Text>
+            <TextInput
+                style={style.input}
+                placeholder={placeholder}
+                onChangeText={(input) => {
+                    setText(input);
+                    changeTextHandler(input); // Call the changeTextHandler to update the state
+                }}
+                maxLength={max}
+                placeholderTextColor={'#444747'}
+                secureTextEntry={secureEntry}
+                value={text}
+            />
+
+            {text !== '' && (  // Only show the clear button when there is text in the input
+                <TouchableOpacity style={style.clear} onPress={resetState}>
+                    <Text style={style.textClear}>X</Text>
+                </TouchableOpacity>
+            )}
+        </View>
     );
-  };
+};
 
 const style = StyleSheet.create({
     name:{
