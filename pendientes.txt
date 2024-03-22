@@ -1,3 +1,1 @@
-1. degradado del titulo (Va hacer una foto)
-2. Splash mejorado
 6. disable al boton de login y register si los inputs no cumplen con las validaciones
