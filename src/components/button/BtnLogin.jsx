@@ -1,14 +1,15 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const BtnLogin = ({ text, clickHandler, color }) =>{
+const BtnLogin = ({ text, clickHandler, color, disabled }) =>{
     return(
         <TouchableOpacity
             onPress={clickHandler}
             style={{
                 ...style.container,
                 backgroundColor: color
-            }}  
+            }}
+            disabled={disabled}
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>

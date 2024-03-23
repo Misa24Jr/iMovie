@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
 
-const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry }) => {
-    const [text, setText] = useState('');
+const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry, parentSetterFunction }) => {
+    const [inputValue, setInputValue] = useState('');
 
     const resetState = () => {
-        setText('');
+        setInputValue('');
+        parentSetterFunction(''); // Call the parentSetterValue to update the state
     };
 
     return (
@@ -15,16 +16,16 @@ const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry }) =
                 style={style.input}
                 placeholder={placeholder}
                 onChangeText={(input) => {
-                    setText(input);
+                    setInputValue(input);
                     changeTextHandler(input); // Call the changeTextHandler to update the state
                 }}
                 maxLength={max}
                 placeholderTextColor={'#444747'}
                 secureTextEntry={secureEntry}
-                value={text}
+                value={inputValue}
             />
 
-            {text !== '' && (  // Only show the clear button when there is text in the input
+            {inputValue !== '' && (  // Only show the clear button when there is text in the input
                 <TouchableOpacity style={style.clear} onPress={resetState}>
                     <Text style={style.textClear}>X</Text>
                 </TouchableOpacity>

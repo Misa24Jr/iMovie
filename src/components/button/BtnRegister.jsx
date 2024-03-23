@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const BtnRegister = ( {text, clickHandler, color }) =>{
+const BtnRegister = ( {text, clickHandler, color, disabled }) =>{
     return(
         <TouchableOpacity
             onPress={clickHandler}
@@ -9,6 +9,7 @@ const BtnRegister = ( {text, clickHandler, color }) =>{
                 ...style.container,
                 backgroundColor: color
             }}
+            disabled={disabled}
         >
             <Text style={style.text}>{text}</Text>
         </TouchableOpacity>

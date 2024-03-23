@@ -17,6 +17,7 @@ const LoginView = () =>{
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
+    const [loginBtnDisabled, setLoginBtnDisabled] = useState(true);
     
     const handleLoginButtonClick = async () => {
         if (!InputValidator.loginInputsValidation(nickname, password)) return;
@@ -46,7 +47,13 @@ const LoginView = () =>{
         }
     }
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if(nickname && password) setButton('#3C5252');
+        else setButton('gray');
+
+        if(nickname.length !== 0 && password.length !== 0) setLoginBtnDisabled(false);
+        else setLoginBtnDisabled(true);
+    });
 
     return(
         <View style={style.container}> 
@@ -60,6 +67,7 @@ const LoginView = () =>{
                     max={20}
                     changeTextHandler={text => setNickname(text)}
                     secureEntry={false}
+                    parentSetterFunction={setNickname}
                 />
                 <InitInput 
                     name={'password'} 
@@ -67,10 +75,16 @@ const LoginView = () =>{
                     max={20}
                     changeTextHandler={text => setPassword(text)}
                     secureEntry={true}
+                    parentSetterFunction={setPassword}
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnLogin text={'Login'} clickHandler={handleLoginButtonClick} color={button}/>
+                <BtnLogin
+                    text={'Login'}
+                    clickHandler={handleLoginButtonClick}
+                    color={button}
+                    disabled={loginBtnDisabled}
+                />
                 <InitLink 
                     text={"Don't have an acount yet?"} 
                     clickHandler={() => navigation.navigate('RegisterView')}

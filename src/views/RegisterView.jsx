@@ -17,6 +17,7 @@ const RegisterView = () =>{
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
+    const [registerBtnDisabled, setRegisterBtnDisabled] = useState(true);
 
     const handleRegisterButtonClick = async () => { 
         if (!InputValidator.registerInputsValidation(email, nickname, password)) return;
@@ -52,6 +53,10 @@ const RegisterView = () =>{
     useEffect(() => {
         if(email && nickname && password) setButton('#3C5252');
         else setButton('gray');
+
+        if(email.length !== 0 && nickname .length !== 0 && password .length !== 0) {
+            setRegisterBtnDisabled(false);
+        } else setRegisterBtnDisabled(true);
     });
 
     return(
@@ -65,6 +70,7 @@ const RegisterView = () =>{
                     placeholder={'ej. example@gmail.com'}
                     changeTextHandler={text => setEmail(text)}
                     secureEntry={false}
+                    parentSetterFunction={setEmail}
                 />
                 <InitInput
                     name={'nickname'} 
@@ -72,16 +78,23 @@ const RegisterView = () =>{
                     max={10}
                     changeTextHandler={text => setNickname(text)}
                     secureEntry={false}
+                    parentSetterFunction={setNickname}
                 />
                 <InitInput
                     name={'password'}
                     placeholder={'min. 8 characters'}
                     changeTextHandler={text => setPassword(text)}
                     secureEntry={true}
+                    parentSetterFunction={setPassword}
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnRegister text={'Register'} clickHandler={handleRegisterButtonClick} color={button}/>
+                <BtnRegister
+                    text={'Register'}
+                    clickHandler={handleRegisterButtonClick}
+                    color={button}
+                    disabled={registerBtnDisabled}
+                />
                 <InitLink 
                     text={"Already have an acount?"} 
                     clickHandler={() => navigation.navigate('LoginView')}
