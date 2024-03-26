@@ -14,6 +14,7 @@ import InputValidator from "../utils/inputValidators.js";
 const LoginView = () =>{
     
     const navigation = useNavigation();
+
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
@@ -40,7 +41,7 @@ const LoginView = () =>{
 
             await saveToken(data.token);
 
-            return console.log('Login successfully');
+            return navigation.navigate('NewsView');
         } catch (error) {
             console.log(error);
             return Alert.alert('Error', 'Something went wrong trying to login.');

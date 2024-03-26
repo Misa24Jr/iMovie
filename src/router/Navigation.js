@@ -6,6 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Welcome from '../views/Welcome';
 import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
+import NewsView from '../views/NewsView';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,13 +32,22 @@ function MyStack(){
                 }}
             />
 
-                <Stack.Screen 
+            <Stack.Screen 
                 name="RegisterView" 
                 component={RegisterView} 
                 options={{
                     headerShown: false
                 }}
             />
+
+            <Stack.Screen
+                name="NewsView"
+                component={NewsView}
+                options={{
+                    headerShown: false
+                }}
+            />
+
         </Stack.Navigator>
     );
 }

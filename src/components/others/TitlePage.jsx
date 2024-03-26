@@ -1,9 +1,9 @@
 import React from "react";
 import { Image, View, StyleSheet } from "react-native";
 
-const Title = () =>{
+const TitlePage = () =>{
   return(
-    <View>
+    <View style={style.content}>
       <Image
         source={require('../../../assets/iMovie.png')}
         style={style.title}
@@ -14,9 +14,16 @@ const Title = () =>{
 
 const style = StyleSheet.create({
   title: {
-    width: 350,
-    height: 100,
+    width: 230,
+    height: 65,
+    top: 20,
   },
+  content:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  }
 });
 
-export default Title;
+export default TitlePage;
