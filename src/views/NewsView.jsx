@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, { useEffect, useRef} from "react";
 import { 
     View, 
     Text, 
@@ -9,10 +9,9 @@ import {
     Animated,
     Alert
 } from "react-native";
+import { TMDB_API_ROOT, TMDB_TOKEN, TMDB_IMAGES_ROOT } from "@env";
 // Components 
 import TitlePage from "../components/others/TitlePage";
-import { TMDB_API_ROOT, TMDB_API_KEY, TMDB_IMAGES_ROOT } from "@env";
-
 
 const width = Dimensions.get('window').width;
 // const height = Dimensions.get('window').height;
@@ -21,35 +20,22 @@ const ANCHO_CONTENEDOR = width * 0.7;
 const ESPACIO_LATERAL = (width - ANCHO_CONTENEDOR) / 2;
 const ESPACIO = 10;
 
-const img = [
-    "https://images.unsplash.com/photo-1559494007-9f5847c49d94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-    "https://images.unsplash.com/photo-1506477331477-33d5d8b3dc85?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2425&q=80",
-    "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=652&q=80",
-    "https://images.unsplash.com/photo-1525183995014-bd94c0750cd5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    "https://images.unsplash.com/photo-1488462237308-ecaa28b729d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=714&q=80",
-    "https://images.unsplash.com/photo-1503756234508-e32369269deb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
-    "https://images.unsplash.com/photo-1504681869696-d977211a5f4c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=652&q=80",
-  ];
-
 const NewsView = () => {
-
     const scrollX = useRef(new Animated.Value(0)).current;
     const newMoviesTitles = [];
     const newMoviesPosterPath = [];
 
     const getNewMovies = async () => {
         try {
-            const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
-            const options = {
+            const response = await fetch(`${TMDB_API_ROOT}/movie/upcoming?language=en-US&page=1`, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjEzODkzMTU1YzJmZjY4OGJkODMyZTRkMWJiZTlhMCIsInN1YiI6IjY2MDJmMjM4Yjg0Y2RkMDE0YWY1NTFiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pSTbcbWcScjdicQLg6ssg1HTCr_2CKNW9qhQnynwjME'
+                    Authorization: `Bearer ${TMDB_TOKEN}`
                 }
-            };
+            });
 
-            const response = await fetch(url, options);
-            console.log(response.status);
+            console.log(response);
             if(response.status !== 200) return Alert.alert('Oops', 'Unable to get new movies from server.');
     
             const data = await response.json();
