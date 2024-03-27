@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { 
     View, 
     Text, 
@@ -12,6 +12,7 @@ import {
 import { TMDB_API_ROOT, TMDB_TOKEN, TMDB_IMAGES_ROOT } from "@env";
 // Components 
 import TitlePage from "../components/others/TitlePage";
+import parseAudienceScore from "../helpers/parseAudienceScore.js";
 
 const width = Dimensions.get('window').width;
 // const height = Dimensions.get('window').height;
@@ -20,10 +21,10 @@ const ANCHO_CONTENEDOR = width * 0.7;
 const ESPACIO_LATERAL = (width - ANCHO_CONTENEDOR) / 2;
 const ESPACIO = 10;
 
+
 const NewsView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
-    const newMoviesTitles = [];
-    const newMoviesPosterPath = [];
+    const [newMovies, setNewMovies] = useState([]);
 
     const getNewMovies = async () => {
         try {
@@ -35,18 +36,22 @@ const NewsView = () => {
                 }
             });
 
-            console.log(response);
             if(response.status !== 200) return Alert.alert('Oops', 'Unable to get new movies from server.');
     
             const data = await response.json();
-            const newMovies = data.results;
+            const newMoviesObject = data.results;
+            const updatedMovies = [];
            
-            newMovies.map((movie) => {
-                newMoviesTitles.push(movie.title);
-                newMoviesPosterPath.push(`${TMDB_IMAGES_ROOT}${movie.poster_path}`);
+            newMoviesObject.forEach((movie) => {
+                updatedMovies.push({
+                    id: movie.id,
+                    title: movie.title,
+                    posterPath: `${TMDB_IMAGES_ROOT}${movie.poster_path}`,
+                    voteAverage: parseAudienceScore(movie.vote_average)
+                });
             });
 
-            return;
+            return setNewMovies(updatedMovies);
         } catch (error) {
             console.log(error);
         }
@@ -64,14 +69,14 @@ const NewsView = () => {
                 [{nativeEvent: {contentOffset: {x: scrollX}}}],
                 {useNativeDriver: true}
             )}
-                data={newMoviesPosterPath}
+                data={newMovies}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingTop:200, paddingHorizontal: ESPACIO_LATERAL}}
                 decelerationRate={0}
                 snapToInterval={ANCHO_CONTENEDOR}
                 scrollEventThrottle={16}
-                keyExtractor={(item) => item}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({item, index}) =>{
                     const inputRange = [
                         (index - 1) * ANCHO_CONTENEDOR,
@@ -99,14 +104,14 @@ const NewsView = () => {
                                     gap: 10,
                                 }}
                             >
-                                <Text style={style.title}>Titulo</Text>
-                                <Image source={{uri: item}} style={style.posterImage}/>
+                                <Text style={style.title}>{item.title}</Text>
+                                <Image source={{uri: item.posterPath}} style={style.posterImage}/>
                                 <View style={style.containerPOP}>
                                     <Image
                                         source={require('../../assets/pop.png')}
                                         style={{width: 40, height: 40}}
                                     />
-                                    <Text style={style.points}>50%</Text>
+                                    <Text style={style.score}>{item.voteAverage}</Text>
                                 </View>
                             </Animated.View>
                         </View>
@@ -141,14 +146,17 @@ const style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    points:{
-        color: 'white',
+    score:{
+        color: '#8CCECC',
         fontSize: 35,
         fontFamily: 'Jura_400Regular'
-    }, 
+    },
+    hoverStyle: {
+        color: '#D0DAD9'
+    },
     title:{
         color: 'white',
-        fontSize: 24,
+        fontSize: 28,
         fontFamily: 'Jura_400Regular'
     }
 });
