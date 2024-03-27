@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import { 
     View, 
     Text, 
@@ -6,10 +6,12 @@ import {
     FlatList, 
     Image, 
     Dimensions, 
-    Animated
+    Animated,
+    Alert
 } from "react-native";
 // Components 
 import TitlePage from "../components/others/TitlePage";
+import { TMDB_API_ROOT, TMDB_API_KEY, TMDB_IMAGES_ROOT } from "@env";
 
 
 const width = Dimensions.get('window').width;
@@ -18,7 +20,6 @@ const width = Dimensions.get('window').width;
 const ANCHO_CONTENEDOR = width * 0.7;
 const ESPACIO_LATERAL = (width - ANCHO_CONTENEDOR) / 2;
 const ESPACIO = 10;
-
 
 const img = [
     "https://images.unsplash.com/photo-1559494007-9f5847c49d94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
@@ -33,6 +34,41 @@ const img = [
 const NewsView = () => {
 
     const scrollX = useRef(new Animated.Value(0)).current;
+    const newMoviesTitles = [];
+    const newMoviesPosterPath = [];
+
+    const getNewMovies = async () => {
+        try {
+            const url = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1';
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjEzODkzMTU1YzJmZjY4OGJkODMyZTRkMWJiZTlhMCIsInN1YiI6IjY2MDJmMjM4Yjg0Y2RkMDE0YWY1NTFiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pSTbcbWcScjdicQLg6ssg1HTCr_2CKNW9qhQnynwjME'
+                }
+            };
+
+            const response = await fetch(url, options);
+            console.log(response.status);
+            if(response.status !== 200) return Alert.alert('Oops', 'Unable to get new movies from server.');
+    
+            const data = await response.json();
+            const newMovies = data.results;
+           
+            newMovies.map((movie) => {
+                newMoviesTitles.push(movie.title);
+                newMoviesPosterPath.push(`${TMDB_IMAGES_ROOT}${movie.poster_path}`);
+            });
+
+            return;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getNewMovies();
+    }, [])
 
     return(
         <View style={style.container}>
@@ -42,7 +78,7 @@ const NewsView = () => {
                 [{nativeEvent: {contentOffset: {x: scrollX}}}],
                 {useNativeDriver: true}
             )}
-                data={img}
+                data={newMoviesPosterPath}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingTop:200, paddingHorizontal: ESPACIO_LATERAL}}
@@ -63,7 +99,6 @@ const NewsView = () => {
                         inputRange,
                         outputRange,
                     })
-
 
                     return(
                         <View style={style.containerImage}>
