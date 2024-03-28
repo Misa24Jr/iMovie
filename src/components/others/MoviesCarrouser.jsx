@@ -101,12 +101,15 @@ const MoviesCarrousel = () => {
                             >
                                 <Text style={style.title}>{item.title}</Text>
                                 <Image source={{uri: item.posterPath}} style={style.posterImage}/>
-                                <View style={style.containerPOP}>
-                                    <Image
-                                        source={require('../../../assets/pop.svg')}
-                                        style={{width: 40, height: 40}}
-                                    />
-                                    <Text style={style.score}>{item.voteAverage}</Text>
+                                <View>
+                                    <View style={style.containerPOP}>
+                                        <Image
+                                            source={require('../../../assets/pop.svg')}
+                                            style={{width: 40, height: 40}}
+                                        />
+                                        <Text style={style.score}>{item.voteAverage}</Text>
+                                    </View>
+                                    <Text style={{color: "#3C5252", fontFamily: 'Jura_400Regular'}}>Audience Score</Text>
                                 </View>
                             </Animated.View>
                         </View>
