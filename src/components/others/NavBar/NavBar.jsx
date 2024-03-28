@@ -1,83 +1,85 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image, Alert } from "react-native";
+import React, { useState } from 'react';
+import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+const Navbar = () => {
+  const navigation = useNavigation();
+  const [selectedButton, setSelectedButton] = useState(null);
 
-const NavBar = () => {
-    const navigation = useNavigation();
-    return (
-        <View style={style.containerNavbar}>
-            <TouchableOpacity
-                style={style.btn}
-            >
-                <Image
-                    source={require('../../../../assets/flash.png')}
-                    style={{width: 30, height: 30}}
-                />
-            </TouchableOpacity>
+  const handleButtonPress = (buttonName, ruta) => {
+    setSelectedButton(buttonName);
+    navigation.navigate(ruta);
+  };
 
-            <TouchableOpacity
-                style={style.btn}
-            >
-                <Image
-                    source={require('../../../../assets/search.png')}
-                    style={{width: 30, height: 30}}
-                />
-            </TouchableOpacity>
+  return (
+    <View style={styles.navbar}>
+      <TouchableOpacity
+        style={[styles.button, selectedButton === 'button1' && styles.selectedButton]}
+        onPress={() => handleButtonPress('button1', 'NewsView')}
+      >
+            <Image
+                source={require('../../../../assets/flash.png')}
+                style={{ width: 30, height: 30 }}
+            />
+      </TouchableOpacity>
 
-            <TouchableOpacity
-                style={style.btn}
-            >
-                <Image
-                    source={require('../../../../assets/review.png')}
-                    style={{width: 30, height: 30}}
-                />
-            </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, selectedButton === 'button2' && styles.selectedButton]}
+        onPress={() => handleButtonPress('button2')}
+      >
+            <Image
+                source={require('../../../../assets/search.png')}
+                style={{ width: 30, height: 30 }}
+            />
+      </TouchableOpacity>
 
-            <TouchableOpacity
-                style={style.btn}
-            >
-                <Image
-                    source={require('../../../../assets/chat.png')}
-                    style={{width: 30, height: 30}}
-                />
-            </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, selectedButton === 'button3' && styles.selectedButton]}
+        onPress={() => handleButtonPress('button3', 'MyReviewView')}
+      >
+            <Image
+                source={require('../../../../assets/review.png')}
+                style={{ width: 30, height: 30 }}
+            />
+      </TouchableOpacity>
 
-            <TouchableOpacity
-                style={style.btn}
-            >
-                <Image
-                    source={require('../../../../assets/user.png')}
-                    style={{width: 30, height: 30}}
-                />
-            </TouchableOpacity>
-            
-        </View>
-    );
+      <TouchableOpacity
+        style={[styles.button, selectedButton === 'button4' && styles.selectedButton]}
+        onPress={() => handleButtonPress('button4')}
+      >
+            <Image
+                source={require('../../../../assets/chat.png')}
+                style={{ width: 30, height: 30 }}
+            />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, selectedButton === 'button5' && styles.selectedButton]}
+        onPress={() => handleButtonPress('button5', 'UserSettings')}
+      >
+            <Image
+                source={require('../../../../assets/user.png')}
+                style={{ width: 30, height: 30 }}
+            />
+      </TouchableOpacity>
+    </View>
+  );
 };
 
-const style = StyleSheet.create({
-    containerNavbar:{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        width: 250,
-        height: 50,
-        gap: 15,
-    },
-    btn:{
-        ouline: 0,
-        border: 0,
-        width: 50,
-        height: 50,
-        borderRadius: "50%",
-        backgroundColor: 'gray',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        transition: "all ease-in-out 0.3s",
-        cursor: 'pointer',
-    }
+const styles = StyleSheet.create({
+  navbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    gap: 10,
+  },
+  button: {
+    padding: 10,
+  },
+  selectedButton: {
+    borderBottomWidth: 5,
+    borderBottomColor: '#8CCECC',
+  },
 });
-export default NavBar;
+
+export default Navbar;

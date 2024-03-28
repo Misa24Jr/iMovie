@@ -7,6 +7,8 @@ import Welcome from '../views/Welcome';
 import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
 import NewsView from '../views/NewsView';
+import MyReviewView from '../views/MyReviewView';
+import UserSettings from '../views/UserSettings';
 
 // Components
 import HomeTemplaneComponent from '../components/containers/HomeTemplaneComponent'
@@ -55,6 +57,22 @@ function MyStack(){
             <Stack.Screen
                 name="HomeTemplaneComponent"
                 component={HomeTemplaneComponent}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="MyReviewView"
+                component={MyReviewView}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="UserSettings"
+                component={UserSettings}
                 options={{
                     headerShown: false
                 }}

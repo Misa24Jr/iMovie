@@ -1,18 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-//Components
+// Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
-import MoviesCarrousel from "../components/others/MoviesCarrouser";
 
-const NewsView = () => {
+const UserSettings = () => {
     return(
         <View style={style.container}>
-            <MoviesCarrousel />
             <HomeTemplateComponent />
         </View>
     )
-}
+};
 
 const style = StyleSheet.create({
     container: {
@@ -21,4 +19,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default NewsView;
+export default UserSettings;
