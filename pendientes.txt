@@ -12,8 +12,7 @@
 -- 8. que el titulo de la app y el navbar esten un solo componente template y lo que se cambia es el interior
 -- 7. que el carrusel sea un componente para que en la vista solo esté 
 
-BUG  EN LOS BOTONES !IMPORTANTE
-BUG DE NO SE RENDERIZAN LA IMAGENES
+BUG EN LOS BOTONES !IMPORTANTE
 
 LISTO
 <View style={style.container}>

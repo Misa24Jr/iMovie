@@ -1,13 +1,15 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, TouchableOpacity, StyleSheet } from "react-native";
 
-const BtnNav = ({ text, clickHandler}) =>{
+const BtnNav = ({ img, clickHandler}) =>{
     return(
         <TouchableOpacity
             onPress={clickHandler}
             style={style.btn}
             >
-            <Text style={style.text}>{text}</Text>
+            <Image
+                source={require({img})}
+            />
         </TouchableOpacity>
     )
 }

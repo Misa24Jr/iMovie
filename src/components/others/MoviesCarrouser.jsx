@@ -104,8 +104,8 @@ const MoviesCarrousel = () => {
                                 <View>
                                     <View style={style.containerPOP}>
                                         <Image
-                                            source={require('../../../assets/pop.svg')}
-                                            style={{width: 40, height: 40}}
+                                            style={style.tinyLogo}
+                                            source={require('../../../assets/pop.png')}
                                         />
                                         <Text style={style.score}>{item.voteAverage}</Text>
                                     </View>
@@ -150,7 +150,11 @@ const style = StyleSheet.create({
         color: 'white',
         fontSize: 28,
         fontFamily: 'Jura_400Regular'
-    }
+    },
+    tinyLogo: {
+        width: 40,
+        height: 40,
+      },
 })
 
 export default MoviesCarrousel;
