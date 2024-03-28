@@ -8,6 +8,10 @@ import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
 import NewsView from '../views/NewsView';
 
+// Components
+import HomeTemplaneComponent from '../components/containers/HomeTemplaneComponent'
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +47,14 @@ function MyStack(){
             <Stack.Screen
                 name="NewsView"
                 component={NewsView}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="HomeTemplaneComponent"
+                component={HomeTemplaneComponent}
                 options={{
                     headerShown: false
                 }}

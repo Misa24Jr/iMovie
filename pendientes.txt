@@ -3,20 +3,26 @@
 ** EN EL FRONT SE NECESITA UN SCRIPT PARA TRANSFORMAR LA FECHA DE "2024-03-02" Y DEJAR SOLO EL AÑO.
 ** EN EL FRONT HAY QUE UNIFICAR LOS ID DE LOS GENEROS TANTO DE LAS SERIES COMO DE LAS PELICULAS
 
-1. Bajar un poco más el titulo dentro de la app
-2. El titulo de la app tiene que estar fijo, no se puede subir ni bajar solo.
-3. subir un poco más el carrusel para que le quede más espacio al navbar
+-- 1. Bajar un poco más el titulo dentro de la app
+-- 2. El titulo de la app tiene que estar fijo, no se puede subir ni bajar solo.
+-- 3. subir un poco más el carrusel para que le quede más espacio al navbar
 4. agregar el hover al titulo de las peliculas
 5. agregar hover sobre el poster de la pelicula que se la imagen se difumine un poco.
 6. agregar navbar al newsview
-8. que el titulo de la app y el navbar esten un solo componente template y lo que se cambia es el interior
-7. que el carrusel sea un componente para que en la vista solo esté :
+-- 8. que el titulo de la app y el navbar esten un solo componente template y lo que se cambia es el interior
+-- 7. que el carrusel sea un componente para que en la vista solo esté 
 
+BUG  EN LOS BOTONES !IMPORTANTE
+BUG DE NO SE RENDERIZAN LA IMAGENES
+
+LISTO
 <View style={style.container}>
     <HomeTemplate />
     <MoviesCarrousel props />
 </View>
 
+
+LISTO
 dentro de HomeTemplate:
 <View style={style.container}>
     <TitleApp />
