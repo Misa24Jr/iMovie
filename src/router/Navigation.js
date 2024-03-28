@@ -9,6 +9,7 @@ import RegisterView from '../views/RegisterView';
 import NewsView from '../views/NewsView';
 import MyReviewView from '../views/MyReviewView';
 import UserSettings from '../views/UserSettings';
+import MovieView from '../views/MovieView';
 
 // Components
 import HomeTemplaneComponent from '../components/containers/HomeTemplaneComponent'
@@ -73,6 +74,14 @@ function MyStack(){
             <Stack.Screen
                 name="UserSettings"
                 component={UserSettings}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="MovieView"
+                component={MovieView}
                 options={{
                     headerShown: false
                 }}

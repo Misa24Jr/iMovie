@@ -7,10 +7,12 @@ import {
     Image, 
     Dimensions, 
     Animated,
-    Alert
+    Alert,
+    TouchableOpacity
 } from "react-native";
 import { TMDB_API_ROOT, TMDB_TOKEN, TMDB_IMAGES_ROOT } from "@env";
 import parseAudienceScore from "../../helpers/parseAudienceScore.js";
+import { useNavigation } from '@react-navigation/native';
 
 const width = Dimensions.get('window').width;
 // const height = Dimensions.get('window').height;
@@ -58,6 +60,8 @@ const MoviesCarrousel = () => {
         getNewMovies();
     }, [])
 
+    const navigation = useNavigation();
+
     return(
         <Animated.FlatList
             onScroll={Animated.event(
@@ -87,32 +91,36 @@ const MoviesCarrousel = () => {
                     })
 
                     return(
-                        <View style={style.containerImage}>
-                            <Animated.View
-                                style={{
-                                    marginHorizontal: ESPACIO,
-                                    padding: ESPACIO,
-                                    borderRadius: 34,
-                                    alignItems: 'center',
-                                    transform: [{translateY}],
-                                    display: 'flex',
-                                    gap: 10,
-                                }}
-                            >
-                                <Text style={style.title}>{item.title}</Text>
-                                <Image source={{uri: item.posterPath}} style={style.posterImage}/>
-                                <View>
-                                    <View style={style.containerPOP}>
-                                        <Image
-                                            style={style.tinyLogo}
-                                            source={require('../../../assets/pop.png')}
-                                        />
-                                        <Text style={style.score}>{item.voteAverage}</Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('MovieView')}
+                        >
+                            <View style={style.containerImage}>
+                                <Animated.View
+                                    style={{
+                                        marginHorizontal: ESPACIO,
+                                        padding: ESPACIO,
+                                        borderRadius: 34,
+                                        alignItems: 'center',
+                                        transform: [{translateY}],
+                                        display: 'flex',
+                                        gap: 10,
+                                    }}
+                                >
+                                    <Text style={style.title}>{item.title}</Text>
+                                    <Image source={{uri: item.posterPath}} style={style.posterImage}/>
+                                    <View>
+                                        <View style={style.containerPOP}>
+                                            <Image
+                                                style={style.tinyLogo}
+                                                source={require('../../../assets/pop.png')}
+                                            />
+                                            <Text style={style.score}>{item.voteAverage}</Text>
+                                        </View>
+                                        <Text style={{color: "#3C5252", fontFamily: 'Jura_400Regular'}}>Audience Score</Text>
                                     </View>
-                                    <Text style={{color: "#3C5252", fontFamily: 'Jura_400Regular'}}>Audience Score</Text>
-                                </View>
-                            </Animated.View>
-                        </View>
+                                </Animated.View>
+                            </View>
+                    </TouchableOpacity>
                     )
                 }}
             />
