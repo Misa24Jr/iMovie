@@ -21,32 +21,34 @@ const LoginView = () =>{
     const [loginBtnDisabled, setLoginBtnDisabled] = useState(true);
     
     const handleLoginButtonClick = async () => {
-        if (!InputValidator.loginInputsValidation(nickname, password)) return;
+    //     if (!InputValidator.loginInputsValidation(nickname, password)) return;
 
-        try {
-            const response = await fetch(`${API_ROOT}/api/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    nickname: nickname,
-                    password: password
-                })
-            });
+    //     try {
+    //         const response = await fetch(`${API_ROOT}/api/auth/login`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 nickname: nickname,
+    //                 password: password
+    //             })
+    //         });
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            if(response.status === 400) return Alert.alert('Oops', `${data.message}, try again.`);
-            if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
-            if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
+    //         if(response.status === 400) return Alert.alert('Oops', `${data.message}, try again.`);
+    //         if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
+    //         if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
 
-            await saveToken(data.token);
+    //         await saveToken(data.token);
 
-            return navigation.navigate('NewsView');
-        } catch (error) {
-            console.log(error);
-            return Alert.alert('Error', 'Something went wrong trying to login.');
-        }
-    }
+    //         return navigation.navigate('NewsView');
+    //     } catch (error) {
+    //         console.log(error);
+    //         return Alert.alert('Error', 'Something went wrong trying to login.');
+    //     }
+    // }
+    return navigation.navigate('NewsView');
+}
 
     useEffect(() => {
         if(nickname && password) setButton('#3C5252');
