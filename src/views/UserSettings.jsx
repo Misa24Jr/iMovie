@@ -1,17 +1,35 @@
-import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import React, {useState} from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import UserInput from "../components/inputs/UserInput";
 
 const UserSettings = () => {
+    const [edit, setEdit] = useState(false);
+    const [email, setEmail] = useState('misa24jr@gmail.com');
+    const [password, setPassword] = useState('misa24jr');
+
+    const toggleEdit = () => {
+        setEdit(!edit);
+    };
+
+    const handleConfirmChanges = () => {
+        setEdit(false);
+    };
+    
     return(
         <View style={style.container}>
             <HomeTemplateComponent />
             <View style={style.containerBody}>
                 <View style={style.containerCard}>
-                    <Text style={style.link}>Edit Profile</Text>
+
+                    <TouchableOpacity
+                        onPress={toggleEdit}
+                    >
+                        <Text style={style.link}>Edit Profile</Text>
+                    </TouchableOpacity>
+                    
                     <View style={style.containerImage}>
                         <Image source={{uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
                             style={{width: 120, height: 180}}
@@ -21,8 +39,15 @@ const UserSettings = () => {
                         </Text>
                     </View>
                     <View style={style.containerInput}>
-                        <UserInput placeholder="misa24jr@gmail.com" name="Name"/>
-                        <UserInput placeholder="***************" name="Email"/>
+                        <UserInput name="Email" value={email}/>
+                        <UserInput name="Password" value={password} secureTextEntry={true}/>
+
+                        {edit && <TouchableOpacity 
+                                    onPress={handleConfirmChanges}
+                                    style={style.BtnSave}
+                                >
+                                <Text style={style.textSave}>Confirm Changes</Text>
+                            </TouchableOpacity>}
                     </View>
                 </View>
 
@@ -68,10 +93,24 @@ const style = StyleSheet.create({
         fontFamily: 'Jura_400Regular',
     },
     containerInput:{
-        gap: 10,
+        gap: 20,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    BtnSave:{
+        width: 212,
+        height: 40,
+        backgroundColor: '#3C5252',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25
+    },
+    textSave:{
+        color: '#ffffff',
+        fontSize: 12,
+        fontFamily: 'Jura_400Regular',
     }
 });
 

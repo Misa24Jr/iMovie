@@ -3,4 +3,10 @@
 ** EN EL FRONT SE NECESITA UN SCRIPT PARA TRANSFORMAR LA FECHA DE "2024-03-02" Y DEJAR SOLO EL AÑO.
 ** EN EL FRONT HAY QUE UNIFICAR LOS ID DE LOS GENEROS TANTO DE LAS SERIES COMO DE LAS PELICULAS
 
-Hacer el boton de edit de la vista de usersetting
+-- 1. Hacer el boton de edit de la vista de usersetting
+-- 2. Mas border a las cagitas de los generos
+3. Harcodear un video en MovieView
+-- 4. Faltan los iconos en el de MyReview
+--- 5. los input se perfil deben ser disiabled hasta que se le de al boton de editar
+6. Hacer el metodo de subir imagen en firebase en user 
+7. scroll a la vista de MovieView y hacer la parte de abajo 
