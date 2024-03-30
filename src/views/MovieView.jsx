@@ -8,6 +8,7 @@ import formatReleaseTime from "../helpers/formatReleaseTime.js";
 
 // Components
 import Genre from '../components/containers/Genre';
+import {Video} from 'expo-av';
 
 const MovieView = (props) =>{
     const navigation = useNavigation();
@@ -66,9 +67,20 @@ const MovieView = (props) =>{
         <View style={style.container}>
             <View style={style.containerImage}>
 
-                <Image
+                {/* <Image
                     style={style.Image}
                     source={{uri: 'https://images.pexels.com/photos/1270184/pexels-photo-1270184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
+                /> */}
+
+                <Video
+                    source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    resizeMode="cover"
+                    shouldPlay
+                    isLooping
+                    style={style.Image}
                 />
 
                 <View style={style.degradado}></View>
