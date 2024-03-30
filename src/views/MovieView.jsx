@@ -1,12 +1,67 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { TMDB_API_ROOT, TMDB_TOKEN, YT_TRAILER_SEARCH_ROOT } from "@env";
+import formatTrailerSearch from "../helpers/formatTrailerSearch.js";
+import formatMovieDuration from "../helpers/formatMovieDuration.js";
+import formatReleaseTime from "../helpers/formatReleaseTime.js";
 
 // Components
 import Genre from '../components/containers/Genre';
 
-const MovieView = () =>{
+const MovieView = (props) =>{
     const navigation = useNavigation();
+    const movieId = props.route.params.movie.id;
+
+    const [movieDetails, setMovieDetails] = useState({});
+    const [movieTrailerUri, setMovieTrailerUri] = useState('');
+
+    const getMovieDetails = async () => {
+        try {
+            const url = `${TMDB_API_ROOT}/movie/${movieId}?language=en-US`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: `Bearer ${TMDB_TOKEN}`
+                }
+            });
+
+            if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie details from server.');
+            const data = await response.json();
+            setMovieDetails(data);
+            await getMovieTrailer();
+        } catch (error) {
+            return Alert.alert('Oops', 'Unable to get movie details.');
+        }
+    }
+
+    const getMovieTrailer = async () => {
+        try {
+            const url = `${YT_TRAILER_SEARCH_ROOT}${formatTrailerSearch(movieDetails.original_title)}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json'
+                }
+            });
+
+            if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie trailer from server.');
+
+            const data = await response.json();
+            const movieTrailerId = (data.items[0].id.videoId);
+
+            setMovieTrailerUri(`https://www.youtube.com/watch?v=${movieTrailerId}`);
+            return console.log(movieTrailerUri);
+        } catch (error) {
+            return Alert.alert('Oops', 'Unable to get movie trailer.');
+        }
+    }
+
+    useEffect(() => {
+        getMovieDetails();
+    }, []);
+
     return(
         <View style={style.container}>
             <View style={style.containerImage}>
@@ -32,8 +87,9 @@ const MovieView = () =>{
             <View style={style.containerBody}>
 
                 <View style={style.movieTitle}>
-                    <Text style={style.title}>Movie Title</Text>
-                    <Text style={style.subTitle}>2024 - 02h 12m</Text>
+                    <Text style={style.title}>{movieDetails.original_title}</Text>
+                    <Text style={style.subTitle}>- {formatMovieDuration(movieDetails.runtime)}
+                    </Text>
                 </View>
 
                 <View style={style.containerActor}>
@@ -49,9 +105,7 @@ const MovieView = () =>{
                 </View>
 
                 <View style={style.containerDescription}>
-                    <Text style={style.desciption}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem illum facilis necessitatibus, illo ipsum ad aspernatur fuga debitis enim aperiam magni consequatur possimus, doloribus dolor repudiandae excepturi cumque doloremque eveniet?
-                    </Text>
+                    <Text style={style.desciption}>{movieDetails.overview}</Text>
                 </View>
             </View>
         </View>

@@ -92,7 +92,7 @@ const MoviesCarrousel = () => {
 
                     return(
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('MovieView')}
+                            onPress={() => navigation.navigate('MovieView', { movie: item })}
                         >
                             <View style={style.containerImage}>
                                 <Animated.View
@@ -120,7 +120,7 @@ const MoviesCarrousel = () => {
                                     </View>
                                 </Animated.View>
                             </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
                     )
                 }}
             />
