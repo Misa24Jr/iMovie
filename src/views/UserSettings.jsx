@@ -39,8 +39,8 @@ const UserSettings = () => {
                         </Text>
                     </View>
                     <View style={style.containerInput}>
-                        <UserInput name="Email" value={email}/>
-                        <UserInput name="Password" value={password} secureTextEntry={true}/>
+                        <UserInput name="Email" value={email} editable={false}/>
+                        <UserInput name="Password" value={password} secureTextEntry={true} editable={false}/>
 
                         {edit && <TouchableOpacity 
                                     onPress={handleConfirmChanges}

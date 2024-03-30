@@ -16,7 +16,7 @@ const MyReviewBox = ({url, description, rating}) => {
                     >
                         <Image
                             source={require('../../../assets/pencil.png')}
-                            style={{width: 20, height: 20}}
+                            style={{width: 35, height: 35}}
                         />
                     </TouchableOpacity>
 
@@ -25,7 +25,7 @@ const MyReviewBox = ({url, description, rating}) => {
                     >
                         <Image
                             source={require('../../../assets/trash.png')}
-                            style={{width: 20, height: 20}}
+                            style={{width: 35, height: 35}}
                         />
                     </TouchableOpacity>
                     </View>
@@ -53,7 +53,7 @@ const style = StyleSheet.create({
         backgroundColor: '#1c1c1c',
         width: '100%',
         height: 255,
-        borderRadius: 10,
+        borderRadius: 20,
         marginTop: 10,
         flexDirection: 'column',
         display: 'flex',

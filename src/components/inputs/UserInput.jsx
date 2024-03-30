@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 
-const UserInput = ({placeholder, name, value, secureTextEntry}) => {
+const UserInput = ({placeholder, name, value, secureTextEntry, editable = true}) => {
     return(
         <View style={style.containerInput}>
 
@@ -12,6 +12,7 @@ const UserInput = ({placeholder, name, value, secureTextEntry}) => {
                 placeholderTextColor={'#ffffff'}
                 value={value}
                 secureTextEntry={secureTextEntry}
+                editable={editable} // Add this line to disable the text input
             />
         </View>
     )
