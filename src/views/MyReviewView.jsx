@@ -15,7 +15,7 @@ const MyReviewView = () => {
             <HomeTemplateComponent />
             <View style={style.containerBody}>
                 <MyReviewTitle />
-                <MyReviewBox url={'img'} description={description} rating={rating}/>
+                <MyReviewBox description={description} rating={rating}/>
             </View>
         </View>
     )

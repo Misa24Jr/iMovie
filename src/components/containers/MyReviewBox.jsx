@@ -18,8 +18,6 @@ const MyReviewBox = ({url, description, rating}) => {
                         <Text style={style.rating}>Rating: {rating}/5</Text>
                     </View>
                 </View>
-                
-
             </View>
         </>
     )
@@ -40,14 +38,15 @@ const style = StyleSheet.create({
     containerImage: {
         width: '100%',
         height: '60%',
-        borderTopEndRadius: 20,
-        borderTopStartRadius: 20,
+        // borderTopEndRadius: 20,
+        // borderTopStartRadius: 20,
     },
     Image:{
         width: '100%',
         height: '100%',
-        borderTopEndRadius: 20,
-        borderTopStartRadius: 20,
+        // borderTopEndRadius: 20,
+        // borderTopStartRadius: 20,
+
     },
     containerdescription: {
         width: '90%',
