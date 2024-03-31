@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { TMDB_API_ROOT, TMDB_TOKEN, YT_TRAILER_SEARCH_ROOT } from "@env";
+import { TMDB_API_ROOT, TMDB_TOKEN, X_RAPIDAPI_KEY, RAPIDAPI_ROOT, TMDB_IMAGES_ROOT } from "@env";
 import formatTrailerSearch from "../helpers/formatTrailerSearch.js";
 import formatMovieDuration from "../helpers/formatMovieDuration.js";
-import formatReleaseTime from "../helpers/formatReleaseTime.js";
+import formatReleaseDate from "../helpers/formatReleaseDate.js";
 
 // Components
 import Genre from '../components/containers/Genre';
@@ -30,35 +30,36 @@ const MovieView = (props) =>{
 
             if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie details from server.');
             const data = await response.json();
-            setMovieDetails(data);
-            await getMovieTrailer();
-        } catch (error) {
-            return Alert.alert('Oops', 'Unable to get movie details.');
-        }
-    }
-
-    const getMovieTrailer = async () => {
-        try {
-            const url = `${YT_TRAILER_SEARCH_ROOT}${formatTrailerSearch(movieDetails.original_title)}`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json'
-                }
+            setMovieDetails({
+                original_title: data.original_title,
+                release_date: formatReleaseDate(data.release_date),
+                runtime: formatMovieDuration(data.runtime),
+                overview: data.overview,
+                genre1: data.genres[0].name,
+                genre2: data.genres[1].name,
+                genre3: data.genres[2]?.name || '',
+                genre4: data.genres[3]?.name || '',
+                poster_path: data.poster_path
             });
 
-            if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie trailer from server.');
-
-            const data = await response.json();
-            const movieTrailerId = (data.items[0].id.videoId);
-
-            setMovieTrailerUri(`https://www.youtube.com/watch?v=${movieTrailerId}`);
-            return console.log(movieTrailerUri);
         } catch (error) {
-            return Alert.alert('Oops', 'Unable to get movie trailer.');
+            return Alert.alert('Oops', error.message);
         }
     }
-
+    
+    const getMovieTrailer = async () => {
+        const url2 = `https://${RAPIDAPI_ROOT}/search?query=${movieDetails.original_title}+trailer&geo=US&lang=en`;
+        const response2 = await fetch(url2, {
+            method: 'GET',
+            headers: { 'X-RapidAPI-Key': X_RAPIDAPI_KEY, 'X-RapidAPI-Host': RAPIDAPI_ROOT }
+        });
+        
+        if(response2.status !== 200) return Alert.alert('Oops', 'Unable to get movie trailer from server.');
+        const data2 = await response2.json();
+        console.log(data2.data[0].videoId)
+        setMovieTrailerUri(`https://www.youtube.com/watch?v=${data2.data[0].videoId}`);
+    }
+    
     useEffect(() => {
         getMovieDetails();
     }, []);
@@ -66,23 +67,10 @@ const MovieView = (props) =>{
     return(
         <View style={style.container}>
             <View style={style.containerImage}>
-
-                {/* <Image
+                <Image
                     style={style.Image}
-                    source={{uri: 'https://images.pexels.com/photos/1270184/pexels-photo-1270184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
-                /> */}
-
-                <Video
-                    source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-                    rate={1.0}
-                    volume={1.0}
-                    isMuted={false}
-                    resizeMode="cover"
-                    shouldPlay
-                    isLooping
-                    style={style.Image}
+                    source={{uri: `${TMDB_IMAGES_ROOT}${movieDetails.poster_path}`}}
                 />
-
                 <View style={style.degradado}></View>
 
                 <TouchableOpacity
@@ -100,7 +88,7 @@ const MovieView = (props) =>{
 
                 <View style={style.movieTitle}>
                     <Text style={style.title}>{movieDetails.original_title}</Text>
-                    <Text style={style.subTitle}>- {formatMovieDuration(movieDetails.runtime)}
+                    <Text style={style.subTitle}>{movieDetails.release_date} - {movieDetails.runtime}
                     </Text>
                 </View>
 
@@ -109,11 +97,10 @@ const MovieView = (props) =>{
                 </View>
 
                 <View style={style.containerGenre}>
-
-                    <Genre name="Action" />
-                    <Genre name="Horror" />
-                    <Genre name="Comedy" />
-                    
+                    <Genre name={movieDetails.genre1} />
+                    <Genre name={movieDetails.genre2} />
+                    {movieDetails.genre3 && <Genre name={movieDetails.genre3} />}
+                    {movieDetails.genre4 && <Genre name={movieDetails.genre4} />}
                 </View>
 
                 <View style={style.containerDescription}>
@@ -186,6 +173,11 @@ const style = StyleSheet.create({
         position: 'absolute',
         top: 50,
         left: 20,
+    },
+    play:{
+        position: 'absolute',
+        top: 50,
+        left: 70,
     },
 });
 export default MovieView;
