@@ -10,7 +10,10 @@ import formatReleaseTime from "../helpers/formatReleaseTime.js";
 import Genre from '../components/containers/Genre';
 import {Video} from 'expo-av';
 import BtnRateThis from "../components/button/BtnRateThis.jsx";
+import CriticTitle from "../components/others/CriticTitle.jsx";
+import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 
+// Imagenes
 import pause from '../../assets/pausa.png';
 import play from '../../assets/play.png';
 
@@ -156,7 +159,13 @@ const MovieView = (props) =>{
 
                         <BtnRateThis text={'Rate This'}/>
                     </View>
-
+                    
+                    <View>
+                        <CriticTitle />
+                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'misa24jr'} rating={5}/>
+                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'josemmr11'} rating={5}/>
+                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'adri_10'} rating={5}/>
+                    </View>
 
                 </View>
         </ScrollView>
@@ -220,11 +229,11 @@ const style = StyleSheet.create({
         // left: '50%',
         // transform: [{ translateX: -25 }, { translateY: -25 }],
         // zIndex: 1, 
-        alignItems: 'center',
-        borderRadius: 50,
-        backgroundColor: 'white',
+        // alignItems: 'center',
+        // borderRadius: 50,
+        // backgroundColor: 'white',
         padding: 8,
-        width: 50,
+        // width: 50,
     },
     playText:{
         color: 'black',
