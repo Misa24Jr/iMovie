@@ -9,6 +9,10 @@ import formatReleaseTime from "../helpers/formatReleaseTime.js";
 // Components
 import Genre from '../components/containers/Genre';
 import {Video} from 'expo-av';
+import BtnRateThis from "../components/button/BtnRateThis.jsx";
+
+import pause from '../../assets/pausa.png';
+import play from '../../assets/play.png';
 
 const MovieView = (props) =>{
     const navigation = useNavigation();
@@ -90,7 +94,16 @@ const MovieView = (props) =>{
                             style={style.playButton}
                         >
                             <Text style={style.playText}>
-                                {status.isPlaying ? 'Pause' : 'Play'}
+                                {status.isPlaying 
+                                ? <Image
+                                    style={{width: 20, height: 20}}
+                                    source={pause}
+                                /> 
+                                : <Image
+                                    style={{width: 20, height: 20}}
+                                    source={play}
+                                /> 
+                                }
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -127,9 +140,24 @@ const MovieView = (props) =>{
 
                     <View>
                         <Text style={style.desciption}>{movieDetails.overview}</Text>
-                        <Text style={style.desciption}>{movieDetails.overview}</Text>
-                        <Text style={style.desciption}>{movieDetails.overview}</Text>
                     </View>
+
+                    <View style={style.containerPOP}>
+
+                        <View style={style.score}>
+                            <Image
+                                style={style.tinyLogo}
+                                source={require('../../assets/pop.png')}
+                            />
+                            <Text style={style.scoreText}>50%</Text>
+
+                            <Text style={style.audience}>Audience Score</Text>
+                        </View>
+
+                        <BtnRateThis text={'Rate This'}/>
+                    </View>
+
+
                 </View>
         </ScrollView>
     )
@@ -192,9 +220,10 @@ const style = StyleSheet.create({
         // left: '50%',
         // transform: [{ translateX: -25 }, { translateY: -25 }],
         // zIndex: 1, 
+        alignItems: 'center',
         borderRadius: 50,
         backgroundColor: 'white',
-        padding: 5,
+        padding: 8,
         width: 50,
     },
     playText:{
@@ -203,6 +232,27 @@ const style = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'Jura_400Regular',
     },
-
+    containerPOP:{
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    score:{
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 10,
+    },
+    scoreText:{
+        color: '#8CCECC',
+        fontSize: 35,
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'center',
+    },
+    audience:{
+        color: '#3C5252',
+        fontSize: 11,
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'justify',
+        width: 50,
+    }
 });
 export default MovieView;
