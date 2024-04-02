@@ -5,8 +5,9 @@
 
 -- 1. Hacer el boton de edit de la vista de usersetting
 -- 2. Mas border a las cagitas de los generos
-3. Harcodear un video en MovieView
+-- 3. Harcodear un video en MovieView
 -- 4. Faltan los iconos en el de MyReview
---- 5. los input se perfil deben ser disiabled hasta que se le de al boton de editar
+-- 5. los input se perfil deben ser disiabled hasta que se le de al boton de editar
 6. Hacer el metodo de subir imagen en firebase en user 
 7. scroll a la vista de MovieView y hacer la parte de abajo 
+-- 8. Poner boton de pausa en la vista MovieView

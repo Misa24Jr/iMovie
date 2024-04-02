@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { TMDB_API_ROOT, TMDB_TOKEN, YT_TRAILER_SEARCH_ROOT } from "@env";
 import formatTrailerSearch from "../helpers/formatTrailerSearch.js";
@@ -16,6 +16,9 @@ const MovieView = (props) =>{
 
     const [movieDetails, setMovieDetails] = useState({});
     const [movieTrailerUri, setMovieTrailerUri] = useState('');
+
+    const videoRef = useRef(null);
+    const [status, setStatus] = useState({});
 
     const getMovieDetails = async () => {
         try {
@@ -64,78 +67,81 @@ const MovieView = (props) =>{
     }, []);
 
     return(
-        <View style={style.container}>
-            <View style={style.containerImage}>
-
-                {/* <Image
-                    style={style.Image}
-                    source={{uri: 'https://images.pexels.com/photos/1270184/pexels-photo-1270184.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
-                /> */}
-
-                <Video
-                    source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-                    rate={1.0}
-                    volume={1.0}
-                    isMuted={false}
-                    resizeMode="cover"
-                    shouldPlay
-                    isLooping
-                    style={style.Image}
-                />
-
-                <View style={style.degradado}></View>
-
-                <TouchableOpacity
-                    style={style.back}
-                    onPress={() => navigation.navigate('NewsView')}
-                >
-                    <Image
-                    style={{width: 30, height: 30}}
-                    source={require('../../assets/back.png')}
+        <ScrollView style={style.scroll}
+            contentContainerStyle={{paddingBottom: 20}}
+        >
+                <View style={style.containerImage}>
+                    <Video
+                        ref={videoRef}
+                        source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
+                        rate={1.0}
+                        volume={1.0}
+                        isMuted={false}
+                        resizeMode="cover"
+                        shouldPlay
+                        isLooping
+                        style={style.Image}
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
                     />
-                </TouchableOpacity>
 
-            </View>
-            <View style={style.containerBody}>
+                    <View style={style.degradado}>
+                        <TouchableOpacity
+                            onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()}
+                            style={style.playButton}
+                        >
+                            <Text style={style.playText}>
+                                {status.isPlaying ? 'Pause' : 'Play'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={style.movieTitle}>
-                    <Text style={style.title}>{movieDetails.original_title}</Text>
-                    <Text style={style.subTitle}>- {formatMovieDuration(movieDetails.runtime)}
-                    </Text>
+                    <TouchableOpacity
+                        style={style.back}
+                        onPress={() => navigation.navigate('NewsView')}
+                    >
+                        <Image
+                        style={{width: 30, height: 30}}
+                        source={require('../../assets/back.png')}
+                        />
+                    </TouchableOpacity>
+
                 </View>
+                <View style={style.containerBody}>
 
-                <View style={style.containerActor}>
-                    <Text style={style.subTitle}>Actor 1 - Actor 2 - Actress 1</Text>
+                    <View>
+                        <Text style={style.title}>{movieDetails.original_title}</Text>
+                        <Text style={style.subTitle}>- {formatMovieDuration(movieDetails.runtime)}</Text>
+                    </View>
+
+                    <View>
+                        <Text style={style.subTitle}>Actor 1 - Actor 2 - Actress 1</Text>
+                    </View>
+
+                    <View style={style.containerGenre}>
+
+                        <Genre name="Action" />
+                        <Genre name="Horror" />
+                        <Genre name="Comedy" />
+                        
+                    </View>
+
+                    <View>
+                        <Text style={style.desciption}>{movieDetails.overview}</Text>
+                        <Text style={style.desciption}>{movieDetails.overview}</Text>
+                        <Text style={style.desciption}>{movieDetails.overview}</Text>
+                    </View>
                 </View>
-
-                <View style={style.containerGenre}>
-
-                    <Genre name="Action" />
-                    <Genre name="Horror" />
-                    <Genre name="Comedy" />
-                    
-                </View>
-
-                <View style={style.containerDescription}>
-                    <Text style={style.desciption}>{movieDetails.overview}</Text>
-                </View>
-            </View>
-        </View>
+        </ScrollView>
     )
 };
 
 const style = StyleSheet.create({
-    container: {
+    scroll:{
+        flex: 1,
         backgroundColor: '#151515',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     containerImage:{
-        width: '100%',
-        height: '40%',
-        display: 'inline-block', // 'flex
+        height: 400,
         position: 'relative',
     },
     Image:{
@@ -151,12 +157,8 @@ const style = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.8)', 
     },
     containerBody:{
-        width: '85%',
-        height: '60%',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
+        flex: 1,
+        paddingHorizontal: 20,
         gap: 20,
     },
     title:{
@@ -170,9 +172,6 @@ const style = StyleSheet.create({
         fontFamily: 'Jura_400Regular'
     },
     containerGenre:{
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
         flexDirection: 'row',
         gap: 10,
     },
@@ -187,5 +186,23 @@ const style = StyleSheet.create({
         top: 50,
         left: 20,
     },
+    playButton:{
+        // position: 'absolute',
+        // top: '50%',
+        // left: '50%',
+        // transform: [{ translateX: -25 }, { translateY: -25 }],
+        // zIndex: 1, 
+        borderRadius: 50,
+        backgroundColor: 'white',
+        padding: 5,
+        width: 50,
+    },
+    playText:{
+        color: 'black',
+        fontSize: 14,
+        textAlign: 'center',
+        fontFamily: 'Jura_400Regular',
+    },
+
 });
 export default MovieView;
