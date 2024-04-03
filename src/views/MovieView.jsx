@@ -25,7 +25,7 @@ const MovieView = (props) =>{
     const [movieTrailerUri, setMovieTrailerUri] = useState('');
 
     const videoRef = useRef(null);
-    const [status, setStatus] = useState({});
+    const [status, setStatus] = useState({shouldPlay: false});
 
     const getMovieDetails = async () => {
         try {
@@ -80,12 +80,12 @@ const MovieView = (props) =>{
                 <View style={style.containerImage}>
                     <Video
                         ref={videoRef}
+                        shouldPlay={status.shouldPlay}
                         source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
                         rate={1.0}
                         volume={1.0}
                         isMuted={false}
                         resizeMode="cover"
-                        shouldPlay
                         isLooping
                         style={style.Image}
                         onPlaybackStatusUpdate={status => setStatus(() => status)}

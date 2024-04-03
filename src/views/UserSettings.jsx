@@ -31,13 +31,22 @@ const UserSettings = () => {
                     </TouchableOpacity>
                     
                     <View style={style.containerImage}>
-                        <Image source={{uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
-                            style={{width: 120, height: 180}}
-                        />
+
+                        <View>
+                            <Image source={{uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
+                                style={{width: 120, height: 180}}
+                            />
+                            {edit && 
+                            <TouchableOpacity>
+                                <Text style={style.BtnChange}>Change</Text>
+                            </TouchableOpacity>}
+                        </View>
+
                         <Text style={style.name}>
                             Misa24jr
                         </Text>
                     </View>
+
                     <View style={style.containerInput}>
                         <UserInput name="Email" value={email} editable={false}/>
                         <UserInput name="Password" value={password} secureTextEntry={true} editable={false}/>
@@ -49,6 +58,10 @@ const UserSettings = () => {
                                 <Text style={style.textSave}>Confirm Changes</Text>
                             </TouchableOpacity>}
                     </View>
+
+                        {edit && <TouchableOpacity style={style.textDelete}>
+                                    <Text style={style.linkDelete}>I want to delete my profile</Text>
+                                </TouchableOpacity>}
                 </View>
 
             </View>
@@ -64,7 +77,6 @@ const style = StyleSheet.create({
     },
     containerBody: {
         top: 150,
-        width: '80%',
     },
     containerCard:{
         width: 330,
@@ -77,15 +89,18 @@ const style = StyleSheet.create({
     link:{
         color: '#3C5252',
         fontSize: 12,
+        fontFamily: 'Jura_400Regular'
+    },
+    linkDelete:{
+        color: '#ff0000',
+        fontSize: 12,
         fontFamily: 'Jura_400Regular',
     },
     containerImage:{
-        width: "100%",
         height: 200,
-        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 40,
+        gap: 20,
     },
     name:{
         color: '#ffffff',
@@ -94,7 +109,6 @@ const style = StyleSheet.create({
     },
     containerInput:{
         gap: 20,
-        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -102,7 +116,6 @@ const style = StyleSheet.create({
         width: 212,
         height: 40,
         backgroundColor: '#3C5252',
-        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25
@@ -111,6 +124,15 @@ const style = StyleSheet.create({
         color: '#ffffff',
         fontSize: 12,
         fontFamily: 'Jura_400Regular',
+    },
+    textDelete:{
+        alignItems: 'flex-end',
+    },
+    BtnChange:{
+        color: '#3C5252',
+        fontSize: 12,
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'center',
     }
 });
 

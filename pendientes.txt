@@ -9,5 +9,11 @@
 -- 4. Faltan los iconos en el de MyReview
 -- 5. los input se perfil deben ser disiabled hasta que se le de al boton de editar
 6. Hacer el metodo de subir imagen en firebase en user 
-7. scroll a la vista de MovieView y hacer la parte de abajo 
+-- 7. scroll a la vista de MovieView y hacer la parte de abajo 
 -- 8. Poner boton de pausa en la vista MovieView
+-- 9. Poner que el video al abrir la vista salga como pausado
+10. Crear modales de las vistas
+
+
+!!IMPORTANTES
+* Bugs en el edit perfil que no me deja editar los inputs al darle click al boton de editar 

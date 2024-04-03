@@ -25,7 +25,7 @@ const Navbar = () => {
 
       <TouchableOpacity
         style={[styles.button, selectedButton === 'button2' && styles.selectedButton]}
-        onPress={() => handleButtonPress('button2')}
+        onPress={() => handleButtonPress('button2', 'SearchView')}
       >
             <Image
                 source={require('../../../../assets/search.png')}
@@ -45,7 +45,7 @@ const Navbar = () => {
 
       <TouchableOpacity
         style={[styles.button, selectedButton === 'button4' && styles.selectedButton]}
-        onPress={() => handleButtonPress('button4')}
+        onPress={() => handleButtonPress('button4', 'GeneralChat')}
       >
             <Image
                 source={require('../../../../assets/chat.png')}
