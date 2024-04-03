@@ -17,3 +17,4 @@
 
 !!IMPORTANTES
 * Bugs en el edit perfil que no me deja editar los inputs al darle click al boton de editar 
+* Bugs en el navbar tratar de usar el tabsnavigation de React Navigation

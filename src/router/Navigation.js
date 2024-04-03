@@ -10,6 +10,8 @@ import NewsView from '../views/NewsView';
 import MyReviewView from '../views/MyReviewView';
 import UserSettings from '../views/UserSettings';
 import MovieView from '../views/MovieView';
+import SearchView from '../views/SearchView';
+import GeneralChat from '../views/GeneralChat';
 
 // Components
 import HomeTemplaneComponent from '../components/containers/HomeTemplaneComponent'
@@ -82,6 +84,22 @@ function MyStack(){
             <Stack.Screen
                 name="MovieView"
                 component={MovieView}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="SearchView"
+                component={SearchView}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="GeneralChat"
+                component={GeneralChat}
                 options={{
                     headerShown: false
                 }}

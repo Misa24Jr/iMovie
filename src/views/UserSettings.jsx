@@ -63,7 +63,6 @@ const UserSettings = () => {
                                     <Text style={style.linkDelete}>I want to delete my profile</Text>
                                 </TouchableOpacity>}
                 </View>
-
             </View>
         </View>
     )

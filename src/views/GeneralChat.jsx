@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 
-const GenralChat = () => {
+const GeneralChat = () => {
     return(
         <>
             <View style={style.container}>
@@ -23,4 +23,4 @@ const style = StyleSheet.create({
     },
 });
 
-export default GenralChat;
+export default GeneralChat;

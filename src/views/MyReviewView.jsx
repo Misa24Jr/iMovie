@@ -18,6 +18,7 @@ const MyReviewView = () => {
                 <MyReviewBox description={description} rating={rating}/>
             </View>
         </View>
+
     )
 };
 
