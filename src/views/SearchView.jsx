@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 // Components
 import AccordionSearch from "../components/others/AccordionSearch";
+import AccordionGenre from "../components/others/AccordionGenre";
 
 const SearchView = () => {
     const navigation = useNavigation();
@@ -26,6 +27,7 @@ const SearchView = () => {
 
                 <View style={style.containerSearch}>
                     <AccordionSearch title={'Search'}/>
+                    <AccordionGenre title={'Filters'}/>
                 </View>
 
 
