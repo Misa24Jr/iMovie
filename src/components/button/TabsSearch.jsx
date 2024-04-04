@@ -32,6 +32,8 @@ const style = StyleSheet.create({
         alignItems: 'center',
         width: 370,
         height: 40,
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     text:{
         color: '#fff',
