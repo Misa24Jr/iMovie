@@ -6,7 +6,7 @@ const ModalPop = ({body, handleClick}) =>{
 
     return(
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent
             visible={open}
         >
@@ -52,7 +52,9 @@ const ModalPop = ({body, handleClick}) =>{
                         <Text style={style.body}>{body}</Text>
 
                         <View style={style.btnContainer}>
-                            <TouchableOpacity style={style.btn}>
+                            <TouchableOpacity 
+                            onPress={() => setOpen(false)}
+                            style={style.btn}>
                                 <Text style={{
                                     color: '#8BC047',
                                     fontSize: 20,
