@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import UserInput from "../components/inputs/UserInput";
+import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
     const [edit, setEdit] = useState(false);
@@ -64,6 +65,7 @@ const UserSettings = () => {
                                 </TouchableOpacity>}
                 </View>
             </View>
+            <ModalPop body={'Are yo sure you want to delete your profile?'}/>
         </View>
     )
 };

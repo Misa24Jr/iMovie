@@ -5,6 +5,7 @@ import { StyleSheet, View } from "react-native";
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import MyReviewTitle from "../components/others/MyReviewTitle";
 import MyReviewBox from "../components/containers/MyReviewBox";
+import ModalPop from "../components/containers/ModalPop";
 
 const rating = 5;
 const description = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam impedit iste ea id et vel commodi, quod fuga perferendis, culpa beatae, velit ex. Sapiente in deleniti quod repellat? Quidem, culpa?';
@@ -17,6 +18,7 @@ const MyReviewView = () => {
                 <MyReviewTitle />
                 <MyReviewBox description={description} rating={rating}/>
             </View>
+            <ModalPop  body={'Are yo sure you want to delete this review?'}/>
         </View>
 
     )
