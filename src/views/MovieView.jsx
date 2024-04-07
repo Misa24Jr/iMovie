@@ -5,6 +5,7 @@ import { TMDB_API_ROOT, TMDB_TOKEN, YT_TRAILER_SEARCH_ROOT } from "@env";
 import formatTrailerSearch from "../helpers/formatTrailerSearch.js";
 import formatMovieDuration from "../helpers/formatMovieDuration.js";
 import formatReleaseTime from "../helpers/formatReleaseTime.js";
+import parseAudienceScore from "../helpers/parseAudienceScore.js";
 
 // Components
 import Genre from '../components/containers/Genre';
@@ -40,8 +41,14 @@ const MovieView = (props) =>{
 
             if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie details from server.');
             const data = await response.json();
-            setMovieDetails(data);
-            await getMovieTrailer();
+            return setMovieDetails({
+                original_title: data.original_title,
+                runtime: formatMovieDuration(data.runtime),
+                overview: data.overview,
+                release_date: formatReleaseTime(data.release_date),
+                audience_score: parseAudienceScore(data.vote_average)
+            });
+            //await getMovieTrailer();
         } catch (error) {
             return Alert.alert('Oops', 'Unable to get movie details.');
         }
@@ -126,7 +133,7 @@ const MovieView = (props) =>{
 
                     <View>
                         <Text style={style.title}>{movieDetails.original_title}</Text>
-                        <Text style={style.subTitle}>- {formatMovieDuration(movieDetails.runtime)}</Text>
+                        <Text style={style.subTitle}>{movieDetails.release_date} - {movieDetails.runtime}</Text>
                     </View>
 
                     <View>
@@ -152,7 +159,7 @@ const MovieView = (props) =>{
                                 style={style.tinyLogo}
                                 source={require('../../assets/pop.png')}
                             />
-                            <Text style={style.scoreText}>50%</Text>
+                            <Text style={style.scoreText}>{movieDetails.audience_score}</Text>
 
                             <Text style={style.audience}>Audience Score</Text>
                         </View>
