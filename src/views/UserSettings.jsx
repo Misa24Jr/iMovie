@@ -10,13 +10,17 @@ const UserSettings = () => {
     const [edit, setEdit] = useState(false);
     const [email, setEmail] = useState('misa24jr@gmail.com');
     const [password, setPassword] = useState('misa24jr');
+    const [isEditing, setEditing] = useState(false);
+    
 
     const toggleEdit = () => {
+        setEditing(true);
         setEdit(!edit);
     };
 
     const handleConfirmChanges = () => {
         setEdit(false);
+        setEditing(false);
     };
     
     return(
@@ -49,8 +53,8 @@ const UserSettings = () => {
                     </View>
 
                     <View style={style.containerInput}>
-                        <UserInput name="Email" value={email} editable={false}/>
-                        <UserInput name="Password" value={password} secureTextEntry={true} editable={false}/>
+                        <UserInput name="Email" value={email} editable={isEditing}/>
+                        <UserInput name="Password" value={password} secureTextEntry={true} editable={isEditing}/>
 
                         {edit && <TouchableOpacity 
                                     onPress={handleConfirmChanges}
