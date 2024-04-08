@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from "react-native";
 
 // Components
-import ModalPop from "./ModalPop";
+import StarRating from "./StartRating";
 import ModalReview from "./ModalReview";
 
 
@@ -68,7 +68,12 @@ const MyReviewBox = ({url, description, rating}) => {
                         <Text style={style.description}>{editedDescription}</Text>
                     )}
                     <View style={style.containerRating}>
-                        <Text style={style.rating}>Rating: {rating}/5</Text>
+                        {isEditing ? (
+                            <StarRating fontSize={15} emptyStarColor={'white'}/>
+                        ) : (
+                            <Text style={style.rating}>Rating: {rating}/5</Text>
+                        )}
+                        
                     </View>
                 </View>
             </View>

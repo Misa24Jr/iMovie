@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, Image, TextInput } from "react-native";
-import { RadioButton } from 'react-native-paper';
+import StarRating from "./StartRating";
 
 const ModalReview = ({ body, visible, handleClose }) => {
+
     const [value, setValue] = useState(0);
 
     const handleRating = (newValue) => {
         setValue(newValue);
     }
-
     return (
         <Modal
             animationType="fade"
@@ -26,7 +26,7 @@ const ModalReview = ({ body, visible, handleClose }) => {
                 <View
                     style={{
                         height: '35%',
-                        width: '100%',
+                        width: '90%',
                         backgroundColor: '#D9D9D9',
                         borderRadius: 20,
                         alignItems: 'center',
@@ -56,54 +56,11 @@ const ModalReview = ({ body, visible, handleClose }) => {
                         <TextInput
                             style={style.review}
                             placeholder="Escribe tu reseña aquí..."
+                            multiline
+                            textAlignVertical="top"
                         />
                         <View style={style.contentRatingCheck}>
-                            <RadioButton.Group onValueChange={handleRating} value={value}>
-                                <View style={style.ratingCheck}>
-                                    <RadioButton.Item
-                                        value="1"
-                                        uncheckedColor="transparent"
-                                        color="#3C5252"
-                                        status={value === "1" ? 'checked' : 'unchecked'}
-                                        style={{height: 50, justifyContent: 'center', alignItems: 'center'}}
-                                    />
-                                    <RadioButton.Item
-                                        
-                                        value="2"
-                                        uncheckedColor="transparent"
-                                        color="#3C5252"
-                                        status={value === "2" ? 'checked' : 'unchecked'}
-                                        style={{height: 50, justifyContent: 'center', alignItems: 'center'}}
-
-                                    />
-                                    <RadioButton.Item
-                                        
-                                        value="3"
-                                        uncheckedColor="transparent"
-                                        color="#3C5252"
-                                        status={value === "3" ? 'checked' : 'unchecked'}
-                                        style={{height: 50, justifyContent: 'center', alignItems: 'center'}}
-
-                                    />
-                                    <RadioButton.Item
-                                        
-                                        value="4"
-                                        uncheckedColor="transparent"
-                                        color="#3C5252"
-                                        status={value === "4" ? 'checked' : 'unchecked'}
-                                        style={{height: 50, justifyContent: 'center', alignItems: 'center'}}
-
-                                    />
-                                    <RadioButton.Item
-                                        
-                                        value="5"
-                                        uncheckedColor="transparent"
-                                        color="#3C5252"
-                                        status={value === "5" ? 'checked' : 'unchecked'}
-                                        style={{height: 50, justifyContent: 'center', alignItems: 'center'}}
-                                    />
-                                </View>
-                            </RadioButton.Group>
+                            <StarRating fontSize={40}/>   
                         </View>
                         <TouchableOpacity
                             style={{
@@ -112,7 +69,10 @@ const ModalReview = ({ body, visible, handleClose }) => {
                                 borderRadius: 20,
                                 width: '100%',
                                 alignItems: 'center',
+                                marginBottom: 30,
+                                padding: 10,
                             }}
+                            onPress={handleClose}
                         >
                             <Text
                                 style={{
@@ -122,7 +82,7 @@ const ModalReview = ({ body, visible, handleClose }) => {
                                     fontFamily: 'Jura_400Regular',
                                 }}
                             >
-                                Enviar
+                                Publish Review
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -145,26 +105,25 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'blue',
+        backgroundColor: 'gray',
     },
     contentRatingCheck:{
-        width: '80%',
         justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: 'row',
+        marginTop: 10,
     }, 
     review:{
-        width: '100%',
+        width: 350,
         height: 150,
         backgroundColor: '#D9D9D9',
-        borderRadius: 20,
-        textAlign: 'center',
+        borderRadius: 15,
         fontFamily: 'Jura_400Regular',
         fontSize: 20,
         color: '#3C5252',
         fontWeight: 'bold',
         borderWidth: 1,
         borderColor: '#3C5252',
-        backgroundColor: 'red',
+        padding: 5
     }
     // Estilos adicionales aquí si es necesario
 });
