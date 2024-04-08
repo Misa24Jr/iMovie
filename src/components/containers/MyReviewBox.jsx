@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from "reac
 
 // Components
 import ModalPop from "./ModalPop";
+import ModalReview from "./ModalReview";
+
 
 const MyReviewBox = ({url, description, rating}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -70,7 +72,7 @@ const MyReviewBox = ({url, description, rating}) => {
                     </View>
                 </View>
             </View>
-            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
+            <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
         </>
     )
 };

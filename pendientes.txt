@@ -17,6 +17,4 @@
 
 
 !!IMPORTANTES
-* Loading 
-* Cambiar las alertas por alertas personalizadas
 * Bug en editar los campos en usersetting

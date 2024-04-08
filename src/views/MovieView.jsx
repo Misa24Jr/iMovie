@@ -13,6 +13,7 @@ import {Video} from 'expo-av';
 import BtnRateThis from "../components/button/BtnRateThis.jsx";
 import CriticTitle from "../components/others/CriticTitle.jsx";
 import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
+import ModalReview from "../components/containers/ModalReview.jsx";
 
 // Imagenes
 import pause from '../../assets/pausa.png';
@@ -24,6 +25,15 @@ const MovieView = (props) =>{
 
     const [movieDetails, setMovieDetails] = useState({});
     const [movieTrailerUri, setMovieTrailerUri] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
+
+    const handleClose = () => {
+        setIsModalVisible(false);
+    };
 
     const videoRef = useRef(null);
     const [status, setStatus] = useState({shouldPlay: false});
@@ -164,7 +174,7 @@ const MovieView = (props) =>{
                             <Text style={style.audience}>Audience Score</Text>
                         </View>
 
-                        <BtnRateThis text={'Rate This'}/>
+                        <BtnRateThis text={'Rate This'} handleClick={toggleModal}/>
                     </View>
                     
                     <View>
@@ -173,8 +183,8 @@ const MovieView = (props) =>{
                         <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'josemmr11'} rating={5}/>
                         <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'adri_10'} rating={5}/>
                     </View>
-
                 </View>
+            <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
         </ScrollView>
     )
 };
