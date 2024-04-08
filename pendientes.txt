@@ -43,7 +43,6 @@
 * TODO
 
 -- UserSetting -- 
-1. El label de input de la password no esta alineado con el del email
 2. El nombre de usuario ( nickname ) debe ser editable tambien al darle a edit profile 
 3. Al darle edit profile se debe ocultar ese boton y solo dejar el de confirm change
 4. Agregar el boton de log out ( Mismo estilo que le delete profile ) 

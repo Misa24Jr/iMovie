@@ -9,6 +9,7 @@ import ModalPop from "../components/containers/ModalPop";
 const UserSettings = () => {
     const [email, setEmail] = useState('misa24jr@gmail.com');
     const [password, setPassword] = useState('misa24jr');
+    const [nickname, setNickname] = useState('Misa24jr'); // Se agrega el estado para el nickname [1
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [showPassword, setShowPassword] = useState(true); // Estado para controlar si mostrar el password o no
@@ -42,12 +43,14 @@ const UserSettings = () => {
                     <View style={styles.containerImage}>
                         <View>
                             <Image source={{ uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-                                style={{ width: 120, height: 180 }}
+                                style={{ width: 120, height: 200 }}
                             />
                         </View>
-                        <Text style={styles.name}>
-                            Misa24jr
-                        </Text>
+                        <UserInput
+                            value={nickname}
+                            editable={isEditing}
+                            onChangeText={setNickname}
+                        />
                     </View>
                     <View style={styles.containerInput}>
                         <UserInput
@@ -117,7 +120,6 @@ const styles = StyleSheet.create({
         height: 200,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 20,
     },
     name: {
         color: '#ffffff',
