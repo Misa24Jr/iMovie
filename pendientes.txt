@@ -12,10 +12,11 @@
 -- 7. scroll a la vista de MovieView y hacer la parte de abajo 
 -- 8. Poner boton de pausa en la vista MovieView
 -- 9. Poner que el video al abrir la vista salga como pausado
-10. Crear modales de las vistas
+-- 10. Crear modales de las vistas
+11. Hacer las vistas faltantes
 
 
 !!IMPORTANTES
-
-* Bugs en el navbar tratar de usar el tabsnavigation de React Navigation
+* Loading 
+* Cambiar las alertas por alertas personalizadas
 * Estado del modal

@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const Navbar = () => {
   const navigation = useNavigation();
-  const [selectedButton, setSelectedButton] = useState(null);
+  const route = useRoute();
+  const { selectedButton: initialSelectedButton } = route.params || {};
+  const [selectedButton, setSelectedButton] = useState(initialSelectedButton);
+
+  useEffect(() => {
+    if (initialSelectedButton) {
+      setSelectedButton(initialSelectedButton);
+    }
+  }, [initialSelectedButton]);
 
   const handleButtonPress = (buttonName, ruta) => {
     setSelectedButton(buttonName);
-    navigation.navigate(ruta);
+    navigation.navigate(ruta, { selectedButton: buttonName });
   };
 
   return (
