@@ -113,12 +113,15 @@ const style = StyleSheet.create({
         color: '#fff',
         fontSize: 12,
         textAlign: 'justify',
+        paddingBottom: 10,
     },
     containerRating:{
         width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-end',
+        paddingRight: 5,
+        paddingBottom: 10,
     },
     rating:{
         color: '#A1A1A1',
