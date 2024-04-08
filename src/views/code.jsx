@@ -8,7 +8,6 @@ const MyReviewBox = ({url, description, rating}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(description);
-    const [editedUrl, setEditedUrl] = useState(url);
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -19,7 +18,7 @@ const MyReviewBox = ({url, description, rating}) => {
     };
 
     const handleEdit = () => {
-        setIsEditing(prevEditing => !prevEditing);
+        setIsEditing(true);
     };
 
     const handleSave = () => {
@@ -27,18 +26,19 @@ const MyReviewBox = ({url, description, rating}) => {
         // Aquí podrías guardar la descripción editada en tu estado o enviarla a la función de guardado
     };
 
-
     return(
         <>
             <View style={style.containerBox}>
                 <View style={style.containerImage}>
                     <View style={style.containerButton}>
+                        {/* Botón de lápiz para editar */}
                         <TouchableOpacity onPress={handleEdit}>
                             <Image
-                                source={isEditing ? require('../../../assets/check.png') : require('../../../assets/pencil.png')}
+                                source={require('../../../assets/pencil.png')}
                                 style={{width: 35, height: 35}}
                             />
                         </TouchableOpacity>
+                        {/* Botón de basura para eliminar */}
                         <TouchableOpacity onPress={toggleModal}>
                             <Image
                                 source={require('../../../assets/trash.png')}
@@ -47,17 +47,10 @@ const MyReviewBox = ({url, description, rating}) => {
                         </TouchableOpacity>
                     </View>
 
-                    <Image 
-                        key={url}
-                        style={style.Image}
-                        source={{uri: 'https://images.pexels.com/photos/1662298/pexels-photo-1662298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
-                    />
-                </View>
-
-                <View style={style.containerdescription}>
-                {isEditing ? (
+                    {/* Mostrar la descripción como un TextInput editable si está en modo de edición */}
+                    {isEditing ? (
                         <TextInput
-                            style={style.description}
+                            style={style.descriptionInput}
                             value={editedDescription}
                             onChangeText={setEditedDescription}
                             multiline={true}
@@ -65,12 +58,16 @@ const MyReviewBox = ({url, description, rating}) => {
                     ) : (
                         <Text style={style.description}>{editedDescription}</Text>
                     )}
+                </View>
+
+                <View style={style.containerdescription}>
+                    {/* Aquí puedes mostrar el rating u otra información si lo deseas */}
                     <View style={style.containerRating}>
                         <Text style={style.rating}>Rating: {rating}/5</Text>
                     </View>
                 </View>
             </View>
-            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
+            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are you sure you want to delete this review?'}/>
         </>
     )
 };
@@ -91,21 +88,21 @@ const style = StyleSheet.create({
         width: '100%',
         height: '60%',
     },
-    Image:{
-        width: '100%',
-        height: '100%',
-    },
-    containerdescription: {
-        width: '90%',
-        height: '40%',
-        display : 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     description: {
         color: '#fff',
         fontSize: 12,
         textAlign: 'justify',
+    },
+    descriptionInput: {
+        color: '#fff',
+        fontSize: 12,
+        textAlign: 'justify',
+        padding: 5,
+        minHeight: 50,
+        maxHeight: 100,
+        borderWidth: 1,
+        borderColor: '#fff',
+        borderRadius: 5,
     },
     containerRating:{
         width: '100%',
