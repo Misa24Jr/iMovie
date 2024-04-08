@@ -19,4 +19,4 @@
 !!IMPORTANTES
 * Loading 
 * Cambiar las alertas por alertas personalizadas
-* Estado del modal
+* Bug en editar los campos en usersetting

@@ -1,37 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
+// Components
+import ModalPop from "./ModalPop";
+
 const MyReviewBox = ({url, description, rating}) => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
+
+    const handleClose = () => {
+        setIsModalVisible(false);
+    };
+
+
     return(
         <>
             <View style={style.containerBox}>
                 <View style={style.containerImage}>
-                    
-                    <View 
-                        style={style.containerButton}
-                    >
-                        
-                    <TouchableOpacity
-                        onPress={() => alert('Are you sure you want to delete this review?')}
-                    >
-                        <Image
-                            source={require('../../../assets/pencil.png')}
-                            style={{width: 35, height: 35}}
-                        />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => alert('Are you sure you want to delete this review?')}
-                    >
-                        <Image
-                            source={require('../../../assets/trash.png')}
-                            style={{width: 35, height: 35}}
-                        />
-                    </TouchableOpacity>
+                    <View style={style.containerButton}>
+                        <TouchableOpacity onPress={toggleModal}>
+                            <Image
+                                source={require('../../../assets/pencil.png')}
+                                style={{width: 35, height: 35}}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={toggleModal}>
+                            <Image
+                                source={require('../../../assets/trash.png')}
+                                style={{width: 35, height: 35}}
+                            />
+                        </TouchableOpacity>
                     </View>
 
                     <Image 
-                    key={url}
+                        key={url}
                         style={style.Image}
                         source={{uri: 'https://images.pexels.com/photos/1662298/pexels-photo-1662298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
                     />
@@ -44,6 +49,7 @@ const MyReviewBox = ({url, description, rating}) => {
                     </View>
                 </View>
             </View>
+            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
         </>
     )
 };
@@ -63,15 +69,10 @@ const style = StyleSheet.create({
     containerImage: {
         width: '100%',
         height: '60%',
-        // borderTopEndRadius: 20,
-        // borderTopStartRadius: 20,
     },
     Image:{
         width: '100%',
         height: '100%',
-        borderTopEndRadius: 20,
-        borderTopStartRadius: 20,
-
     },
     containerdescription: {
         width: '90%',

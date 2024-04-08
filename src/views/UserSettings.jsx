@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 // Components
@@ -7,74 +7,86 @@ import UserInput from "../components/inputs/UserInput";
 import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
-    const [edit, setEdit] = useState(false);
     const [email, setEmail] = useState('misa24jr@gmail.com');
     const [password, setPassword] = useState('misa24jr');
-    const [isEditing, setEditing] = useState(false);
-    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [showPassword, setShowPassword] = useState(true); // Estado para controlar si mostrar el password o no
 
     const toggleEdit = () => {
-        setEditing(true);
-        setEdit(!edit);
+        setIsEditing(!isEditing); // Cambiar el estado de edición
+        setShowPassword(false); // Al editar, ocultar el password
     };
 
     const handleConfirmChanges = () => {
-        setEdit(false);
-        setEditing(false);
+        setIsEditing(false); // Desactivar la edición cuando se confirman los cambios
+        setShowPassword(true); // Mostrar el password nuevamente después de confirmar los cambios
     };
-    
-    return(
-        <View style={style.container}>
+
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible); // Cambiar la visibilidad del modal
+    };
+
+    const handleClose = () => {
+        setIsModalVisible(false); // Cerrar el modal
+    };
+
+    return (
+        <View style={styles.container}>
             <HomeTemplateComponent />
-            <View style={style.containerBody}>
-                <View style={style.containerCard}>
-
-                    <TouchableOpacity
-                        onPress={toggleEdit}
-                    >
-                        <Text style={style.link}>Edit Profile</Text>
+            <View style={styles.containerBody}>
+                <View style={styles.containerCard}>
+                    <TouchableOpacity onPress={toggleEdit}>
+                        <Text style={styles.link}>Edit Profile</Text>
                     </TouchableOpacity>
-                    
-                    <View style={style.containerImage}>
-
+                    <View style={styles.containerImage}>
                         <View>
-                            <Image source={{uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}}
-                                style={{width: 120, height: 180}}
+                            <Image source={{ uri: 'https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
+                                style={{ width: 120, height: 180 }}
                             />
-                            {edit && 
-                            <TouchableOpacity>
-                                <Text style={style.BtnChange}>Change</Text>
-                            </TouchableOpacity>}
                         </View>
-
-                        <Text style={style.name}>
+                        <Text style={styles.name}>
                             Misa24jr
                         </Text>
                     </View>
-
-                    <View style={style.containerInput}>
-                        <UserInput name="Email" value={email} editable={isEditing}/>
-                        <UserInput name="Password" value={password} secureTextEntry={true} editable={isEditing}/>
-
-                        {edit && <TouchableOpacity 
-                                    onPress={handleConfirmChanges}
-                                    style={style.BtnSave}
-                                >
-                                <Text style={style.textSave}>Confirm Changes</Text>
-                            </TouchableOpacity>}
+                    <View style={styles.containerInput}>
+                        <UserInput
+                            name="Email"
+                            value={email}
+                            editable={isEditing}
+                            onChangeText={setEmail}
+                        />
+                        <UserInput
+                            name="Password"
+                            value={password}
+                            secureTextEntry={showPassword} // Usar showPassword para controlar si es seguro o no
+                            editable={isEditing}
+                            onChangeText={setPassword}
+                        />
+                        {isEditing && (
+                            <TouchableOpacity onPress={handleConfirmChanges} style={styles.BtnSave}>
+                                <Text style={styles.textSave}>Confirm Changes</Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
-
-                        {edit && <TouchableOpacity style={style.textDelete}>
-                                    <Text style={style.linkDelete}>I want to delete my profile</Text>
-                                </TouchableOpacity>}
+                    {isEditing && (
+                        <TouchableOpacity style={styles.textDelete} onPress={toggleModal}>
+                            <Text style={styles.linkDelete}>I want to delete my profile</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </View>
-            <ModalPop body={'Are yo sure you want to delete your profile?'}/>
+            <ModalPop
+                handleClose={handleClose}
+                visible={isModalVisible}
+                toggleModal={toggleModal}
+                body={'Are you sure you want to delete your profile?'}
+            />
         </View>
     )
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         backgroundColor: '#151515',
         height: '100%',
@@ -83,7 +95,7 @@ const style = StyleSheet.create({
     containerBody: {
         top: 150,
     },
-    containerCard:{
+    containerCard: {
         width: 330,
         height: 510,
         backgroundColor: '#1c1c1c',
@@ -91,33 +103,33 @@ const style = StyleSheet.create({
         padding: 20,
         gap: 50,
     },
-    link:{
+    link: {
         color: '#3C5252',
         fontSize: 12,
         fontFamily: 'Jura_400Regular'
     },
-    linkDelete:{
+    linkDelete: {
         color: '#ff0000',
         fontSize: 12,
         fontFamily: 'Jura_400Regular',
     },
-    containerImage:{
+    containerImage: {
         height: 200,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 20,
     },
-    name:{
+    name: {
         color: '#ffffff',
         fontSize: 20,
         fontFamily: 'Jura_400Regular',
     },
-    containerInput:{
+    containerInput: {
         gap: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    BtnSave:{
+    BtnSave: {
         width: 212,
         height: 40,
         backgroundColor: '#3C5252',
@@ -125,20 +137,14 @@ const style = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 25
     },
-    textSave:{
+    textSave: {
         color: '#ffffff',
         fontSize: 12,
         fontFamily: 'Jura_400Regular',
     },
-    textDelete:{
+    textDelete: {
         alignItems: 'flex-end',
     },
-    BtnChange:{
-        color: '#3C5252',
-        fontSize: 12,
-        fontFamily: 'Jura_400Regular',
-        textAlign: 'center',
-    }
 });
 
 export default UserSettings;

@@ -18,7 +18,6 @@ const MyReviewView = () => {
                 <MyReviewTitle />
                 <MyReviewBox description={description} rating={rating}/>
             </View>
-            <ModalPop  body={'Are yo sure you want to delete this review?'}/>
         </View>
 
     )

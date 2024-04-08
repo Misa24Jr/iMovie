@@ -1,25 +1,25 @@
 import React from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 
-const UserInput = ({placeholder, name, value, secureTextEntry, editable = true}) => {
-    return(
-        <View style={style.containerInput}>
-
-            <Text style={style.name}>{name}</Text>
+const UserInput = ({ placeholder, name, value, secureTextEntry, editable = true }) => {
+    return (
+        <View style={styles.containerInput}>
+            <Text style={styles.name}>{name}</Text>
             <TextInput
-                style={style.input}
+                style={styles.input}
                 placeholder={placeholder}
                 placeholderTextColor={'#ffffff'}
                 value={value}
                 secureTextEntry={secureTextEntry}
-                editable={editable} // Add this line to disable the text input
+                editable={editable} // Aquí se configura la propiedad editable del TextInput
+                onChangeText={(text) => console.log(text)} // Puedes agregar tu lógica de manejo de cambios aquí
             />
         </View>
-    )
+    );
 };
 
-const style = StyleSheet.create({
-    containerInput:{
+const styles = StyleSheet.create({
+    containerInput: {
         width: '100%',
         gap: 20,
         display: 'flex',
@@ -27,7 +27,7 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    input:{
+    input: {
         width: 200,
         height: 40,
         borderRadius: 10,
@@ -35,7 +35,7 @@ const style = StyleSheet.create({
         color: '#ffffff',
         padding: 10,
     },
-    name:{
+    name: {
         color: '#8CCECC',
         fontSize: 12,
         fontFamily: 'Jura_400Regular',

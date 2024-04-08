@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, Image } from "react-native";
 
-const ModalPop = ({body, handleClick}) =>{
-    const [open, setOpen] = useState();
+const ModalPop = ({ body, visible, handleClose }) => {
 
-    return(
+    // const handleClose = () => {
+    //     visible(false)
+    // }
+
+    return (
         <Modal
             animationType="fade"
             transparent
-            visible={open}
+            visible={visible}
         >
             <View
                 style={{
@@ -20,12 +23,12 @@ const ModalPop = ({body, handleClick}) =>{
             >
                 <View
                     style={{
-                    height: '25%', 
-                    width: '80%', 
-                    backgroundColor: '#D9D9D9',
-                    borderRadius: 20,
-                    alignItems: 'center',
-                }}
+                        height: '25%',
+                        width: '80%',
+                        backgroundColor: '#D9D9D9',
+                        borderRadius: 20,
+                        alignItems: 'center',
+                    }}
                 >
                     <View
                         style={{
@@ -36,7 +39,7 @@ const ModalPop = ({body, handleClick}) =>{
                             flexDirection: 'row',
                             paddingHorizontal: 20,
                         }}
-                    > 
+                    >
                     </View>
 
                     <View
@@ -48,37 +51,17 @@ const ModalPop = ({body, handleClick}) =>{
                             gap: 20,
                             width: '100%',
                         }}>
-
                         <Text style={style.body}>{body}</Text>
-
                         <View style={style.btnContainer}>
-                            <TouchableOpacity 
-                            onPress={() => setOpen(false)}
-                            style={style.btn}>
-                                <Text style={{
-                                    color: '#8BC047',
-                                    fontSize: 20,
-                                    fontWeight: 'bold',
-                                    fontFamily: 'Jura_400Regular',
-                                    textAlign: 'center',
-                                    padding: 10,
-                                }}>
-                                    Cancel
-                                </Text>
+                            {/* Cancel button */}
+                            <TouchableOpacity onPress={handleClose} style={style.btn}>
+                                <Text style={style.buttonTextC}>Cancel</Text>
                             </TouchableOpacity>
-
+                            {/* Confirm button */}
                             <TouchableOpacity style={style.btn1}>
-                                <Text style={{
-                                    color: '#FF0000',
-                                    fontSize: 20,
-                                    fontWeight: 'bold',
-                                    fontFamily: 'Jura_400Regular',
-                                    textAlign: 'center',
-                                    padding: 10,
-                                }}>Confirm</Text>
+                                <Text style={style.buttonText}>Confirm</Text>
                             </TouchableOpacity>
                         </View>
-
                     </View>
                 </View>
             </View>
@@ -115,6 +98,22 @@ const style = StyleSheet.create({
         borderLeftWidth: 0,
         borderRightWidth: 0,
     },
+    buttonText: {
+        color: '#8BC047',
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'center',
+        padding: 10,
+    },
+    buttonTextC: {
+        color: '#C05647',
+        fontSize: 20,
+        fontWeight: 'bold',
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'center',
+        padding: 10,
+    }
 });
 
 export default ModalPop;
