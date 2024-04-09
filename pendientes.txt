@@ -31,7 +31,6 @@
 1. Metodo para buscar por nombre
 3. Metodo para buscar por categoria
 4. Metodo para ordenar los resultados de la busqueda
-5. El componente de los botones de la barra de ordenar se debe ir pasando a medida que se clikean los botones 
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- 
