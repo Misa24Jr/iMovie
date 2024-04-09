@@ -43,9 +43,5 @@
 * TODO
 
 -- UserSetting -- 
-2. El nombre de usuario ( nickname ) debe ser editable tambien al darle a edit profile 
-3. Al darle edit profile se debe ocultar ese boton y solo dejar el de confirm change
-4. Agregar el boton de log out ( Mismo estilo que le delete profile ) 
-5. El boton de log out debe estar renderizado siempre pero cuando se de click al boton de edit profile, se debe quitar y poner el de delete profile
 6. Al darle al boton de log out, se debe abrir un modal ( Mismo estilo que los demas ) preguntando si esta seguro de cerrar sesion
 7. Al confirmar cerrar sesion se debe enviar a WelcomeView y borrar el token del storage
