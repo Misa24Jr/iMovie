@@ -43,5 +43,4 @@
 * TODO
 
 -- UserSetting -- 
-6. Al darle al boton de log out, se debe abrir un modal ( Mismo estilo que los demas ) preguntando si esta seguro de cerrar sesion
 7. Al confirmar cerrar sesion se debe enviar a WelcomeView y borrar el token del storage

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, Image } from "react-native";
 
-const ModalPop = ({ body, visible, handleClose }) => {
+const ModalPop = ({ body, visible, handleClose, handleSumit }) => {
 
     // const handleClose = () => {
     //     visible(false)
@@ -58,7 +58,10 @@ const ModalPop = ({ body, visible, handleClose }) => {
                                 <Text style={style.buttonTextC}>Cancel</Text>
                             </TouchableOpacity>
                             {/* Confirm button */}
-                            <TouchableOpacity style={style.btn1}>
+                            <TouchableOpacity 
+                                style={style.btn1}
+                                onPress={handleSumit}
+                            >
                                 <Text style={style.buttonText}>Confirm</Text>
                             </TouchableOpacity>
                         </View>

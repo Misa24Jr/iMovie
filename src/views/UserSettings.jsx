@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // Componentes
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
@@ -7,10 +8,12 @@ import UserInput from "../components/inputs/UserInput";
 import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState("misa24jr@gmail.com");
   const [password, setPassword] = useState("misa24jr");
   const [nickname, setNickname] = useState("Misa24jr");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLogoutVisible, setIsLogoutVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
 
@@ -29,12 +32,20 @@ const UserSettings = () => {
   };
 
   const handleLogout = () => {
-    console.log("Logout function");
+    setIsLogoutVisible(!isLogoutVisible);
   };
 
   const handleClose = () => {
     setIsModalVisible(false);
   };
+
+  const handleCloseLogout = () => {
+    setIsLogoutVisible(false);
+  };
+
+    const logout = () => {
+        navigation.navigate("Welcome");
+    };
 
   return (
     <View style={styles.container}>
@@ -88,15 +99,22 @@ const UserSettings = () => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={handleLogout} style={styles.textDelete}>
-            <Text style={styles.linkDelete}>Logout</Text>
+            <Text style={styles.linkDelete}>Log out</Text>
           </TouchableOpacity>
         )}
       </View>
       <ModalPop
-        handleClose={() => setIsModalVisible(false)}
+        handleClose={handleClose}
         visible={isModalVisible}
         toggleModal={toggleModal}
         body={"Are you sure you want to delete your profile?"}
+      />
+      <ModalPop
+        handleClose={handleCloseLogout}
+        visible={isLogoutVisible}
+        toggleModal={handleLogout}
+        body={"Are you sure you want to close your profile?"}
+        handleSumit={logout}
       />
     </View>
   );
