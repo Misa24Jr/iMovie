@@ -22,7 +22,15 @@ const AccordionGenre = ({ title, content }) => {
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
-                    <Text style={styles.title}>{title}</Text>
+
+                        <View style={styles.containerGroup}>
+                            <Text style={styles.title}>{title}</Text>
+
+                            <TouchableOpacity style={styles.searchButton} onPress={() => console.log('seacrh')}>
+                                <Ionicons name="search" size={24} color="#FFFFFF" />
+                            </TouchableOpacity>
+                        </View>
+                
                     <View style={[styles.circle, { backgroundColor: expanded ? "#8CCECC" : "gray" }]} />
                 </TouchableOpacity>
                 {expanded && (
@@ -76,6 +84,11 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         gap: 10,
     },
+    containerGroup:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 25,
+    }
 });
 
 export default AccordionGenre;

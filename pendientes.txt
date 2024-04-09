@@ -25,18 +25,17 @@
 2. Renderizar los review
 3. Funiconalidad del "Boton(Rate This)"
 4. Renderizar video Trailer 
-5. La fecha de back no se ve bien
+5. La fecha de back no se ve bien (Duda)
 
 -- SearchView --
 1. Metodo para buscar por nombre
-2. Agregar la lupa que esta en el input de search a lado de la categorias para realizar la busqueda 
 3. Metodo para buscar por categoria
 4. Metodo para ordenar los resultados de la busqueda
-5. El como de los botones de la barra de ordenar se debe ir pasando a medida que se clikean los botones 
+5. El componente de los botones de la barra de ordenar se debe ir pasando a medida que se clikean los botones 
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- 
-1. Caando agregue el textoen un review, poner el padding entre rating y la parte de abajo del box
+1. Cuando agregue el texto en un review, poner el padding entre rating y la parte de abajo del box
 2. Funcionalidad para borrar review
 
 -- ChatGeneral --

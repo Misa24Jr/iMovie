@@ -25,7 +25,16 @@ const AccordionSearch = ({ title, content }) => {
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
+                    <View style={styles.containerGroup}>
+
                     <Text style={styles.title}>{title}</Text>
+
+                    <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                                <Ionicons name="search" size={24} color="#FFFFFF" />
+                    </TouchableOpacity>
+
+                    </View>
+                    
                     <View style={[styles.circle, { backgroundColor: expanded ? "#8CCECC" : "gray" }]} />
                 </TouchableOpacity>
                 {expanded && (
@@ -38,9 +47,6 @@ const AccordionSearch = ({ title, content }) => {
                                 onChangeText={text => setSearchText(text)}
                                 placeholderTextColor={'#444747'}
                             />
-                            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                                <Ionicons name="search" size={24} color="#FFFFFF" />
-                            </TouchableOpacity>
                         </View>
                     </View>
                 )}
@@ -94,10 +100,11 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontFamily: 'Jura_400Regular',
     },
-    searchButton: {
-        backgroundColor: 'gray',
-        padding: 10,
-    },
+    containerGroup:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 15,
+    }
 });
 
 export default AccordionSearch;
