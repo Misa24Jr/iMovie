@@ -23,9 +23,8 @@
 -- MovieView --
 1. Renderizar los actores
 2. Renderizar los review
-3. Funiconalidad del "Boton(Rate This)"
+3. Metodo del "Boton(Rate This)"
 4. Renderizar video Trailer 
-5. La flecha de back no se ve bien
 
 -- SearchView --
 1. Metodo para buscar por nombre
@@ -34,10 +33,9 @@
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- 
-2. Funcionalidad para borrar review
+2. Metodo para borrar review
 
 -- ChatGeneral --
-* TODO
 
 -- UserSetting -- 
 7. Al confirmar cerrar sesion se debe enviar a WelcomeView y borrar el token del storage
