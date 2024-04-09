@@ -34,7 +34,6 @@
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- 
-1. Cuando agregue el texto en un review, poner el padding entre rating y la parte de abajo del box
 2. Funcionalidad para borrar review
 
 -- ChatGeneral --
