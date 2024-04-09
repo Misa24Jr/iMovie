@@ -14,6 +14,7 @@ import BtnRateThis from "../components/button/BtnRateThis.jsx";
 import CriticTitle from "../components/others/CriticTitle.jsx";
 import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 import ModalReview from "../components/containers/ModalReview.jsx";
+import { Ionicons } from '@expo/vector-icons';
 
 // Imagenes
 import pause from '../../assets/pausa.png';
@@ -115,14 +116,10 @@ const MovieView = (props) =>{
                         >
                             <Text style={style.playText}>
                                 {status.isPlaying 
-                                ? <Image
-                                    style={{width: 20, height: 20}}
-                                    source={pause}
-                                /> 
-                                : <Image
-                                    style={{width: 20, height: 20}}
-                                    source={play}
-                                /> 
+                                ? 
+                                <Ionicons name="pause" size={20} color="#FFFFFF" />
+                                : 
+                                <Ionicons name="play" size={15} color="#FFFFFF" />
                                 }
                             </Text>
                         </TouchableOpacity>
@@ -132,10 +129,7 @@ const MovieView = (props) =>{
                         style={style.back}
                         onPress={() => navigation.navigate('NewsView')}
                     >
-                        <Image
-                        style={{width: 30, height: 30}}
-                        source={require('../../assets/back.png')}
-                        />
+                        <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
                     </TouchableOpacity>
 
                 </View>
@@ -241,21 +235,11 @@ const style = StyleSheet.create({
         left: 20,
     },
     playButton:{
-        // position: 'absolute',
-        // top: '50%',
-        // left: '50%',
-        // transform: [{ translateX: -25 }, { translateY: -25 }],
-        // zIndex: 1, 
-        // alignItems: 'center',
-        // borderRadius: 50,
-        // backgroundColor: 'white',
         padding: 8,
-        // width: 50,
     },
     playText:{
         color: 'black',
         fontSize: 14,
-        textAlign: 'center',
         fontFamily: 'Jura_400Regular',
     },
     containerPOP:{

@@ -36,7 +36,6 @@ const AccordionGenre = ({ title, content }) => {
                 {expanded && (
                     <View style={styles.contentContainer}>
                             <Genre name={'Action'} />
-                            <Genre name={'Adventure'} />
                             <Genre name={'Animation'} />
                             <Genre name={'Comedy'} />
                             <Genre name={'Crime'} />

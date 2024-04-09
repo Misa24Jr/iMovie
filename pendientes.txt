@@ -25,7 +25,7 @@
 2. Renderizar los review
 3. Funiconalidad del "Boton(Rate This)"
 4. Renderizar video Trailer 
-5. La fecha de back no se ve bien (Duda)
+5. La flecha de back no se ve bien
 
 -- SearchView --
 1. Metodo para buscar por nombre

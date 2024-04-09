@@ -1,13 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import { StyleSheet, ScrollView, Text, Image, TouchableOpacity, View, TextInput} from "react-native";
 import { useNavigation } from '@react-navigation/native';
-
+import { Ionicons } from '@expo/vector-icons';
 
 // Components
-import AccordionSearch from "../components/others/AccordionSearch";
-import AccordionGenre from "../components/others/AccordionGenre";
-import TabsSearch from "../components/button/TabsSearch";
-import BoxMovie from "../components/containers/BoxMovie";
 
 const GeneralChat = () => {
     const navigation = useNavigation();
@@ -22,10 +18,7 @@ const GeneralChat = () => {
                     onPress={() => navigation.navigate('NewsView')}
                     style={{marginBottom: 20}}
                     >
-                    <Image
-                        style={{width: 30, height: 30}}
-                        source={require('../../assets/back.png')}
-                    />
+                        <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
 
                 <View style={style.containerSearch}>
