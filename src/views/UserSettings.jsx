@@ -1,21 +1,43 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { API_ROOT } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Componentes
+import { getAndSetToken } from "../utils/tokenHandler";
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import UserInput from "../components/inputs/UserInput";
 import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("misa24jr@gmail.com");
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("misa24jr");
-  const [nickname, setNickname] = useState("Misa24jr");
+  const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+  const [token, setToken] = useState("");
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLogoutVisible, setIsLogoutVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
+
+  const getUserData = async () => {
+    try {
+      const [token, userNickname, userEmail, userUrlImage] = await Promise.all([
+        getAndSetToken(setToken),
+        AsyncStorage.getItem("nickname"),
+        AsyncStorage.getItem("email"),
+        AsyncStorage.getItem("url_image")
+      ]);
+      setEmail(userEmail);
+      setNickname(userNickname);
+      setUrlImage(userUrlImage);
+    } catch (error) {
+      return Alert.alert("Error", "Something went wrong trying to get user data.");
+    }
+  }
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
@@ -43,9 +65,14 @@ const UserSettings = () => {
     setIsLogoutVisible(false);
   };
 
-    const logout = () => {
-        navigation.navigate("Welcome");
-    };
+  const logout = () => {
+    AsyncStorage.clear();
+    return navigation.navigate("Welcome");
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -58,7 +85,7 @@ const UserSettings = () => {
           <View style={styles.containerImage}>
             <Image
               source={{
-                uri: "https://images.pexels.com/photos/1226302/pexels-photo-1226302.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                uri: url_image,
               }}
               style={{ width: 120, height: 200 }}
             />

@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
 import { saveToken } from "../utils/tokenHandler.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Components
 import BtnLogin from "../components/button/BtnLogin";
@@ -24,6 +25,7 @@ const LoginView = () =>{
         if (!InputValidator.loginInputsValidation(nickname, password)) return;
 
         try {
+            console.log(API_ROOT)
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -39,7 +41,12 @@ const LoginView = () =>{
             if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
             if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
 
-            await saveToken(data.token);
+            await Promise.all([
+                saveToken(data.token),
+                AsyncStorage.setItem('nickname', data.userData.nickname),
+                AsyncStorage.setItem('email', data.userData.email),
+                AsyncStorage.setItem('url_image', data.userData.url_image)
+            ]);
 
             return navigation.navigate('NewsView');
         } catch (error) {
