@@ -21,7 +21,7 @@
 
 !!POR VISTAS!!
 -- MovieView --
-1. Metodo del "Boton(Rate This)"
+1. Agregar las estrellas seleccionadas en el fetch de create review
 2. Renderizar video Trailer 
 
 -- SearchView --

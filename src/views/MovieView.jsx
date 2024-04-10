@@ -2,18 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
+import { Video } from 'expo-av';
+import { Ionicons } from '@expo/vector-icons';
+
+// Components
+import { getAndSetToken } from "../utils/tokenHandler.js";
+import Genre from '../components/containers/Genre';
 import formatMovieDuration from "../helpers/formatMovieDuration.js";
 import formatReleaseTime from "../helpers/formatReleaseTime.js";
 import parseAudienceScore from "../helpers/parseAudienceScore.js";
-
-// Components
-import Genre from '../components/containers/Genre';
-import {Video} from 'expo-av';
 import BtnRateThis from "../components/button/BtnRateThis.jsx";
 import CriticTitle from "../components/others/CriticTitle.jsx";
 import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 import ModalReview from "../components/containers/ModalReview.jsx";
-import { Ionicons } from '@expo/vector-icons';
 
 // Imagenes
 import pause from '../../assets/pausa.png';
@@ -23,6 +24,8 @@ const MovieView = (props) =>{
     const navigation = useNavigation();
     const movieId = props.route.params.movie.id;
 
+    const [token, setToken] = useState('');
+    const [reviewInputValue, setReviewInputValue] = useState('');
     const [movieDetails, setMovieDetails] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -30,8 +33,26 @@ const MovieView = (props) =>{
         setIsModalVisible(!isModalVisible);
     };
 
-    const handleClose = () => {
+    const handleClose = async () => {
         setIsModalVisible(false);
+        console.log(reviewInputValue);
+        console.log(token)
+        try {
+            const response = await fetch(`${API_ROOT}/api/reviews/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({movieId, content: reviewInputValue, score: 3})
+            });
+
+            if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
+
+            return Alert.alert('Great!', 'Yo have published your review.');
+        } catch (error) {
+            return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
+        }
     };
 
     const videoRef = useRef(null);
@@ -68,6 +89,7 @@ const MovieView = (props) =>{
     }
 
     useEffect(() => {
+        getAndSetToken(setToken);
         getMovieDetails();
     }, []);
 
@@ -157,7 +179,12 @@ const MovieView = (props) =>{
                         })}
                     </View>
                 </View>
-            <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
+            <ModalReview
+                handleChangeText={(text) => setReviewInputValue(text)}
+                handleClose={handleClose} 
+                visible={isModalVisible} 
+                toggleModal={toggleModal} 
+            />
         </ScrollView>
     )
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, Image, TextInput } from "react-native";
 import StarRating from "./StartRating";
 
-const ModalReview = ({ body, visible, handleClose }) => {
+const ModalReview = ({ body, visible, handleClose, handleChangeText }) => {
 
     const [value, setValue] = useState(0);
 
@@ -54,6 +54,7 @@ const ModalReview = ({ body, visible, handleClose }) => {
                             width: '100%',
                         }}>
                         <TextInput
+                        onChangeText={handleChangeText}
                             style={style.review}
                             placeholder="What you think about this..."
                             placeholderTextColor={'#524e3c'}
