@@ -55,7 +55,8 @@ const ModalReview = ({ body, visible, handleClose }) => {
                         }}>
                         <TextInput
                             style={style.review}
-                            placeholder="Escribe tu reseña aquí..."
+                            placeholder="What you think about this..."
+                            placeholderTextColor={'#524e3c'}
                             multiline
                             textAlignVertical="top"
                         />
@@ -119,11 +120,11 @@ const style = StyleSheet.create({
         borderRadius: 15,
         fontFamily: 'Jura_400Regular',
         fontSize: 20,
-        color: '#3C5252',
+        color: '#524e3c',
         fontWeight: 'bold',
         borderWidth: 1,
-        borderColor: '#3C5252',
-        padding: 5
+        borderColor: '#9aabab',
+        padding: 10
     }
     // Estilos adicionales aquí si es necesario
 });

@@ -25,7 +25,6 @@ const LoginView = () =>{
         if (!InputValidator.loginInputsValidation(nickname, password)) return;
 
         try {
-            console.log(API_ROOT)
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

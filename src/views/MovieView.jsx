@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { TMDB_API_ROOT, TMDB_TOKEN, YT_TRAILER_SEARCH_ROOT } from "@env";
-import formatTrailerSearch from "../helpers/formatTrailerSearch.js";
+import { API_ROOT } from "@env";
 import formatMovieDuration from "../helpers/formatMovieDuration.js";
 import formatReleaseTime from "../helpers/formatReleaseTime.js";
 import parseAudienceScore from "../helpers/parseAudienceScore.js";
@@ -25,7 +24,6 @@ const MovieView = (props) =>{
     const movieId = props.route.params.movie.id;
 
     const [movieDetails, setMovieDetails] = useState({});
-    const [movieTrailerUri, setMovieTrailerUri] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -41,49 +39,31 @@ const MovieView = (props) =>{
 
     const getMovieDetails = async () => {
         try {
-            const url = `${TMDB_API_ROOT}/movie/${movieId}?language=en-US`;
-            const response = await fetch(url, {
-                method: 'GET',
+            const response = await fetch(`${API_ROOT}/api/movies/getDetailsByMovieId`, {
+                method: 'POST',
                 headers: {
-                    accept: 'application/json',
-                    Authorization: `Bearer ${TMDB_TOKEN}`
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({movieId})
             });
 
             if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie details from server.');
+
             const data = await response.json();
+
             return setMovieDetails({
-                original_title: data.original_title,
-                runtime: formatMovieDuration(data.runtime),
-                overview: data.overview,
-                release_date: formatReleaseTime(data.release_date),
-                audience_score: parseAudienceScore(data.vote_average)
+                original_title: data.movieDetails.original_title,
+                runtime: formatMovieDuration(data.movieDetails.runtime),
+                overview: data.movieDetails.overview,
+                release_date: formatReleaseTime(data.movieDetails.release_date),
+                audience_score: parseAudienceScore(data.movieDetails.audience_score),
+                genres: data.movieDetails.genres,
+                actors: data.movieDetails.actors,
+                director: data.movieDetails.director,
+                reviews: data.movieDetails.reviews
             });
-            //await getMovieTrailer();
         } catch (error) {
             return Alert.alert('Oops', 'Unable to get movie details.');
-        }
-    }
-
-    const getMovieTrailer = async () => {
-        try {
-            const url = `${YT_TRAILER_SEARCH_ROOT}${formatTrailerSearch(movieDetails.original_title)}`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json'
-                }
-            });
-
-            if(response.status !== 200) return Alert.alert('Oops', 'Unable to get movie trailer from server.');
-
-            const data = await response.json();
-            const movieTrailerId = (data.items[0].id.videoId);
-
-            setMovieTrailerUri(`https://www.youtube.com/watch?v=${movieTrailerId}`);
-            return console.log(movieTrailerUri);
-        } catch (error) {
-            return Alert.alert('Oops', 'Unable to get movie trailer.');
         }
     }
 
@@ -141,15 +121,13 @@ const MovieView = (props) =>{
                     </View>
 
                     <View>
-                        <Text style={style.subTitle}>Actor 1 - Actor 2 - Actress 1</Text>
+                        <Text style={style.subTitle}>{movieDetails.director} · {movieDetails.actors && movieDetails.actors[0]} · {movieDetails.actors && movieDetails.actors[1]}</Text>
                     </View>
 
                     <View style={style.containerGenre}>
-
-                        <Genre name="Action" />
-                        <Genre name="Horror" />
-                        <Genre name="Comedy" />
-                        
+                        {movieDetails.genres && movieDetails.genres.map((genre, index) => (
+                            <Genre key={index} name={genre}/>
+                        ))}
                     </View>
 
                     <View>
@@ -173,9 +151,10 @@ const MovieView = (props) =>{
                     
                     <View>
                         <CriticTitle />
-                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'misa24jr'} rating={5}/>
-                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'josemmr11'} rating={5}/>
-                        <BoxCriticReview descrip={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.'} user={'adri_10'} rating={5}/>
+                        {movieDetails.reviews === null ? <Text style={{color: 'white', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center'}}>No reviews yet</Text> : null}
+                        {movieDetails.reviews && movieDetails.reviews.map((review, index) => {
+                            return <BoxCriticReview key={index} descrip={review.content} user={review.user.nickname} rating={review.score} urlImage={review.user.url_image}/>
+                        })}
                     </View>
                 </View>
             <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
@@ -215,9 +194,9 @@ const style = StyleSheet.create({
         fontFamily: 'Jura_400Regular'
     },
     subTitle:{
-        color: 'white',
+        color: '#8a9a9a',
         fontSize: 13,
-        fontFamily: 'Jura_400Regular'
+        fontFamily: 'Jura_Bold700'
     },
     containerGenre:{
         flexDirection: 'row',
@@ -227,6 +206,7 @@ const style = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontFamily: 'Jura_400Regular',
+        lineHeight: 28,
         textAlign: 'justify',
     },
     back:{

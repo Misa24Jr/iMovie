@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 
-const BoxCriticReview = ({descrip, user, rating}) => {
+const BoxCriticReview = ({descrip, user, rating, urlImage}) => {
     return(
         <>
             <View style={style.container}>
@@ -16,7 +16,7 @@ const BoxCriticReview = ({descrip, user, rating}) => {
                     <Image
                         style={{width: 25, height: 25}}
                         source={{
-                            uri: 'https://robohash.org/1',
+                            uri: urlImage,
                         }}
                     />
                     <Text style={style.textUser}>{user}</Text>
@@ -46,7 +46,7 @@ const style = StyleSheet.create({
     },
     textDecrip: {
         color: 'white',
-        fontSize: 10,
+        fontSize: 12,
         fontFamily: 'Jura_400Regular',
     },
     textUser: {
@@ -55,7 +55,7 @@ const style = StyleSheet.create({
         fontFamily: 'Jura_400Regular',
     },
     rating:{
-        paddingTop: 5,
+        paddingTop: 10,
         color: 'gray',
         fontSize: 10,
         fontFamily: 'Jura_400Regular',

@@ -9,7 +9,7 @@ const BtnRateThis = ({text, handleClick}) => {
                 style={style.btn}
             >
                 <Image
-                    style={{width: 35, height: 35}}
+                    style={{width: 30, height: 30}}
                     source={require('../../../assets/tomato.png')}
                 />
                 <Text style={style.text}>{text}</Text>
@@ -25,7 +25,7 @@ const style = StyleSheet.create({
         backgroundColor: '#3C5252',
         padding: 10,
         borderRadius: 25,
-        width: 350,
+        width: 270,
         height: 50,
         marginTop: 20,
         gap: 20,
@@ -33,7 +33,7 @@ const style = StyleSheet.create({
     },
     text:{
         color: 'white',
-        fontSize: 26,
+        fontSize: 22,
         fontFamily: 'Jura_400Regular',
     }
 });
