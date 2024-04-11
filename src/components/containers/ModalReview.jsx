@@ -9,6 +9,7 @@ const ModalReview = ({ body, visible, handleClose, handleChangeText }) => {
     const handleRating = (newValue) => {
         setValue(newValue);
     }
+
     return (
         <Modal
             animationType="fade"

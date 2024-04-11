@@ -21,6 +21,7 @@ import pause from '../../assets/pausa.png';
 import play from '../../assets/play.png';
 
 const MovieView = (props) =>{
+    const videoRef = useRef(null);
     const navigation = useNavigation();
     const movieId = props.route.params.movie.id;
 
@@ -28,35 +29,34 @@ const MovieView = (props) =>{
     const [reviewInputValue, setReviewInputValue] = useState('');
     const [movieDetails, setMovieDetails] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [status, setStatus] = useState({shouldPlay: false});
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
     };
 
     const handleClose = async () => {
-        setIsModalVisible(false);
-        console.log(reviewInputValue);
+        console.log('Publishing review...');
         console.log(token)
-        try {
-            const response = await fetch(`${API_ROOT}/api/reviews/create`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({movieId, content: reviewInputValue, score: 3})
-            });
+        console.log({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
+        setIsModalVisible(false);
+        // try {
+        //     const response = await fetch(`${API_ROOT}/api/reviews/create`, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${token}`
+        //         },
+        //         body: JSON.stringify({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
+        //     });
 
-            if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
+        //     if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
 
-            return Alert.alert('Great!', 'Yo have published your review.');
-        } catch (error) {
-            return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
-        }
+        //     return Alert.alert('Great!', 'Yo have published your review.');
+        // } catch (error) {
+        //     return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
+        // }
     };
-
-    const videoRef = useRef(null);
-    const [status, setStatus] = useState({shouldPlay: false});
 
     const getMovieDetails = async () => {
         try {
@@ -73,6 +73,7 @@ const MovieView = (props) =>{
             const data = await response.json();
 
             return setMovieDetails({
+                poster_path: data.movieDetails.poster_path,
                 original_title: data.movieDetails.original_title,
                 runtime: formatMovieDuration(data.movieDetails.runtime),
                 overview: data.movieDetails.overview,
@@ -180,6 +181,7 @@ const MovieView = (props) =>{
                     </View>
                 </View>
             <ModalReview
+                body={{rating: 3, description: reviewInputValue, movieId: movieId, poster: movieDetails.poster_path}}
                 handleChangeText={(text) => setReviewInputValue(text)}
                 handleClose={handleClose} 
                 visible={isModalVisible} 

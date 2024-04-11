@@ -1,22 +1,51 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Alert, ScrollView, Text } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { API_ROOT } from "@env";
 
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import MyReviewTitle from "../components/others/MyReviewTitle";
 import MyReviewBox from "../components/containers/MyReviewBox";
+import { getAndSetToken } from "../utils/tokenHandler.js";
 import ModalPop from "../components/containers/ModalPop";
 
-const rating = 5;
-const description = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam impedit iste ea id et vel commodi, quod fuga perferendis, culpa beatae, velit ex. Sapiente in deleniti quod repellat? Quidem, culpa?';
-
 const MyReviewView = () => {
+    const [token, setToken] = useState('');
+    const [myReviews, setMyReviews] = useState([]);
+
+    const getMyReviews = async () => {
+        try {
+            const userToken = await AsyncStorage.getItem('token');
+            const response = await fetch(`${API_ROOT}/api/reviews/getAllByUserId`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+
+            if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+
+            const reviews = await response.json();
+            return setMyReviews(reviews);
+        } catch (error) {
+            return Alert.alert('Oops', 'Something went wrong trying to get your reviews.');
+        }
+    }
+
+    useEffect(() => {
+        getAndSetToken(setToken);
+        getMyReviews();
+    }, []);
+
     return(
         <View style={style.container}>
             <HomeTemplateComponent />
             <View style={style.containerBody}>
                 <MyReviewTitle />
-                <MyReviewBox description={description} rating={rating}/>
+                <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+                    {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center'}}>You haven't published any review yet...</Text> : null}
+                    {myReviews.map((review, index) => <MyReviewBox key={index} description={review.content} rating={review.score} />)}
+                </ScrollView>
             </View>
         </View>
 
