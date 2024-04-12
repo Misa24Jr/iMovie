@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -14,7 +15,7 @@ const UserSettings = () => {
   const navigation = useNavigation();
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("misa24jr");
+  const [password, setPassword] = useState(""); // Ahora sin valor predeterminado
   const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
   const [token, setToken] = useState("");
 
@@ -22,7 +23,6 @@ const UserSettings = () => {
   const [isLogoutVisible, setIsLogoutVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
-
   const getUserData = async () => {
     try {
       const [token, userNickname, userEmail, userUrlImage] = await Promise.all([
