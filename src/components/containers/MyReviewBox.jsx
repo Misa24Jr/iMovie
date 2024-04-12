@@ -67,7 +67,8 @@ const MyReviewBox = ({poster, url, description, rating}) => {
                     ) : (
                         <Text style={style.description}>{editedDescription}</Text>
                     )}
-                    <View style={style.containerRating}>
+                </View>
+                <View style={style.containerRating}>
                         {isEditing ? (
                             <StarRating fontSize={15} emptyStarColor={'white'}/>
                         ) : (
@@ -75,7 +76,6 @@ const MyReviewBox = ({poster, url, description, rating}) => {
                         )}
                         
                     </View>
-                </View>
             </View>
             <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
         </>
@@ -93,6 +93,7 @@ const style = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 25,
     },
     containerImage: {
         width: '100%',
@@ -106,8 +107,8 @@ const style = StyleSheet.create({
         width: '90%',
         height: '40%',
         display : 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        top: 10,
+
     },
     description: {
         color: '#fff',
@@ -122,6 +123,8 @@ const style = StyleSheet.create({
         alignItems: 'flex-end',
         paddingRight: 5,
         paddingBottom: 10,
+        right: 10,
+        bottom: 10,
     },
     rating:{
         color: '#A1A1A1',

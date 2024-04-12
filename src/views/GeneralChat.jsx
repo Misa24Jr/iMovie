@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 15,
         paddingVertical: 10,
-        fontFamily: 'Jura_400Regular'
+        fontFamily: 'Jura_400Regular',
+        color: '#FFFFFF',
     },
     sendButton: {
         backgroundColor: 'white',

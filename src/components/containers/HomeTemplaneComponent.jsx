@@ -32,6 +32,7 @@ const style = StyleSheet.create({
     },
     containerNav: {
         position: 'absolute',
+        zIndex: 1,
         bottom: 100,
         left: 0,
         right: 0,

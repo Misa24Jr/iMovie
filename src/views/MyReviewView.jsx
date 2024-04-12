@@ -42,7 +42,10 @@ const MyReviewView = () => {
             <HomeTemplateComponent />
             <View style={style.containerBody}>
                 <MyReviewTitle />
-                <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+                <ScrollView 
+                contentContainerStyle={{paddingBottom: 20}}
+                style={style.scroll}
+                >
                     {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center'}}>You haven't published any review yet...</Text> : null}
                     {myReviews.map((review, index) => <MyReviewBox key={index} poster={review.poster} description={review.content} rating={review.score} />)}
                 </ScrollView>
@@ -62,6 +65,12 @@ const style = StyleSheet.create({
         top: 135,
         width: '80%',
     },
+    scroll: {
+        height: '60%',
+        display: 'flex',
+        gap: 20,
+        // backgroundColor: 'gray'
+    }
 });
 
 export default MyReviewView;
