@@ -46,7 +46,7 @@ const MyReviewView = () => {
                 contentContainerStyle={{paddingBottom: 20}}
                 style={style.scroll}
                 >
-                    {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center'}}>You haven't published any review yet...</Text> : null}
+                    {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center', top: 240, opacity: 0.2}}>You haven't published any review yet...</Text> : null}
                     {myReviews.map((review, index) => <MyReviewBox key={index} poster={review.poster} description={review.content} rating={review.score} />)}
                 </ScrollView>
             </View>
@@ -67,8 +67,6 @@ const style = StyleSheet.create({
     },
     scroll: {
         height: '60%',
-        display: 'flex',
-        gap: 20,
         // backgroundColor: 'gray'
     }
 });
