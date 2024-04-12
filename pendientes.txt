@@ -31,7 +31,6 @@
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- 
-1. Estilizar mejor el mensaje en caso de que no tengas ningun review
 2. Metodo para borrar review
 3. Metodo para editar un review
 
