@@ -44,7 +44,7 @@ const MyReviewView = () => {
                 <MyReviewTitle />
                 <ScrollView contentContainerStyle={{paddingBottom: 20}}>
                     {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center'}}>You haven't published any review yet...</Text> : null}
-                    {myReviews.map((review, index) => <MyReviewBox key={index} description={review.content} rating={review.score} />)}
+                    {myReviews.map((review, index) => <MyReviewBox key={index} poster={review.poster} description={review.content} rating={review.score} />)}
                 </ScrollView>
             </View>
         </View>

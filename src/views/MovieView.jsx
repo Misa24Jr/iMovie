@@ -36,26 +36,24 @@ const MovieView = (props) =>{
     };
 
     const handleClose = async () => {
-        console.log('Publishing review...');
-        console.log(token)
-        console.log({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
-        setIsModalVisible(false);
-        // try {
-        //     const response = await fetch(`${API_ROOT}/api/reviews/create`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${token}`
-        //         },
-        //         body: JSON.stringify({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
-        //     });
+        try {
+            const response = await fetch(`${API_ROOT}/api/reviews/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
+            });
 
-        //     if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
+            setIsModalVisible(false);
 
-        //     return Alert.alert('Great!', 'Yo have published your review.');
-        // } catch (error) {
-        //     return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
-        // }
+            if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
+
+            return Alert.alert('Great!', 'Yo have published your review.');
+        } catch (error) {
+            return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
+        }
     };
 
     const getMovieDetails = async () => {
