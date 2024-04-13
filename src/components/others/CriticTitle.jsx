@@ -27,12 +27,12 @@ const style = StyleSheet.create({
     },
     title: {
         color: '#3C5252',
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: 'bold',
         fontFamily: 'Jura_400Regular'
     },
     line: {
-        width: 250,
+        width: 225,
         height: 2,
         backgroundColor: '#3C5252',
         marginTop: 5,

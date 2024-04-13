@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput, Alert } from "react-native";
+import { API_ROOT } from "@env";
 
 // Components
+import { getAndSetToken } from "../../utils/tokenHandler.js";
 import StarRating from "./StartRating";
 import ModalReview from "./ModalReview";
 
 
-const MyReviewBox = ({poster, url, description, rating}) => {
+const MyReviewBox = ({movieId, poster, url, description, rating}) => {
+    const [token, setToken] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(description);
@@ -20,8 +23,28 @@ const MyReviewBox = ({poster, url, description, rating}) => {
         setIsModalVisible(false);
     };
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
         setIsEditing(prevEditing => !prevEditing);
+        if(isEditing){
+            try {
+                const response = await fetch(`${API_ROOT}/api/reviews/updateContent`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        newContent: editedDescription,
+                        movieId: movieId
+                    })
+                });
+
+                if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+                return;
+            } catch (error) {
+                return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
+            }
+        }
     };
 
     const handleSave = () => {
@@ -29,6 +52,9 @@ const MyReviewBox = ({poster, url, description, rating}) => {
         // Aquí podrías guardar la descripción editada en tu estado o enviarla a la función de guardado
     };
 
+    useEffect(() => {
+        getAndSetToken(setToken);
+    }, []);
 
     return(
         <>

@@ -22,7 +22,8 @@
 !!POR VISTAS!!
 -- MovieView --
 1. Agregar las estrellas seleccionadas en el fetch de create review
-2. Renderizar video Trailer 
+2. Renderizar video Trailer
+3. No hay forma de salir del modal de rate this si no es dandole a publish review
 
 -- SearchView --
 1. Metodo para buscar por nombre
@@ -30,12 +31,14 @@
 4. Metodo para ordenar los resultados de la busqueda
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
--- MyReviewView -- 
+-- MyReviewView -- .
+1. cuando se le da a la papelera para borrar un review, se abre el modal de rate this ??????? **URGENTE**
 2. Metodo para borrar review
-3. Metodo para editar un review
+3. Metodo para actualizar el rating
 
 -- ChatGeneral --
 
 -- UserSetting -- 
-1. Solucionar bug de los estados.
+1. Solucionar bug de los estados. **URGENTE**
 2. Metodos de configuración de usuarios.
+3. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE**
