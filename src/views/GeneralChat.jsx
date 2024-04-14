@@ -1,21 +1,46 @@
-import React, { useState } from "react";
-import { StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { API_ROOT, CHAT_SERVER } from "@env";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GeneralChat = () => {
     const navigation = useNavigation();
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
 
-    const handleMessageSend = () => {
+    const handleMessageSend = async () => {
         if (inputMessage.trim() !== '') {
             const now = new Date();
             const formattedTime = `${now.getHours()}:${now.getMinutes()}`;
-            setMessages([...messages, { text: inputMessage, sender: 'Misa24jr', time: formattedTime }]);
+            const userNickname = await AsyncStorage.getItem('nickname');
+            setMessages([...messages, { text: inputMessage, sender: userNickname, time: formattedTime }]);
             setInputMessage('');
         }
     };
+
+    const getAllMessages = async () => {
+        const token = await AsyncStorage.getItem('token');
+
+        try {
+            const response = await fetch(`${API_ROOT}/api/messages/`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if(response.status !== 200) return Alert.alert('Error', 'Error server response');
+
+            const data = await response.json();
+            return console.log(data);
+        } catch (error) {
+            return Alert.alert('Error', 'An error occurred while trying to get the messages');
+        }
+    }
+
+    useEffect(() => {
+        getAllMessages();
+    }, []);
 
     return(
         <>
@@ -43,13 +68,17 @@ const GeneralChat = () => {
                 <View style={styles.inputWrapper}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Whire your message here..."
+                        placeholder="Write your message here..."
                         value={inputMessage}
                         onChangeText={setInputMessage}
                         placeholderTextColor={'#444747'}
                     />
-                    <TouchableOpacity style={styles.sendButton} onPress={handleMessageSend}>
-                        <Ionicons name="arrow-up" size={20} color="black" />
+                    <TouchableOpacity 
+                        style={styles.sendButton} 
+                        onPress={handleMessageSend}
+                        disabled={inputMessage.trim() === ''}
+                    >
+                        <Ionicons name="arrow-up" size={20} color={inputMessage.trim() === '' ? '#e0e3e3' : 'black'} />
                     </TouchableOpacity>
                 </View>
             </View>

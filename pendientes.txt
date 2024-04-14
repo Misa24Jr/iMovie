@@ -37,6 +37,7 @@
 3. Metodo para actualizar el rating
 
 -- ChatGeneral --
+1. al intentar enviar un mensaje, el input queda por debajo del teclado y no se ve lo que uno va escribiendo
 
 -- UserSetting -- 
 1. Solucionar bug de los estados. **URGENTE**
