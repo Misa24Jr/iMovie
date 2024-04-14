@@ -23,7 +23,6 @@
 -- MovieView --
 1. Agregar las estrellas seleccionadas en el fetch de create review
 2. Renderizar video Trailer
-3. No hay forma de salir del modal de rate this si no es dandole a publish review
 
 -- SearchView --
 1. Metodo para buscar por nombre
@@ -32,7 +31,6 @@
 7. Metodo para navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- .
-1. cuando se le da a la papelera para borrar un review, se abre el modal de rate this ??????? **URGENTE**
 2. Metodo para borrar review
 3. Metodo para actualizar el rating
 

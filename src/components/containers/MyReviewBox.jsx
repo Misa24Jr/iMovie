@@ -5,7 +5,7 @@ import { API_ROOT } from "@env";
 // Components
 import { getAndSetToken } from "../../utils/tokenHandler.js";
 import StarRating from "./StartRating";
-import ModalReview from "./ModalReview";
+import ModalReview from "./ModalRateThis.jsx";
 import ModalPop from "./ModalPop.jsx";
 
 

@@ -14,7 +14,7 @@ import parseAudienceScore from "../helpers/parseAudienceScore.js";
 import BtnRateThis from "../components/button/BtnRateThis.jsx";
 import CriticTitle from "../components/others/CriticTitle.jsx";
 import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
-import ModalReview from "../components/containers/ModalReview.jsx";
+import ModalReview from "../components/containers/ModalRateThis.jsx";
 
 // Imagenes
 import pause from '../../assets/pausa.png';
