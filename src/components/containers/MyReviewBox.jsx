@@ -6,6 +6,7 @@ import { API_ROOT } from "@env";
 import { getAndSetToken } from "../../utils/tokenHandler.js";
 import StarRating from "./StartRating";
 import ModalReview from "./ModalReview";
+import ModalPop from "./ModalPop.jsx";
 
 
 const MyReviewBox = ({movieId, poster, url, description, rating}) => {
@@ -103,7 +104,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                         
                     </View>
             </View>
-            <ModalReview handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
+            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
         </>
     )
 };
