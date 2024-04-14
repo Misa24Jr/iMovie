@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput, Alert } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Alert,
+  KeyboardAvoidingView,
+  Platform
+} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { API_ROOT, CHAT_SERVER } from "@env";
+import { API_ROOT } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GeneralChat = () => {
@@ -22,7 +32,6 @@ const GeneralChat = () => {
 
     const getAllMessages = async () => {
         const token = await AsyncStorage.getItem('token');
-
         try {
             const response = await fetch(`${API_ROOT}/api/messages/`, {
                 method: 'GET',
@@ -36,14 +45,17 @@ const GeneralChat = () => {
         } catch (error) {
             return Alert.alert('Error', 'An error occurred while trying to get the messages');
         }
-    }
+    };
 
     useEffect(() => {
         getAllMessages();
     }, []);
 
-    return(
-        <>
+    return (
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.flex1}
+        >
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
@@ -82,11 +94,14 @@ const GeneralChat = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </>
-    )
-}; 
+        </KeyboardAvoidingView>
+    );
+};
 
 const styles = StyleSheet.create({
+    flex1: {
+        flex: 1
+    },
     header: {
         alignItems: 'flex-start',
         backgroundColor: '#151515',
