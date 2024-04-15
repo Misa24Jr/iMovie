@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -82,26 +82,41 @@ const UserSettings = () => {
               source={{ uri: url_image }}
               style={{ width: 120, height: 200 }}
             />
-            <UserInput
-              value={nickname}
-              editable={isEditing}
-              onChangeText={setNickname}
-            />
+
+            {isEditing ? (
+              <TextInput
+                style={styles.name}
+                value={nickname}
+                editable={isEditing}
+                onChangeText={setNickname}
+              />
+            ) : (
+              <Text style={styles.name}>{nickname}</Text>
+            )}
           </View>
+
           <View style={styles.containerInput}>
-            <UserInput
-              name="Email"
-              value={email}
-              editable={isEditing}
-              onChangeText={setEmail}
-            />
-            <UserInput
-              name="Password"
-              value={password}
-              secureTextEntry={showPassword}
-              editable={isEditing}
-              onChangeText={setPassword}
-            />
+
+              <View style={styles.containerInputName}>
+                <Text style={styles.nameInput}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  value={email}
+                  editable={isEditing}
+                  onChangeText={setEmail}
+                />
+              </View>
+
+              <View style={styles.containerInputName}>
+                <Text style={styles.nameInput}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  value={password}
+                  editable={isEditing}
+                  onChangeText={setPassword}
+                />
+              </View>
+
             {isEditing && (
               <TouchableOpacity
                 onPress={handleConfirmChanges}
@@ -170,10 +185,11 @@ const styles = StyleSheet.create({
     height: 200,
     justifyContent: "center",
     alignItems: "center",
+    gap: 10,
   },
   name: {
     color: "#ffffff",
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "Jura_400Regular",
   },
   containerInput: {
@@ -206,6 +222,26 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Jura_400Regular",
   },
+  nameInput: {
+    color: "#3C5252",
+    fontSize: 15,
+    fontFamily: "Jura_400Regular",
+  },
+  containerInputName:{
+    width: 280,
+    gap: 25,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    width: 200,
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: '#1c1c1c',
+    color: '#ffffff',
+    padding: 10,
+},
 });
 
 export default UserSettings;
