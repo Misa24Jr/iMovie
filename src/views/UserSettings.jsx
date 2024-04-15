@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Componentes
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
-import UserInput from "../components/inputs/UserInput";
 import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
