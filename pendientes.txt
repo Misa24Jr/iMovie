@@ -37,4 +37,4 @@
 
 -- UserSetting -- 
 2. Metodos de configuración de usuarios.
-3. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE**
+3. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE** Da un error aun

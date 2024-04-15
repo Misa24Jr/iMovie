@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ImagePicker from 'react-native-image-picker';
+
 
 // Componentes
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
@@ -64,6 +66,30 @@ const UserSettings = () => {
     navigation.navigate("Welcome");
   };
 
+  const handleImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 1,
+    };
+  
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        // Aquí response.assets contiene la información de la imagen seleccionada
+        if (response.assets.length > 0) {
+          const selectedImage = response.assets[0];
+          setUrlImage(selectedImage.uri);
+        }
+      }
+    });
+  };
+
+
+
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -77,10 +103,20 @@ const UserSettings = () => {
             <Text style={styles.link}>Edit Profile</Text>
           </TouchableOpacity>
           <View style={styles.containerImage}>
+
             <Image
               source={{ uri: url_image }}
-              style={{ width: 120, height: 200 }}
+              style={{ width: 140, height: 200 }}
             />
+
+            {isEditing && (
+                <TouchableOpacity
+                onPress={handleImagePicker}
+                >
+                  <Text style={styles.nameInput}>Changes</Text>
+                </TouchableOpacity>
+            )}
+
 
             {isEditing ? (
               <TextInput
