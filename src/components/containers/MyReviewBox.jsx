@@ -40,13 +40,33 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                     })
                 });
 
+                console.log(response.status);
                 if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
-                return;
+                return setIsModalVisible(false);
             } catch (error) {
                 return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
             }
         }
     };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`${API_ROOT}/api/reviews/delete`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ movieId })
+            });
+
+            if(response.status !== 200) return Alert.alert('Oops', 'Error response from server deleting your review.');
+
+            return toggleModal();
+        } catch (error) {
+            return Alert.alert('Oops', 'Something went wrong trying to delete your review.');
+        }
+    }
 
     const handleSave = () => {
         setIsEditing(false);
@@ -104,7 +124,13 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                         
                     </View>
             </View>
-            <ModalPop handleClose={handleClose} visible={isModalVisible} toggleModal={toggleModal} body={'Are yo sure you want to delete this review?'}/>
+            <ModalPop 
+                handleClose={handleClose} 
+                visible={isModalVisible} 
+                toggleModal={toggleModal} 
+                body={'Are yo sure you want to delete this review?'}
+                handleSumit={handleDelete}
+            />
         </>
     )
 };
