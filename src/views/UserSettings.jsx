@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, TextInput } fro
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImagePicker from 'react-native-image-picker';
-
+import { API_ROOT } from "@env";
 
 // Componentes
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
@@ -11,11 +11,11 @@ import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
   const navigation = useNavigation();
+  const [token, setToken] = useState("");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
-
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLogoutVisible, setIsLogoutVisible] = useState(false);
@@ -24,10 +24,12 @@ const UserSettings = () => {
 
   const getUserData = async () => {
     try {
+      const userToken = await AsyncStorage.getItem("token");
       const userNickname = await AsyncStorage.getItem("nickname");
       const userEmail = await AsyncStorage.getItem("email");
       const userUrlImage = await AsyncStorage.getItem("url_image") || url_image;
 
+      setToken(userToken);
       setNickname(userNickname || "");
       setEmail(userEmail || "");
       setUrlImage(userUrlImage);
@@ -87,8 +89,29 @@ const UserSettings = () => {
     });
   };
 
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await fetch(`${API_ROOT}/api/users/delete`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
 
+      if(response.status !== 200) return Alert.alert('Error', 'Server error trying to delete your profile.');
 
+      await AsyncStorage.clear();
+      return navigation.navigate("Welcome");
+    } catch (error) {
+      return Alert.alert("Error", "Something went wrong trying to delete your profile.");
+    }
+  };
+
+  const handleEditNickname = async () => {
+    try {
+
+    } catch (error) {
+      return Alert.alert("Error", "Something went wrong trying to edit your nickname.");
+    }
+  }
 
   useEffect(() => {
     getUserData();
@@ -117,17 +140,15 @@ const UserSettings = () => {
                 </TouchableOpacity>
             )}
 
-
             {isEditing ? (
               <TextInput
                 style={styles.name}
                 value={nickname}
                 editable={isEditing}
-                onChangeText={setNickname}
+                onChangeText={(text) => setNickname(text)}
               />
-            ) : (
-              <Text style={styles.name}>{nickname}</Text>
-            )}
+            ) : (<Text style={styles.name}>{nickname}</Text>)
+            }
           </View>
 
           <View style={styles.containerInput}>
@@ -174,6 +195,7 @@ const UserSettings = () => {
       </View>
       <ModalPop
         handleClose={handleClose}
+        handleSumit={handleConfirmDelete}
         visible={isModalVisible}
         toggleModal={toggleModal}
         body={"Are you sure you want to delete your profile?"}

@@ -36,7 +36,7 @@ const LoginView = () =>{
 
             const data = await response.json();
 
-            if(response.status === 400) return Alert.alert('Oops', `${data.message}, try again.`);
+            if(response.status === 400) return Alert.alert('Oops', `${data.message.description}, try again.`);
             if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
             if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
 

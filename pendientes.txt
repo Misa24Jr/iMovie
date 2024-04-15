@@ -26,5 +26,6 @@
 1. al intentar enviar un mensaje, el input queda por debajo del teclado y no se ve lo que uno va escribiendo
 
 -- UserSetting -- 
-1. Metodos de configuración de usuarios.
-2. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE** Da un error aun
+1. Replantear la pantalla de user settings
+2. Metodos de configuración de usuarios.
+3. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE** Da un error aun
