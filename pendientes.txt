@@ -21,6 +21,7 @@
 1. Agregar las estrellas seleccionadas en el fetch de create review
 2. Renderizar video Trailer
 3. Al salir del modal de rate this salta el error del fetch????
+4. los nombres largos de categorias hacen que el cuadro se agrande y se vea mal
 
 -- SearchView --
 1. Metodo para buscar por nombre

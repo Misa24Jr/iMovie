@@ -12,28 +12,20 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { API_ROOT, CHAT_SERVER } from "@env";
+import { API_ROOT } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { io } from 'socket.io-client';
 
 const GeneralChat = () => {
     const navigation = useNavigation();
-    const [socketClient, setSocketClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
+    const [socket, setSocket] = useState(null);
 
     const handleMessageSend = async () => {
-        if (inputMessage.trim() !== '') {
-            console.log('connected??', socketClient.connected);
-
-            // socket.on('connect', () => console.log('Connected to chat server'));
-            // socket.emit('chat message', { content: inputMessage, userId: '65f8d2cfaea5f502f38acd1c' }, async (response) => {
-            //     if (response.success) {
-            //         const userNickname = await AsyncStorage.getItem('nickname');
-            //         setMessages([...messages, { text: inputMessage, sender: userNickname, time: "2024-04-14T19:55:41.455Z" }]);
-            //     } else return Alert.alert('Error', 'An error occurred while trying to send the message');
-            // });
-        }
+        console.log(socket)
+        socket.emit('chat message', { content: inputMessage, userId: "65f8d2cfaea5f502f38acd1c" });
+        setInputMessage('');
     };
 
     const formatDate = (dateToFormat) => {
@@ -65,9 +57,44 @@ const GeneralChat = () => {
     };
 
     useEffect(() => {
-        const socket = io(CHAT_SERVER, { reconnectionDelayMax: 10000 });
-        setSocketClient(socket);
+        const connectToSocket = async () => {
+            try {
+                const newSocket = io("https://imovie-chat-server-dev-gdnz.1.us-1.fl0.io", {
+                    transports: ['websocket'],
+                });
+    
+                newSocket.on('connect', () => {
+                    console.log('Socket connected successfully');
+                });
+    
+                newSocket.on('connect_error', (error) => {
+                    console.error('Sockettt connection error:', error);
+                });
+    
+                newSocket.on('disconnect', () => {
+                    console.log('Socket disconnected');
+                });
+    
+                newSocket.on('reconnect', () => {
+                    console.log('Socket reconnected');
+                });
+    
+                newSocket.on('chat message', (message) => {
+                    setMessages(prevMessages => [...prevMessages, message]);
+                });
+    
+                setSocket(newSocket);
+            } catch (error) {
+                console.error('Error connecting to socket:', error);
+            }
+        }
+
+        connectToSocket();
         getAllMessages();
+
+        return () => {
+            if(socket) socket.disconnect();
+        }
     }, []);
 
     return (
