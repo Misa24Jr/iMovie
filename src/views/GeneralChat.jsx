@@ -12,23 +12,40 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { API_ROOT } from "@env";
+import { API_ROOT, CHAT_SERVER } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { io } from 'socket.io-client';
 
 const GeneralChat = () => {
     const navigation = useNavigation();
+    const [socketClient, setSocketClient] = useState(null);
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
 
     const handleMessageSend = async () => {
         if (inputMessage.trim() !== '') {
-            const now = new Date();
-            const formattedTime = `${now.getHours()}:${now.getMinutes()}`;
-            const userNickname = await AsyncStorage.getItem('nickname');
-            setMessages([...messages, { text: inputMessage, sender: userNickname, time: formattedTime }]);
-            setInputMessage('');
+            console.log('connected??', socketClient.connected);
+
+            // socket.on('connect', () => console.log('Connected to chat server'));
+            // socket.emit('chat message', { content: inputMessage, userId: '65f8d2cfaea5f502f38acd1c' }, async (response) => {
+            //     if (response.success) {
+            //         const userNickname = await AsyncStorage.getItem('nickname');
+            //         setMessages([...messages, { text: inputMessage, sender: userNickname, time: "2024-04-14T19:55:41.455Z" }]);
+            //     } else return Alert.alert('Error', 'An error occurred while trying to send the message');
+            // });
         }
     };
+
+    const formatDate = (dateToFormat) => {
+        const date = new Date(dateToFormat);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+
+        return `${day}-${month}-${year} · ${hours}:${minutes}`;
+    }
 
     const getAllMessages = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -38,16 +55,18 @@ const GeneralChat = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            if(response.status !== 200) return Alert.alert('Error', 'Error server response');
+            if(response.status !== 200) return Alert.alert('Error', 'Error server response getting chat messages');
 
             const data = await response.json();
-            return console.log(data);
+            return setMessages(data)
         } catch (error) {
             return Alert.alert('Error', 'An error occurred while trying to get the messages');
         }
     };
 
     useEffect(() => {
+        const socket = io(CHAT_SERVER, { reconnectionDelayMax: 10000 });
+        setSocketClient(socket);
         getAllMessages();
     }, []);
 
@@ -69,9 +88,9 @@ const GeneralChat = () => {
                 <View style={styles.messageContainer}>
                     {messages.map((message, index) => (
                         <View key={index} style={styles.message}>
-                            <Text style={styles.messageSender}>{message.sender}</Text>
-                            <Text style={styles.messageText}>{message.text}</Text>
-                            <Text style={styles.messageTime}>{message.time}</Text>
+                            <Text style={styles.messageSender}>{message.user.nickname}</Text>
+                            <Text style={styles.messageText}>{message.message.content}</Text>
+                            <Text style={styles.messageTime}>{formatDate(message.message.createdAt)}</Text>
                         </View>
                     ))}
                 </View>
@@ -140,13 +159,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Jura_400Regular'
     },
     messageText: {
-        fontSize: 12,
+        fontSize: 15,
         fontFamily: 'Jura_400Regular',
         color: '#FFFFFF',
     },
     messageTime: {
         fontSize: 12,
-        color: '#3C5252',
+        color: '#828c8c',
         alignSelf: 'flex-end',
         fontFamily: 'Jura_400Regular'
     },

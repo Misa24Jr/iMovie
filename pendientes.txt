@@ -23,6 +23,7 @@
 -- MovieView --
 1. Agregar las estrellas seleccionadas en el fetch de create review
 2. Renderizar video Trailer
+3. Al salir del modal de rate this salta el error del fetch????
 
 -- SearchView --
 1. Metodo para buscar por nombre
