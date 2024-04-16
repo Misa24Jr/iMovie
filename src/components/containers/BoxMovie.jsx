@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-const BoxMovie = ({ title, image, rating, year, autors }) => {
+const BoxMovie = ({ title, image, rating, year, actors }) => {
     return(
         <View style={style.container}>
             <View style={style.containerImage}>
@@ -16,7 +16,7 @@ const BoxMovie = ({ title, image, rating, year, autors }) => {
             <View style={style.containerDescrip}>
                     <Text style={style.title}>{title}</Text>
                     <Text style={style.text}>{year}</Text>
-                    <Text style={style.text}>{autors}</Text>
+                    <Text style={style.text}>{actors}</Text>
                     <View style={style.containerRating}>
                         <Image
                             source={require('../../../assets/pop.png')}

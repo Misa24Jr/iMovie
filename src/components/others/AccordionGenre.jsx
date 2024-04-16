@@ -18,6 +18,10 @@ const AccordionGenre = ({ title, content }) => {
         setExpanded(!expanded);
     };
 
+    handleSearch = async () => {
+        console.log('Searching...');
+    }
+
     return (
         <View>
             <View style={styles.container}>
@@ -26,7 +30,7 @@ const AccordionGenre = ({ title, content }) => {
                         <View style={styles.containerGroup}>
                             <Text style={styles.title}>{title}</Text>
 
-                            <TouchableOpacity style={styles.searchButton} onPress={() => console.log('seacrh')}>
+                            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                                 <Ionicons name="search" size={24} color="#FFFFFF" />
                             </TouchableOpacity>
                         </View>

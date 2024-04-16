@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, Text, Image, TouchableOpacity, View, TextInput} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,6 +10,7 @@ import BoxMovie from '../components/containers/BoxMovie';
 
 const SearchView = () => {
     const navigation = useNavigation();
+    const [searchResults, setSearchResults] = useState([]);
     const [activeTab, setActiveTab] = useState('All');
 
     return(
@@ -37,11 +38,8 @@ const SearchView = () => {
                         <>
                             <View style={style.containerOption}>
                                 <Text style={style.textOption}>All content</Text>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} autors={'Frank Darabont'} rating={'91%'}/>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} autors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                                <BoxMovie title={'Matrix'} year={1999} autors={'The Wachowskis'} rating={'87%'}/>
-                                <BoxMovie title={'The Lord of the Rings: The Fellowship of the Ring'} year={2001} autors={''} rating={'91%'}/>
-                                <BoxMovie title={'The Godfather'} year={1972} autors={'Francis Ford Coppola'} rating={'98%'}/>
+                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
+                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
                             </View>
                         </>
                     )}
@@ -49,8 +47,8 @@ const SearchView = () => {
                         <>
                             <View style={style.containerOption}>
                                 <Text style={style.textOption}>Movie content</Text>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} autors={'Frank Darabont'} rating={'91%'}/>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} autors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
+                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
+                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
                             </View>
                         </>
                     )}
@@ -58,8 +56,8 @@ const SearchView = () => {
                         <>
                             <View style={style.containerOption}>
                                 <Text style={style.textOption}>TV show content</Text>
-                                <BoxMovie title={'Breaking Bad'} year={2008} autors={'Vince Gilligan'} rating={'96%'}/>
-                                <BoxMovie title={'Game of Thrones'} year={2011} autors={'David Benioff - D. B. Weiss'} rating={'89%'}/>
+                                <BoxMovie title={'Breaking Bad'} year={2008} actors={'Vince Gilligan'} rating={'96%'}/>
+                                <BoxMovie title={'Game of Thrones'} year={2011} actors={'David Benioff - D. B. Weiss'} rating={'89%'}/>
                             </View>
                         </>
                     )}
@@ -68,8 +66,8 @@ const SearchView = () => {
                         <>
                             <View style={style.containerOption}>
                                 <Text style={style.textOption}>Most recent content</Text>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} autors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                                <BoxMovie title={'The Lord of the Rings: The Fellowship of the Ring'} year={2001} autors={''} rating={'91%'}/>
+                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
+                                <BoxMovie title={'The Lord of the Rings: The Fellowship of the Ring'} year={2001} actors={''} rating={'91%'}/>
                             </View>
                         </>
                     )}
@@ -78,8 +76,8 @@ const SearchView = () => {
                         <>
                             <View style={style.containerOption}>
                                 <Text style={style.textOption}>Most rated content</Text>
-                                <BoxMovie title={'The Godfather'} year={1972} autors={'Francis Ford Coppola'} rating={'98%'}/>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} autors={'Frank Darabont'} rating={'91%'}/>
+                                <BoxMovie title={'The Godfather'} year={1972} actors={'Francis Ford Coppola'} rating={'98%'}/>
+                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
                             </View>
                         </>
                     )}
