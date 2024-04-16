@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView } fr
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
 import { Video } from 'expo-av';
+import YoutubePlayer from "react-native-youtube-iframe";
 import { Ionicons } from '@expo/vector-icons';
 
 // Components
@@ -273,3 +274,37 @@ const style = StyleSheet.create({
     }
 });
 export default MovieView;
+//COMENTAR DE AQUÍ PARA ARRIBA PARA VER EL EJEMPLO
+
+
+//DESCOMENTAR DE AQUÍ PARA ABAJO PARA VER EL EJEMPLO
+// import React, { useState, useCallback, useRef } from "react";
+// import { Button, View, Alert } from "react-native";
+// import YoutubePlayer from "react-native-youtube-iframe";
+
+// export default function MovieView(props) {
+//   const [playing, setPlaying] = useState(false);
+
+//   const onStateChange = useCallback((state) => {
+//     if (state === "ended") {
+//       setPlaying(false);
+//       Alert.alert("video has finished playing!");
+//     }
+//   }, []);
+
+//   const togglePlaying = useCallback(() => {
+//     setPlaying((prev) => !prev);
+//   }, []);
+
+//   return (
+//     <View>
+//       <YoutubePlayer
+//         height={300}
+//         play={playing}
+//         videoId={"iee2TATGMyI"}
+//         onChangeState={onStateChange}
+//       />
+//       <Button title={playing ? "pause" : "play"} onPress={togglePlaying} />
+//     </View>
+//   );
+// }
