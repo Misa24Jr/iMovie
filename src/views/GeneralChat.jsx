@@ -8,7 +8,8 @@ import {
   TextInput,
   Alert,
   KeyboardAvoidingView,
-  Platform
+  Platform, 
+  Keyboard
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -97,11 +98,7 @@ const GeneralChat = () => {
         }
     }, []);
 
-    return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.flex1}
-        >
+    return (<>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
@@ -122,25 +119,26 @@ const GeneralChat = () => {
                     ))}
                 </View>
             </ScrollView>
-            <View style={styles.inputContainer}>
+            <View style={[styles.inputContainer, { bottom: Platform.OS === 'ios' ? 30 : 0 }]}>
                 <View style={styles.inputWrapper}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Write your message here..."
-                        value={inputMessage}
-                        onChangeText={setInputMessage}
-                        placeholderTextColor={'#444747'}
-                    />
-                    <TouchableOpacity 
-                        style={styles.sendButton} 
-                        onPress={handleMessageSend}
-                        disabled={inputMessage.trim() === ''}
-                    >
-                        <Ionicons name="arrow-up" size={20} color={inputMessage.trim() === '' ? '#e0e3e3' : 'black'} />
-                    </TouchableOpacity>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Write your message here..."
+                            value={inputMessage}
+                            onChangeText={setInputMessage}
+                            placeholderTextColor={'#444747'}
+                            onSubmitEditing={handleMessageSend} // Agrega esto para enviar el mensaje al presionar "Enviar" en el teclado
+                        />
+                        <TouchableOpacity 
+                            style={styles.sendButton} 
+                            onPress={handleMessageSend}
+                            disabled={inputMessage.trim() === ''}
+                        >
+                            <Ionicons name="arrow-up" size={20} color={'black'} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </KeyboardAvoidingView>
+                </>
     );
 };
 
@@ -198,7 +196,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         position: 'absolute',
-        bottom: 30,
+        bottom: 0, // Ajusta la posición a la parte inferior de la pantalla
         left: 0,
         right: 0,
         paddingHorizontal: 20,

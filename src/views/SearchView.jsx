@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, Text, Image, TouchableOpacity, View, TextInput} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 // Components
 import AccordionSearch from '../components/others/AccordionSearch';
@@ -13,6 +14,26 @@ const SearchView = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [activeTab, setActiveTab] = useState('All');
 
+
+    const fetchAll = () =>{
+        console.log('fetchAll')
+    };
+
+    const fetchMovies = () =>{
+        console.log('fetchMovies')
+    };
+
+    const fetchTvShows = () =>{
+        console.log('fetchTvShows')
+    };
+
+    const fetchMostRecent = () =>{
+        console.log('fetchMostRecent')
+    };
+
+    const fetchMostRated = () =>{
+        console.log('fetchMostRated')
+    };
     return(
         <>
             <ScrollView 
@@ -23,62 +44,63 @@ const SearchView = () => {
                     onPress={() => navigation.navigate('NewsView')}
                     style={{marginBottom: 20}}
                 >
-                    <Image
-                        style={{width: 30, height: 30}}
-                        source={require('../../assets/back.png')}
-                    />
+                    <Ionicons name="arrow-back" size={24} color={'#FFFFFF'} />
                 </TouchableOpacity>
 
                 <View style={style.containerSearch}>
                     <AccordionSearch title={'Search'}/>
                     <AccordionGenre title={'Filters'}/>
                     <TabsSearch setActiveTab={setActiveTab}/>
-                    {/* Renderizar los resultados según la pestaña activa */}
                     {activeTab === 'All' && (
                         <>
-                            <View style={style.containerOption}>
+                            {/* <View style={style.containerOption}>
                                 <Text style={style.textOption}>All content</Text>
                                 <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
                                 <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                            </View>
+                            </View> */}
+                            {fetchAll()}
                         </>
                     )}
                     {activeTab === 'Movies' && (
                         <>
-                            <View style={style.containerOption}>
+                            {/* <View style={style.containerOption}>
                                 <Text style={style.textOption}>Movie content</Text>
                                 <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
                                 <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                            </View>
+                            </View> */}
+                            {fetchMovies()}
                         </>
                     )}
                     {activeTab === 'Tv Shows' && (
                         <>
-                            <View style={style.containerOption}>
+                            {/* <View style={style.containerOption}>
                                 <Text style={style.textOption}>TV show content</Text>
                                 <BoxMovie title={'Breaking Bad'} year={2008} actors={'Vince Gilligan'} rating={'96%'}/>
                                 <BoxMovie title={'Game of Thrones'} year={2011} actors={'David Benioff - D. B. Weiss'} rating={'89%'}/>
-                            </View>
+                            </View> */}
+                            {fetchTvShows()}
                         </>
                     )}
 
                     {activeTab === 'Most Recent' && (
                         <>
-                            <View style={style.containerOption}>
+                            {/* <View style={style.containerOption}>
                                 <Text style={style.textOption}>Most recent content</Text>
                                 <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
                                 <BoxMovie title={'The Lord of the Rings: The Fellowship of the Ring'} year={2001} actors={''} rating={'91%'}/>
-                            </View>
+                            </View> */}
+                            {fetchMostRecent()}
                         </>
                     )}
 
                     {activeTab === 'Most Rated' && (
                         <>
-                            <View style={style.containerOption}>
+                            {/* <View style={style.containerOption}>
                                 <Text style={style.textOption}>Most rated content</Text>
                                 <BoxMovie title={'The Godfather'} year={1972} actors={'Francis Ford Coppola'} rating={'98%'}/>
                                 <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
-                            </View>
+                            </View> */}
+                            {fetchMostRated()}
                         </>
                     )}
                     
