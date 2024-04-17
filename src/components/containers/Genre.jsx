@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 13,
         fontFamily: 'Jura_400Regular', 
+        textAlign: 'center',
     },
     genreContent: {
         justifyContent: 'center',
