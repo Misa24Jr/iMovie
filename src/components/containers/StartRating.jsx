@@ -4,8 +4,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 const StarRating = ({
   maxRating = 5,
   onRating,
-  filledStarColor = '#3C5252', // color predeterminado para estrellas llenas
-  emptyStarColor, // color predeterminado para estrellas vacías
+  filledStarColor = '#3C5252',
+  emptyStarColor,
   fontSize
 }) => {
   const [rating, setRating] = useState(0);
@@ -15,6 +15,7 @@ const StarRating = ({
     if (onRating) {
       onRating(rate);
     }
+    console.log('Selected rating:', rate); // Log the selected rating
   };
 
   const renderStars = () => {
@@ -25,7 +26,7 @@ const StarRating = ({
           <Text style={{
             marginHorizontal: 6,
             fontSize: fontSize || 30,
-            color: i <= rating ? filledStarColor : emptyStarColor, // Usar el color según el estado de la estrella
+            color: i <= rating ? filledStarColor : emptyStarColor,
           }}>
             {i <= rating ? '★' : '☆'}
           </Text>
