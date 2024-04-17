@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView } from "react-native";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView, Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
 import { Video } from 'expo-av';
-import YoutubePlayer from "react-native-youtube-iframe";
 import { Ionicons } from '@expo/vector-icons';
+import YoutubePlayer from "react-native-youtube-iframe";
 
 // Components
 import { getAndSetToken } from "../utils/tokenHandler.js";
@@ -18,11 +18,8 @@ import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 import ModalReview from "../components/containers/ModalRateThis.jsx";
 
 // Imagenes
-import pause from '../../assets/pausa.png';
-import play from '../../assets/play.png';
 
 const MovieView = (props) =>{
-    const videoRef = useRef(null);
     const navigation = useNavigation();
     const movieId = props.route.params.movie.id;
 
@@ -30,7 +27,7 @@ const MovieView = (props) =>{
     const [reviewInputValue, setReviewInputValue] = useState('');
     const [movieDetails, setMovieDetails] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [status, setStatus] = useState({shouldPlay: false});
+    const [playing, setPlaying] = useState(false);
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -87,6 +84,12 @@ const MovieView = (props) =>{
             return Alert.alert('Oops', 'Unable to get movie details.');
         }
     }
+      const onStateChange = useCallback((state) => {
+        if (state === "ended") {
+          setPlaying(false);
+          Alert.alert("video has finished playing!");
+        }
+      }, []);
 
     useEffect(() => {
         getAndSetToken(setToken);
@@ -98,33 +101,14 @@ const MovieView = (props) =>{
             contentContainerStyle={{paddingBottom: 20}}
         >
                 <View style={style.containerImage}>
-                    <Video
-                        ref={videoRef}
-                        shouldPlay={status.shouldPlay}
-                        source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}
-                        rate={1.0}
-                        volume={1.0}
-                        isMuted={false}
-                        resizeMode="cover"
-                        isLooping
-                        style={style.Image}
-                        onPlaybackStatusUpdate={status => setStatus(() => status)}
-                    />
+                       <YoutubePlayer
+                         height={300}
+                         play={playing}
+                         videoId={"iee2TATGMyI"}
+                         onChangeState={onStateChange}
+                       />
 
                     <View style={style.degradado}>
-                        <TouchableOpacity
-                            onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()}
-                            style={style.playButton}
-                        >
-                            <Text style={style.playText}>
-                                {status.isPlaying 
-                                ? 
-                                <Ionicons name="pause" size={20} color="#FFFFFF" />
-                                : 
-                                <Ionicons name="play" size={15} color="#FFFFFF" />
-                                }
-                            </Text>
-                        </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity
@@ -196,12 +180,9 @@ const style = StyleSheet.create({
         backgroundColor: '#151515',
     },
     containerImage:{
-        height: 400,
+        marginTop: 15,
         position: 'relative',
-    },
-    Image:{
-        width: '100%', 
-        height: '100%',
+        height: 271,
     },
     degradado:{
         position: 'absolute',
@@ -274,37 +255,3 @@ const style = StyleSheet.create({
     }
 });
 export default MovieView;
-//COMENTAR DE AQUÍ PARA ARRIBA PARA VER EL EJEMPLO
-
-
-//DESCOMENTAR DE AQUÍ PARA ABAJO PARA VER EL EJEMPLO
-// import React, { useState, useCallback, useRef } from "react";
-// import { Button, View, Alert } from "react-native";
-// import YoutubePlayer from "react-native-youtube-iframe";
-
-// export default function MovieView(props) {
-//   const [playing, setPlaying] = useState(false);
-
-//   const onStateChange = useCallback((state) => {
-//     if (state === "ended") {
-//       setPlaying(false);
-//       Alert.alert("video has finished playing!");
-//     }
-//   }, []);
-
-//   const togglePlaying = useCallback(() => {
-//     setPlaying((prev) => !prev);
-//   }, []);
-
-//   return (
-//     <View>
-//       <YoutubePlayer
-//         height={300}
-//         play={playing}
-//         videoId={"iee2TATGMyI"}
-//         onChangeState={onStateChange}
-//       />
-//       <Button title={playing ? "pause" : "play"} onPress={togglePlaying} />
-//     </View>
-//   );
-// }
