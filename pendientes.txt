@@ -5,6 +5,9 @@
 
 -- 6. Hacer el metodo de subir imagen en firebase en user 
 
+!!GENERAL!!
+1. Loading spinner mientras se hacen los fetchsR
+2. Rayita del nav bar
 
 !!POR VISTAS!!
 -- MovieView --

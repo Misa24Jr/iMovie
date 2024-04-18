@@ -12,10 +12,7 @@ const StarRating = ({
 
   const handleSetRating = (rate) => {
     setRating(rate);
-    if (onRating) {
-      onRating(rate);
-    }
-    //console.log('Selected rating:', rate); // Log the selected rating
+    if (onRating) onRating(rate);
   };
 
   const renderStars = () => {

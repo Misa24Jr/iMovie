@@ -14,7 +14,10 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(description);
+    const [starsSelected, setStarsSelected] = useState(0);
     const [editedUrl, setEditedUrl] = useState(url);
+
+    const handleStarsSelectedChange = (newRating) => setStarsSelected(newRating);
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -27,25 +30,27 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const handleEdit = async () => {
         setIsEditing(prevEditing => !prevEditing);
         if(isEditing){
-            try {
-                const response = await fetch(`${API_ROOT}/api/reviews/updateContent`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        newContent: editedDescription,
-                        movieId: movieId
-                    })
-                });
+            console.log('Enviando la descripción editada:', editedDescription);
+            console.log(starsSelected);
+            // try {
+            //     const response = await fetch(`${API_ROOT}/api/reviews/updateContent`, {
+            //         method: 'PUT',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${token}`
+            //         },
+            //         body: JSON.stringify({
+            //             newContent: editedDescription,
+            //             movieId: movieId
+            //         })
+            //     });
 
-                console.log(response.status);
-                if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
-                return setIsModalVisible(false);
-            } catch (error) {
-                return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
-            }
+            //     console.log(response.status);
+            //     if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+            //     return setIsModalVisible(false);
+            // } catch (error) {
+            //     return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
+            // }
         }
     };
 
@@ -117,7 +122,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                 </View>
                 <View style={style.containerRating}>
                         {isEditing ? (
-                            <StarRating fontSize={15} emptyStarColor={'white'}/>
+                            <StarRating onRating={handleStarsSelectedChange} fontSize={15} emptyStarColor={'white'}/>
                         ) : (
                             <Text style={style.rating}>Rating: {rating}/5</Text>
                         )}
