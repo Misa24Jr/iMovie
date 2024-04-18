@@ -45,6 +45,9 @@ const UserSettings = () => {
   const handleConfirmChanges = useCallback(() => {
     setIsEditing(false);
     setShowPassword(true);
+    console.log(nickname)
+    console.log(email)
+    console.log(password)
   }, []);
 
   const toggleModal = useCallback(() => {
@@ -159,7 +162,7 @@ const UserSettings = () => {
                   style={styles.input}
                   value={email}
                   editable={isEditing}
-                  onChangeText={setEmail}
+                  onChangeText={(text) => setEmail(text)}
                 />
               </View>
 

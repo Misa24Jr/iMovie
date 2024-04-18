@@ -69,6 +69,7 @@ const MovieView = (props) =>{
             const data = await response.json();
 
             return setMovieDetails({
+                trailerId: data.movieDetails.trailerId,
                 poster_path: data.movieDetails.poster_path,
                 original_title: data.movieDetails.original_title,
                 runtime: formatMovieDuration(data.movieDetails.runtime),
@@ -104,7 +105,7 @@ const MovieView = (props) =>{
                        <YoutubePlayer
                          height={300}
                          play={playing}
-                         videoId={"iee2TATGMyI"}
+                         videoId={movieDetails.trailerId}
                          onChangeState={onStateChange}
                        />
 

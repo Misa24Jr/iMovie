@@ -12,10 +12,8 @@
 3. Al salir del modal de rate this salta el error del fetch????
 
 -- SearchView --
-1. Metodo para buscar por nombre
-2. Metodo para buscar por categoria
-3. Metodo para ordenar los resultados de la busqueda
-4. Metodo para navegar con el click en una pelicula hasta MovieView
+1. buscar por categoria
+2. navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- .
 1. Metodo para actualizar el rating

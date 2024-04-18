@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, Text, Image, TouchableOpacity, View, TextInput} from 'react-native';
+import { StyleSheet, ScrollView, Text, Image, TouchableOpacity, View, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { API_ROOT } from "@env";
 
 // Components
 import AccordionSearch from '../components/others/AccordionSearch';
@@ -11,29 +12,36 @@ import BoxMovie from '../components/containers/BoxMovie';
 
 const SearchView = () => {
     const navigation = useNavigation();
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState({});
     const [activeTab, setActiveTab] = useState('All');
+    const [searchInputValue, setSearchInputValue] = useState('');
 
+    const handleSeachInputValueChange = (text) => setSearchInputValue(text);
 
-    const fetchAll = () =>{
-        console.log('fetchAll')
-    };
+    const handleSearchSubmit = async () => {
+        try {
+            const response = await fetch(`${API_ROOT}/api/movies/searchByName`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ movieName: searchInputValue }),
+            });
 
-    const fetchMovies = () =>{
-        console.log('fetchMovies')
-    };
+            if(response.status !== 200) return Alert.alert('Error', `Server error trying to get results for ${searchInputValue}`);
 
-    const fetchTvShows = () =>{
-        console.log('fetchTvShows')
-    };
+            const data = await response.json();
 
-    const fetchMostRecent = () =>{
-        console.log('fetchMostRecent')
-    };
+            return setSearchResults(data.searchResult);
+        } catch (error) {
+            return Alert.alert('Error', `Something went wrong trying to get results for ${searchInputValue}`);
+        }
+    }
 
-    const fetchMostRated = () =>{
-        console.log('fetchMostRated')
-    };
+    useEffect(() => {
+        return () => {
+            setSearchResults({});
+        };
+    }, []);
+
     return(
         <>
             <ScrollView 
@@ -48,62 +56,115 @@ const SearchView = () => {
                 </TouchableOpacity>
 
                 <View style={style.containerSearch}>
-                    <AccordionSearch title={'Search'}/>
+                    <AccordionSearch onSearchChange={handleSeachInputValueChange} onSearchSubmit={handleSearchSubmit} title={'Search'}/>
                     <AccordionGenre title={'Filters'}/>
-                    <TabsSearch setActiveTab={setActiveTab}/>
-                    {activeTab === 'All' && (
-                        <>
-                            {/* <View style={style.containerOption}>
-                                <Text style={style.textOption}>All content</Text>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                            </View> */}
-                            {fetchAll()}
-                        </>
-                    )}
-                    {activeTab === 'Movies' && (
-                        <>
-                            {/* <View style={style.containerOption}>
-                                <Text style={style.textOption}>Movie content</Text>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                            </View> */}
-                            {fetchMovies()}
-                        </>
-                    )}
-                    {activeTab === 'Tv Shows' && (
-                        <>
-                            {/* <View style={style.containerOption}>
-                                <Text style={style.textOption}>TV show content</Text>
-                                <BoxMovie title={'Breaking Bad'} year={2008} actors={'Vince Gilligan'} rating={'96%'}/>
-                                <BoxMovie title={'Game of Thrones'} year={2011} actors={'David Benioff - D. B. Weiss'} rating={'89%'}/>
-                            </View> */}
-                            {fetchTvShows()}
-                        </>
-                    )}
-
-                    {activeTab === 'Most Recent' && (
-                        <>
-                            {/* <View style={style.containerOption}>
-                                <Text style={style.textOption}>Most recent content</Text>
-                                <BoxMovie title={'Avengers: ENDGAME'} year={2012} actors={'Misael Reverol - Isabella Fonseca'} rating={'64%'}/>
-                                <BoxMovie title={'The Lord of the Rings: The Fellowship of the Ring'} year={2001} actors={''} rating={'91%'}/>
-                            </View> */}
-                            {fetchMostRecent()}
-                        </>
-                    )}
-
-                    {activeTab === 'Most Rated' && (
-                        <>
-                            {/* <View style={style.containerOption}>
-                                <Text style={style.textOption}>Most rated content</Text>
-                                <BoxMovie title={'The Godfather'} year={1972} actors={'Francis Ford Coppola'} rating={'98%'}/>
-                                <BoxMovie title={'The Shawshank Redemption'} year={1994} actors={'Frank Darabont'} rating={'91%'}/>
-                            </View> */}
-                            {fetchMostRated()}
-                        </>
-                    )}
+                    {Object.keys(searchResults).length > 0 && (<TabsSearch setActiveTab={setActiveTab}/>)}
                     
+                        {activeTab === 'All' && (
+                            <>
+                                <View style={style.containerOption}>
+                                    <Text style={style.textOption}>All content</Text>
+                                    {searchResults.movies && searchResults.movies.length > 0 && searchResults.movies.map((movie, index) => (
+                                        <BoxMovie
+                                            poster={movie.poster_path}
+                                            key={index} 
+                                            title={movie.title} 
+                                            year={movie.release_date}
+                                            actors={movie.actors[0]} 
+                                            rating={movie.audience_score}
+                                        />
+                                    ))}
+                                    {searchResults.tvs && searchResults.tvs.length > 0 && searchResults.tvs.map((tv, index) => (
+                                        <BoxMovie 
+                                            key={index} 
+                                            poster={tv.poster_path}
+                                            title={tv.title} 
+                                            year={tv.release_date}
+                                            actors={tv.actors[0]} 
+                                            rating={tv.audience_score}
+                                        />
+                                    ))}
+                                </View>
+                            </>
+                        )}
+                        
+                        {activeTab === 'Movies' && (
+                            <>
+                                <View style={style.containerOption}>
+                                    <Text style={style.textOption}>Movies</Text>
+                                    {searchResults.movies.length > 0 && searchResults.movies
+                                        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+                                        .map((movie, index) => (
+                                            <BoxMovie
+                                                poster={movie.poster_path}
+                                                key={index} 
+                                                title={movie.title} 
+                                                year={movie.release_date}
+                                                actors={movie.actors[0]} 
+                                                rating={movie.audience_score}
+                                            />
+                                        ))}
+                                </View>
+                            </>
+                        )}
+                        
+                        {activeTab === 'Tv Shows' && (
+                            <>
+                                <View style={style.containerOption}>
+                                    <Text style={style.textOption}>Tv Shows</Text>
+                                    {searchResults.tvs.length > 0 && searchResults.tvs.map((tv, index) => (
+                                        <BoxMovie 
+                                            key={index} 
+                                            poster={tv.poster_path}
+                                            title={tv.title} 
+                                            year={tv.release_date}
+                                            actors={tv.actors[0]} 
+                                            rating={tv.audience_score}
+                                        />
+                                    ))}
+                                </View>
+                            </>
+                        )}
+                        
+                        {activeTab === 'Most Recent' && (
+                            <>
+                                <View>
+                                    <Text style={style.textOption}>Most recent content</Text>
+                                    {searchResults.movies.length > 0 && searchResults.movies
+                                        .sort((a, b) => new Date(b.release_date) - new Date(a.release_date))
+                                        .map((movie, index) => (
+                                            <BoxMovie
+                                                poster={movie.poster_path}
+                                                key={index} 
+                                                title={movie.title} 
+                                                year={movie.release_date}
+                                                actors={movie.actors[0]} 
+                                                rating={movie.audience_score}
+                                            />
+                                        ))}
+                                </View>
+                            </>
+                        )}
+                        
+                        {activeTab === 'Most Rated' && (
+                            <>
+                                <View>
+                                    <Text style={style.textOption}>Most rated content</Text>
+                                    {searchResults.movies.length > 0 && searchResults.movies
+                                        .sort((a, b) => b.audience_score - a.audience_score)
+                                        .map((movie, index) => (
+                                            <BoxMovie
+                                                poster={movie.poster_path}
+                                                key={index} 
+                                                title={movie.title} 
+                                                year={movie.release_date}
+                                                actors={movie.actors[0]} 
+                                                rating={movie.audience_score}
+                                            />
+                                        ))}
+                                </View>
+                            </>
+                        )}
                 </View>
             </ScrollView>
         </>

@@ -31,7 +31,7 @@ const AccordionGenre = ({ title, content }) => {
                             <Text style={styles.title}>{title}</Text>
 
                             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                                <Ionicons name="search" size={24} color="#FFFFFF" />
+                                <Ionicons name="search" size={24} color="#555959" />
                             </TouchableOpacity>
                         </View>
                 

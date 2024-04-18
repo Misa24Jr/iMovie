@@ -7,7 +7,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const AccordionSearch = ({ title, content }) => {
+const AccordionSearch = ({ title, content, onSearchChange, onSearchSubmit }) => {
     const [expanded, setExpanded] = useState(false);
     const [searchText, setSearchText] = useState("");
 
@@ -16,22 +16,17 @@ const AccordionSearch = ({ title, content }) => {
         setExpanded(!expanded);
     };
 
-    const handleSearch = () => {
-        // Realizar la búsqueda aquí
-        console.log("Buscando:", searchText);
-    };
-
     return (
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
                     <View style={styles.containerGroup}>
 
-                    <Text style={styles.title}>{title}</Text>
+                        <Text style={styles.title}>{title}</Text>
 
-                    <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                                <Ionicons name="search" size={24} color="#FFFFFF" />
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.searchButton} onPress={onSearchSubmit} disabled={searchText === ""}>
+                            <Ionicons name="search" size={24} color={searchText ? "#FFFFFF" : "#555959"} />
+                        </TouchableOpacity>
 
                     </View>
                     
@@ -44,7 +39,10 @@ const AccordionSearch = ({ title, content }) => {
                                 style={styles.input}
                                 placeholder=" ej. titanic"
                                 value={searchText}
-                                onChangeText={text => setSearchText(text)}
+                                onChangeText={text => {
+                                    setSearchText(text);
+                                    onSearchChange(text);
+                                }}
                                 placeholderTextColor={'#444747'}
                             />
                         </View>

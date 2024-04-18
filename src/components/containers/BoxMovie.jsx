@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-const BoxMovie = ({ title, image, rating, year, actors }) => {
+const BoxMovie = ({ poster, title, rating, year, actors }) => {
     return(
         <View style={style.container}>
             <View style={style.containerImage}>
                 <Image
                     style={{width: 80, height: 100, borderRadius: 10, margin: 10}}
                     source={{
-                        uri: 'https://images-na.ssl-images-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg',
+                        uri: poster,
                     }}
                 />
             </View>
