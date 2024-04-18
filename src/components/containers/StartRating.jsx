@@ -15,7 +15,7 @@ const StarRating = ({
     if (onRating) {
       onRating(rate);
     }
-    console.log('Selected rating:', rate); // Log the selected rating
+    //console.log('Selected rating:', rate); // Log the selected rating
   };
 
   const renderStars = () => {

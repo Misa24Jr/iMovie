@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, TextInput } from "react-native";
 import StarRating from "./StartRating";
 
-const ModalRateThis = ({ visible, handleClose, handleChangeText }) => {
+const ModalRateThis = ({ visible, handleClose, handleChangeText, handleStarsSelectedChange, handlePressOut }) => {
     const [value, setValue] = useState(0);
 
     const handleRating = (newValue) => {
         setValue(newValue);
+        handleStarsSelectedChange(newValue);
+        //console.log('Selected rating:', newValue)
     }
 
     return (
@@ -18,7 +20,7 @@ const ModalRateThis = ({ visible, handleClose, handleChangeText }) => {
             <TouchableOpacity
                 style={styles.overlay}
                 activeOpacity={1}
-                onPressOut={handleClose}
+                onPressOut={handlePressOut}
             >
                 <View
                     style={styles.modalContainer}
@@ -35,7 +37,11 @@ const ModalRateThis = ({ visible, handleClose, handleChangeText }) => {
                             textAlignVertical="top"
                         />
                         <View style={styles.contentRatingCheck}>
-                            <StarRating fontSize={40} onRatingChange={handleRating} rating={value} />
+                            <StarRating 
+                                fontSize={40} 
+                                onRating={handleRating} 
+                                rating={value} 
+                            />
                         </View>
                         <TouchableOpacity
                             style={styles.publishButton}

@@ -8,8 +8,6 @@
 
 !!POR VISTAS!!
 -- MovieView --
-1. Agregar las estrellas seleccionadas en el fetch de create review (Te puse un console.log, cuando seleccionas una te sale un console.log con las cantidad que seleccionaste)
-3. Al salir del modal de rate this salta el error del fetch????
 
 -- SearchView --
 1. buscar por categoria

@@ -25,6 +25,7 @@ const MovieView = (props) =>{
 
     const [token, setToken] = useState('');
     const [reviewInputValue, setReviewInputValue] = useState('');
+    const [starsSelected, setStarsSelected] = useState(0);
     const [movieDetails, setMovieDetails] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [playing, setPlaying] = useState(false);
@@ -33,7 +34,11 @@ const MovieView = (props) =>{
         setIsModalVisible(!isModalVisible);
     };
 
+    const handleStarsSelectedChange = (starsSelected) => setStarsSelected(starsSelected);
+
     const handleClose = async () => {
+        if(reviewInputValue === '') return;
+
         try {
             const response = await fetch(`${API_ROOT}/api/reviews/create`, {
                 method: 'POST',
@@ -41,7 +46,7 @@ const MovieView = (props) =>{
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({movieId, content: reviewInputValue, score: 3, poster: movieDetails.poster_path})
+                body: JSON.stringify({movieId, content: reviewInputValue, score: starsSelected, poster: movieDetails.poster_path})
             });
 
             setIsModalVisible(false);
@@ -167,8 +172,10 @@ const MovieView = (props) =>{
             <ModalReview
                 body={{rating: 3, description: reviewInputValue, movieId: movieId, poster: movieDetails.poster_path}}
                 handleChangeText={(text) => setReviewInputValue(text)}
-                handleClose={handleClose} 
-                visible={isModalVisible} 
+                handleClose={handleClose}
+                handleStarsSelectedChange={handleStarsSelectedChange}
+                visible={isModalVisible}
+                handlePressOut={() => setIsModalVisible(false)} 
                 toggleModal={toggleModal} 
             />
         </ScrollView>
