@@ -14,7 +14,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(description);
-    const [starsSelected, setStarsSelected] = useState(0);
+    const [starsSelected, setStarsSelected] = useState(rating);
     const [editedUrl, setEditedUrl] = useState(url);
 
     const handleStarsSelectedChange = (newRating) => setStarsSelected(newRating);
@@ -122,7 +122,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                 </View>
                 <View style={style.containerRating}>
                         {isEditing ? (
-                            <StarRating onRating={handleStarsSelectedChange} fontSize={15} emptyStarColor={'white'}/>
+                            <StarRating onRating={handleStarsSelectedChange} fontSize={15} emptyStarColor={'white'} starsSelected={starsSelected}/>
                         ) : (
                             <Text style={style.rating}>Rating: {rating}/5</Text>
                         )}

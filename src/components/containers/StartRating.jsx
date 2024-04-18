@@ -6,9 +6,10 @@ const StarRating = ({
   onRating,
   filledStarColor = '#3C5252',
   emptyStarColor,
-  fontSize
+  fontSize,
+  starsSelected
 }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(starsSelected || 0);
 
   const handleSetRating = (rate) => {
     setRating(rate);
