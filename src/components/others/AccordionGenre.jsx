@@ -10,17 +10,26 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const AccordionGenre = ({ title, content }) => {
+const AccordionGenre = ({ title }) => {
     const [expanded, setExpanded] = useState(false);
+    const [selectedGenres, setSelectedGenres] = useState([]);
 
     const toggleAccordion = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setExpanded(!expanded);
     };
 
-    handleSearch = async () => {
-        console.log('Searching...');
-    }
+    const handleGenreSelection = (genreName) => {
+        if (selectedGenres && selectedGenres.includes(genreName)) {
+            setSelectedGenres(selectedGenres.filter(genre => genre !== genreName));
+        } else {
+            setSelectedGenres([...selectedGenres, genreName]);
+        }
+    };
+
+    const handleSearch = () => {
+        console.log("Selected genres:", selectedGenres);
+    };
 
     return (
         <View>
@@ -39,14 +48,14 @@ const AccordionGenre = ({ title, content }) => {
                 </TouchableOpacity>
                 {expanded && (
                     <View style={styles.contentContainer}>
-                            <Genre name={'Action'} />
-                            <Genre name={'Animation'} />
-                            <Genre name={'Comedy'} />
-                            <Genre name={'Crime'} />
-                            <Genre name={'Drama'} />
-                            <Genre name={'Family'} />
-                            <Genre name={'Fantasy'} />  
-                            <Genre name={'History'} />
+                            <Genre name={'Action'} onPress={handleGenreSelection}/>
+                            <Genre name={'Animation'} onPress={handleGenreSelection}/>
+                            <Genre name={'Comedy'} onPress={handleGenreSelection}/>
+                            <Genre name={'Crime'} onPress={handleGenreSelection}/>
+                            <Genre name={'Drama'} onPress={handleGenreSelection}/>
+                            <Genre name={'Family'} onPress={handleGenreSelection}/>
+                            <Genre name={'Fantasy'} onPress={handleGenreSelection}/>  
+                            <Genre name={'History'} onPress={handleGenreSelection}/>
                     </View>
                 )}
             </View>
