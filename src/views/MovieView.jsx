@@ -16,6 +16,7 @@ import BtnRateThis from "../components/button/BtnRateThis.jsx";
 import CriticTitle from "../components/others/CriticTitle.jsx";
 import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 import ModalReview from "../components/containers/ModalRateThis.jsx";
+import Loading from "../components/others/Loading.jsx";
 
 // Imagenes
 
@@ -29,6 +30,7 @@ const MovieView = (props) =>{
     const [movieDetails, setMovieDetails] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [playing, setPlaying] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
@@ -98,10 +100,23 @@ const MovieView = (props) =>{
       }, []);
 
     useEffect(() => {
-        getAndSetToken(setToken);
-        getMovieDetails();
+        const fetchData = async () => {
+            try{
+                await getAndSetToken(setToken);
+                await getMovieDetails();
+                setLoading(false);
+            }
+            catch(error){
+                setLoading(false);
+                Alert.alert('Oops', 'Unable to get movie details.');
+            }
+        };
+        fetchData();
     }, []);
 
+    if(loading) {
+        return <Loading />;
+    }
     return(
         <ScrollView style={style.scroll}
             contentContainerStyle={{paddingBottom: 20}}

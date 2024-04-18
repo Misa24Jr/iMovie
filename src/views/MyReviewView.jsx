@@ -9,11 +9,12 @@ import HomeTemplateComponent from "../components/containers/HomeTemplaneComponen
 import MyReviewTitle from "../components/others/MyReviewTitle";
 import MyReviewBox from "../components/containers/MyReviewBox";
 import { getAndSetToken } from "../utils/tokenHandler.js";
-import ModalPop from "../components/containers/ModalPop";
+import Loading from "../components/others/Loading.jsx";
 
 const MyReviewView = () => {
     const [token, setToken] = useState('');
     const [myReviews, setMyReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getMyReviews = async () => {
         try {
@@ -33,8 +34,18 @@ const MyReviewView = () => {
     }
 
     useEffect(() => {
-        getAndSetToken(setToken);
-        getMyReviews();
+        const fetchData = async () => {
+            try{
+                await getAndSetToken(setToken);
+                await getMyReviews();
+                setLoading(false);
+            }
+            catch(error){
+                Alert.alert('Oops', 'Something went wrong trying to get your reviews.');
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
 
     return(
@@ -42,13 +53,29 @@ const MyReviewView = () => {
             <HomeTemplateComponent />
             <View style={style.containerBody}>
                 <MyReviewTitle />
-                <ScrollView 
-                contentContainerStyle={{paddingBottom: 20}}
-                style={style.scroll}
-                >
-                    {myReviews.length === 0 ? <Text style={{ color: '#667e7e', fontSize: 20, fontFamily: 'Jura_400Regular', textAlign: 'center', top: 240, opacity: 0.2}}>You haven't published any review yet...</Text> : null}
-                    {myReviews.map((review, index) => <MyReviewBox key={index} movieId={review.movie.movieId} poster={review.poster} description={review.content} rating={review.score} />)}
-                </ScrollView>
+                {loading ? (
+                    <View style={style.loadingContainer}>
+                        <Loading />
+                    </View>
+                ) : (
+                    <ScrollView 
+                        contentContainerStyle={{paddingBottom: 20}}
+                        style={style.scroll}
+                    >
+                        {myReviews.length === 0 ? (
+                            <Text style={style.noReviewsText}>You haven't published any review yet...</Text>
+                        ) : null}
+                        {myReviews.map((review, index) => (
+                            <MyReviewBox 
+                                key={index} 
+                                movieId={review.movie.movieId} 
+                                poster={review.poster} 
+                                description={review.content} 
+                                rating={review.score} 
+                            />
+                        ))}
+                    </ScrollView>
+                )}
             </View>
         </View>
 
@@ -67,7 +94,17 @@ const style = StyleSheet.create({
     },
     scroll: {
         height: '60%',
-        // backgroundColor: 'gray'
+    },
+    loadingContainer: {
+        marginTop: 20, // Ajusta el margen superior para separar el componente de carga del componente MyReviewTitle
+    },
+    noReviewsText: {
+        color: '#667e7e',
+        fontSize: 20,
+        fontFamily: 'Jura_400Regular',
+        textAlign: 'center',
+        top: 240,
+        opacity: 0.2,
     }
 });
 
