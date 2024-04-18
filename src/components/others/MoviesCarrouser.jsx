@@ -13,6 +13,7 @@ import {
 import { TMDB_API_ROOT, TMDB_TOKEN, TMDB_IMAGES_ROOT } from "@env";
 import parseAudienceScore from "../../helpers/parseAudienceScore.js";
 import { useNavigation } from '@react-navigation/native';
+import Loading from "./Loading.jsx";
 
 const width = Dimensions.get('window').width;
 // const height = Dimensions.get('window').height;
@@ -24,6 +25,7 @@ const ESPACIO = 10;
 const MoviesCarrousel = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const [newMovies, setNewMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getNewMovies = async () => {
         try {
@@ -57,7 +59,17 @@ const MoviesCarrousel = () => {
     }
 
     useEffect(() => {
-        getNewMovies();
+        const fetchData = async () => {
+            try{
+                await getNewMovies();
+                setLoading(false);
+            }
+            catch(error){
+                Alert.alert('Oops', 'Something went wrong trying to get new movies.');
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, [])
 
     const navigation = useNavigation();
@@ -95,7 +107,12 @@ const MoviesCarrousel = () => {
                             onPress={() => navigation.navigate('MovieView', { movie: item })}
                         >
                             <View style={style.containerImage}>
-                                <Animated.View
+                                {loading ? (
+                                    <View style={{marginTop: 20}}>
+                                        <Loading />
+                                    </View>
+                                ): (
+                                    <Animated.View
                                     style={{
                                         marginHorizontal: ESPACIO,
                                         padding: ESPACIO,
@@ -119,6 +136,7 @@ const MoviesCarrousel = () => {
                                         <Text style={{color: "#3C5252", fontFamily: 'Jura_400Regular'}}>Audience Score</Text>
                                     </View>
                                 </Animated.View>
+                                )}
                             </View>
                         </TouchableOpacity>
                     )
