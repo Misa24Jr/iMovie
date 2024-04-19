@@ -15,17 +15,13 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { API_ROOT } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { io } from 'socket.io-client';
 
 const GeneralChat = () => {
     const navigation = useNavigation();
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const [socket, setSocket] = useState(null);
 
     const handleMessageSend = async () => {
-        console.log(socket)
-        socket.emit('chat message', { content: inputMessage, userId: "65f8d2cfaea5f502f38acd1c" });
         setInputMessage('');
     };
 
@@ -57,45 +53,10 @@ const GeneralChat = () => {
         }
     };
 
-    useEffect(() => {
-        const connectToSocket = async () => {
-            try {
-                const newSocket = io("https://imovie-chat-server-dev-gdnz.1.us-1.fl0.io", {
-                    transports: ['websocket'],
-                });
-    
-                newSocket.on('connect', () => {
-                    console.log('Socket connected successfully');
-                });
-    
-                newSocket.on('connect_error', (error) => {
-                    console.error('Sockettt connection error:', error);
-                });
-    
-                newSocket.on('disconnect', () => {
-                    console.log('Socket disconnected');
-                });
-    
-                newSocket.on('reconnect', () => {
-                    console.log('Socket reconnected');
-                });
-    
-                newSocket.on('chat message', (message) => {
-                    setMessages(prevMessages => [...prevMessages, message]);
-                });
-    
-                setSocket(newSocket);
-            } catch (error) {
-                console.error('Error connecting to socket:', error);
-            }
-        }
-
-        connectToSocket();
+    useEffect(() => {   
         getAllMessages();
 
-        return () => {
-            if(socket) socket.disconnect();
-        }
+        return () => {}
     }, []);
 
     return (<>

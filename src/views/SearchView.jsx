@@ -15,10 +15,24 @@ const SearchView = () => {
     const [searchResults, setSearchResults] = useState({});
     const [activeTab, setActiveTab] = useState('All');
     const [searchInputValue, setSearchInputValue] = useState('');
+    const [genresSelected, setGenresSelected] = useState([]);
+    const [isGenresSelected, setIsGenresSelected] = useState(genresSelected.length > 0);
 
     const handleSeachInputValueChange = (text) => setSearchInputValue(text);
 
-    const handleSearchSubmit = async () => {
+    const handleGenreSelection = (genre) => {
+        if (genresSelected.includes(genre)) {
+            setGenresSelected(genresSelected.filter(selected => selected !== genre));
+        } else {
+            setGenresSelected([...genresSelected, genre]);
+        }
+    };
+    
+    useEffect(() => {
+        setIsGenresSelected(genresSelected.length > 0);
+    }, [genresSelected]);
+
+    const handleTextSearchSubmit = async () => {
         try {
             const response = await fetch(`${API_ROOT}/api/movies/searchByName`, {
                 method: 'POST',
@@ -36,9 +50,14 @@ const SearchView = () => {
         }
     }
 
+    const handleGenreSearchSubmit = () => {
+        console.log("Genres selected:", genresSelected);
+    }
+
     useEffect(() => {
         return () => {
             setSearchResults({});
+            setGenresSelected([]);
         };
     }, []);
 
@@ -56,8 +75,8 @@ const SearchView = () => {
                 </TouchableOpacity>
 
                 <View style={style.containerSearch}>
-                    <AccordionSearch onSearchChange={handleSeachInputValueChange} onSearchSubmit={handleSearchSubmit} title={'Search'}/>
-                    <AccordionGenre title={'Filters'}/>
+                    <AccordionSearch onSearchChange={handleSeachInputValueChange} onSearchSubmit={handleTextSearchSubmit} title={'Search'}/>
+                    <AccordionGenre title={'Filters'} isGenreSelected={isGenresSelected} onSearchSubmit={handleGenreSearchSubmit} onGenresSelection={handleGenreSelection}/>
                     {Object.keys(searchResults).length > 0 && (<TabsSearch setActiveTab={setActiveTab}/>)}
                     
                         {activeTab === 'All' && (

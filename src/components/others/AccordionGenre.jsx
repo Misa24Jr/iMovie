@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIManager } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIManager, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { TMDB_API_ROOT } from "@env";
 
 // Components
 import Genre from "../containers/Genre";
@@ -10,8 +11,9 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const AccordionGenre = ({ title }) => {
+const AccordionGenre = ({ title, onGenresSelection, onSearchSubmit, isGenreSelected }) => {
     const [expanded, setExpanded] = useState(false);
+    const [genres, setGenres] = useState([]);
     const [selectedGenres, setSelectedGenres] = useState([]);
 
     const toggleAccordion = () => {
@@ -19,43 +21,52 @@ const AccordionGenre = ({ title }) => {
         setExpanded(!expanded);
     };
 
-    const handleGenreSelection = (genreName) => {
-        if (selectedGenres && selectedGenres.includes(genreName)) {
-            setSelectedGenres(selectedGenres.filter(genre => genre !== genreName));
-        } else {
-            setSelectedGenres([...selectedGenres, genreName]);
-        }
-    };
+    const getGenres = async () => {
+        try {
+            const response = await fetch(`${TMDB_API_ROOT}/genre/movie/list?language=en`, {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMjEzODkzMTU1YzJmZjY4OGJkODMyZTRkMWJiZTlhMCIsInN1YiI6IjY2MDJmMjM4Yjg0Y2RkMDE0YWY1NTFiZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pSTbcbWcScjdicQLg6ssg1HTCr_2CKNW9qhQnynwjME'
+                  }
+            });
 
-    const handleSearch = () => {
-        console.log("Selected genres:", selectedGenres);
-    };
+            if(response.status !== 200) return Alert.alert('Error', 'Server error trying to get genres');
+
+            const data = await response.json();
+            return setGenres(data.genres);
+        } catch (error) {
+            return Alert.alert('Error', 'Something went wrong trying to get genres');
+        }
+    }
+
+    useEffect(() => {
+        getGenres();
+    }, [])
 
     return (
         <View>
             <View style={styles.container}>
                 <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
-
                         <View style={styles.containerGroup}>
                             <Text style={styles.title}>{title}</Text>
 
-                            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                                <Ionicons name="search" size={24} color="#555959" />
+                            <TouchableOpacity style={styles.searchButton} onPress={onSearchSubmit}>
+                                <Ionicons name="search" size={24} color={isGenreSelected ? "#FFFFFF" : "#555959"} />
                             </TouchableOpacity>
                         </View>
-                
                     <View style={[styles.circle, { backgroundColor: expanded ? "#8CCECC" : "gray" }]} />
                 </TouchableOpacity>
                 {expanded && (
                     <View style={styles.contentContainer}>
-                            <Genre name={'Action'} onPress={handleGenreSelection}/>
-                            <Genre name={'Animation'} onPress={handleGenreSelection}/>
-                            <Genre name={'Comedy'} onPress={handleGenreSelection}/>
-                            <Genre name={'Crime'} onPress={handleGenreSelection}/>
-                            <Genre name={'Drama'} onPress={handleGenreSelection}/>
-                            <Genre name={'Family'} onPress={handleGenreSelection}/>
-                            <Genre name={'Fantasy'} onPress={handleGenreSelection}/>  
-                            <Genre name={'History'} onPress={handleGenreSelection}/>
+                            {genres && genres.length > 0 && genres.map((genre, index) => (
+                                <Genre
+                                    key={index}
+                                    id={genre.id}
+                                    name={genre.name}
+                                    onPress={onGenresSelection}
+                                />
+                            ))}
                     </View>
                 )}
             </View>
