@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Alert, Modal } from "react-native";
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Alert, Modal, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 // Components
@@ -19,6 +19,7 @@ const UserSettings = () => {
   const [prevUrlImage, setPrevUrlImage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalLogOut, setModalLogOut] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const UserSettings = () => {
 
   const getUserData = async () => {
     try {
+      setIsLoading(true); // Inicia la carga
       const userToken = await AsyncStorage.getItem("token");
       const userNickname = await AsyncStorage.getItem("nickname");
       const userEmail = await AsyncStorage.getItem("email");
@@ -41,10 +43,13 @@ const UserSettings = () => {
       setUrlImage(userUrlImage);
     } catch (error) {
       Alert.alert("Error", "Something went wrong trying to get user data.");
+    } finally {
+      setIsLoading(false); // Finaliza la carga
     }
   };
 
   const handleConfirmChanges = async () => {
+    setIsLoading(true); // Inicia la carga
     console.log("Changes confirmed");
     console.log(token)
     console.log(nickname)
@@ -52,10 +57,12 @@ const UserSettings = () => {
     console.log(password)
     console.log(url_image)
     setEditMode(false);
-    return setPassword("");
+    setPassword("");
+    setIsLoading(false); // Finaliza la carga
   }
 
   const handleConfirmDelete = async () => {
+    setIsLoading(true); // Inicia la carga
     try {
       const response = await fetch(`${API_ROOT}/api/users/delete`, {
         method: 'DELETE',
@@ -68,6 +75,8 @@ const UserSettings = () => {
       return navigation.navigate("Welcome");
     } catch (error) {
       return Alert.alert("Error", "Something went wrong trying to delete your profile.");
+    } finally {
+      setIsLoading(false); // Finaliza la carga
     }
   };
 
@@ -90,6 +99,9 @@ const UserSettings = () => {
 
   return (
     <View style={style.container}>
+      {isLoading && ( // Muestra el spinner si isLoading es true
+        <ActivityIndicator size="large" color="#3C5252" />
+      )}
       <ModalPop
         body={"Are you sure you want to delete your account?"}
         handleSumit={handleConfirmDelete}
