@@ -8,149 +8,131 @@ import HomeTemplateComponent from "../components/containers/HomeTemplaneComponen
 
 const UserSettings = () => {
   const navigation = useNavigation();
-    const [editMode, setEditMode] = useState(false);
-    const [token, setToken] = useState("");
-    const [url_image, setUrlImage] = useState("");
-    const [nickname, setNickname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [token, setToken] = useState("");
+  const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [prevNickname, setPrevNickname] = useState("");
+  const [prevEmail, setPrevEmail] = useState("");
+  const [prevPassword, setPrevPassword] = useState("");
+  const [prevUrlImage, setPrevUrlImage] = useState("");
 
-    const getUserData = async () => {
-      try {
-        const userToken = await AsyncStorage.getItem("token");
-        const userNickname = await AsyncStorage.getItem("nickname");
-        const userEmail = await AsyncStorage.getItem("email");
-        const userUrlImage = await AsyncStorage.getItem("url_image") || url_image;
-  
-        setToken(userToken);
-        setNickname(userNickname || "");
-        setEmail(userEmail || "");
-        setUrlImage(userUrlImage);
-      } catch (error) {
-        Alert.alert("Error", "Something went wrong trying to get user data.");
-      }
-    };
+  useEffect(() => {
+    getUserData();
+  }, []);
 
-    const handleConfirmDelete = async () => {
-      try {
-        const response = await fetch(`${API_ROOT}/api/users/delete`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-  
-        if(response.status !== 200) return Alert.alert('Error', 'Server error trying to delete your profile.');
-  
-        await AsyncStorage.clear();
-        return navigation.navigate("Welcome");
-      } catch (error) {
-        return Alert.alert("Error", "Something went wrong trying to delete your profile.");
-      }
-    };
+  const getUserData = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem("token");
+      const userNickname = await AsyncStorage.getItem("nickname");
+      const userEmail = await AsyncStorage.getItem("email");
+      const userUrlImage = await AsyncStorage.getItem("url_image") || url_image;
 
-    const logout = async () => {
-      await AsyncStorage.clear();
-      return navigation.navigate("Welcome");
-    };
-
-    const handleConfirmChanges = async () => {
-      console.log("Changes confirmed");
-      console.log(token)
-      console.log(nickname)
-      console.log(email)
-      console.log(password)
-      console.log(url_image)
-      setEditMode(false);
-      return setPassword("");
+      setToken(userToken);
+      setPrevNickname(userNickname || "");
+      setNickname(userNickname || "");
+      setPrevEmail(userEmail || "");
+      setEmail(userEmail || "");
+      setPrevUrlImage(userUrlImage);
+      setUrlImage(userUrlImage);
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong trying to get user data.");
     }
+  };
 
-    useEffect(() => {
-      getUserData();
+  const handleConfirmChanges = async () => {
+    console.log("Changes confirmed");
+    console.log(token)
+    console.log(nickname)
+    console.log(email)
+    console.log(password)
+    console.log(url_image)
+    setEditMode(false);
+    return setPassword("");
+  }
 
-      return () => {
-        setPassword("");
-      }
-    }, []);
+  return (
+    <View style={style.container}>
+      <HomeTemplateComponent/>
+      <View style={[style.card, editMode && style.largeCard]}>
+        {!editMode ? (
+          <View style={style.btnEdit}>
+            <TouchableOpacity onPress={() => setEditMode(true)}>
+              <Text style={style.changeImage}>Edit Profile</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={style.btnEdit}>
+            <TouchableOpacity onPress={() => {
+              setEditMode(false);
+              setNickname(prevNickname);
+              setEmail(prevEmail);
+              setPassword(prevPassword);
+              setUrlImage(prevUrlImage);
+            }}>
+              <Text style={style.editCancel}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
-    return (
-      <View style={style.container}>
-        <HomeTemplateComponent/>
-        <View style={style.card}>
-          {!editMode && (
-            <View style={style.btnEdit}>
-              <TouchableOpacity onPress={() => setEditMode(true)}>
-                <Text style={style.changeImage}>Edit Profile</Text>
-              </TouchableOpacity>
+        <View style={style.containerImage}>
+          {editMode ? (
+            <TextInput
+              value={nickname}
+              onChangeText={setNickname}
+              style={style.inputNickname}
+            />
+          ) : (
+            <Text style={style.nickname}>{nickname}</Text>
+          )}
+          <Image
+            source={{uri: url_image}}
+            style={{width: 120, height: 140}}
+          />
+          {editMode && (
+            <TouchableOpacity onPress={() => console.log("Change photo")}>
+              <Text style={style.changeImage}>Change</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={style.containerInput}>
+          <View style={style.inputName}>
+            <Text style={style.name}>Email</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              editable={editMode}
+              style={[style.input, !editMode && {borderColor: 'transparent', padding: 0}]}
+            />
+          </View>
+
+          { editMode && (
+            <View style={style.inputName}>
+              <Text style={style.name}>Password</Text>
+              <TextInput
+                placeholder="change your password here"
+                placeholderTextColor={"#384948"}
+                value={password}
+                onChangeText={setPassword}
+                editable={editMode}
+                secureTextEntry={true}
+                style={style.input}
+              />
             </View>
           )}
 
-          <View style={style.containerImage}>
-            {editMode ? (
-              <TextInput
-                value={nickname}
-                onChangeText={setNickname}
-                style={style.inputNickname}
-              />
-            ) : (
-              <Text style={style.nickname}>{nickname}</Text>
-            )}
-            <Image
-              source={{uri: url_image}}
-              style={{width: 120, height: 140}}
-            />
-            {editMode && (
-              <TouchableOpacity onPress={() => console.log("Change photo")}>
-                <Text style={style.changeImage}>Change</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-
-          <View style={style.containerInput}>
-            <View style={style.inputName}>
-              <Text style={style.name}>Email</Text>
-              <TextInput
-                value={email}
-                onChangeText={setEmail}
-                editable={editMode}
-                style={[style.input, !editMode && {borderColor: 'transparent', padding: 0}]}
-              />
-            </View>
-
-            { editMode && (
-              <View style={style.inputName}>
-                <Text style={style.name}>Password</Text>
-                <TextInput
-                  placeholder="change your password here"
-                  placeholderTextColor={"#384948"}
-                  value={password}
-                  onChangeText={setPassword}
-                  editable={editMode}
-                  secureTextEntry={true}
-                  style={style.input}
-                />
-              </View>
-            )}
-
-            {editMode && (
-              <TouchableOpacity style={style.btn} onPress={handleConfirmChanges}>
-                <Text style={style.save}>Confirm Changes</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-        
-        <View style={style.redContainer}>
-          {editMode ? (
-            <TouchableOpacity onPress={() => console.log("Deleting account")}>
-              <Text style={style.red}>I want to delete my profile</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={logout}>
-              <Text style={style.red}>Log Out</Text>
+          {editMode && (
+            <TouchableOpacity style={style.btn} onPress={handleConfirmChanges}>
+              <Text style={style.save}>Confirm Changes</Text>
             </TouchableOpacity>
           )}
         </View>
       </View>
-    );
+    </View>
+  );
 };
 
 const style = StyleSheet.create({
@@ -162,10 +144,13 @@ const style = StyleSheet.create({
   },
   card:{
     width: 315,
-    height: 510,
+    height: 330, // Altura inicial más pequeña
     backgroundColor: 'rgba(60, 82, 82, 0.1)',
     borderRadius: 20,
     padding: 20,
+  },
+  largeCard: {
+    height: 540, // Altura más grande cuando está en modo de edición
   },
   containerImage:{
     justifyContent: 'center',
@@ -219,6 +204,12 @@ const style = StyleSheet.create({
     fontSize: 11,
     textAlign: 'center',
   },
+  editCancel:{
+    color: 'red',
+    fontFamily: 'Jura_400Regular',
+    fontSize: 11,
+    textAlign: 'center',
+  },
   btn:{
     width: 215,
     height: 42,
@@ -254,4 +245,3 @@ const style = StyleSheet.create({
 });
 
 export default UserSettings;
-

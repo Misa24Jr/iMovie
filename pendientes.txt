@@ -16,7 +16,7 @@
 2. navegar con el click en una pelicula hasta MovieView (Mavarez)
 
 -- MyReviewView -- .
-1. agregar el spinner al hacer el delete y el update.(Bugueado)
+No fucniona el loading
 
 -- UserSetting -- 
 2. Metodos de configuración de usuarios.
