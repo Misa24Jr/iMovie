@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Alert, Modal, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { API_ROOT } from "@env";
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import ModalPop from "../components/containers/ModalPop";
@@ -16,7 +17,6 @@ const UserSettings = () => {
   const [prevNickname, setPrevNickname] = useState("");
   const [prevEmail, setPrevEmail] = useState("");
   const [prevPassword, setPrevPassword] = useState("");
-  const [prevUrlImage, setPrevUrlImage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalLogOut, setModalLogOut] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,7 @@ const UserSettings = () => {
 
   const getUserData = async () => {
     try {
-      setIsLoading(true); // Inicia la carga
+      setIsLoading(true);
       const userToken = await AsyncStorage.getItem("token");
       const userNickname = await AsyncStorage.getItem("nickname");
       const userEmail = await AsyncStorage.getItem("email");
@@ -39,30 +39,53 @@ const UserSettings = () => {
       setNickname(userNickname || "");
       setPrevEmail(userEmail || "");
       setEmail(userEmail || "");
-      setPrevUrlImage(userUrlImage);
       setUrlImage(userUrlImage);
     } catch (error) {
       Alert.alert("Error", "Something went wrong trying to get user data.");
     } finally {
-      setIsLoading(false); // Finaliza la carga
+      setIsLoading(false);
     }
   };
 
   const handleConfirmChanges = async () => {
-    setIsLoading(true); // Inicia la carga
-    console.log("Changes confirmed");
-    console.log(token)
-    console.log(nickname)
-    console.log(email)
-    console.log(password)
-    console.log(url_image)
-    setEditMode(false);
-    setPassword("");
-    setIsLoading(false); // Finaliza la carga
+    if(nickname === "" && email === "" && password === "") {
+      setEditMode(false);
+      return Alert.alert("Error", "You can't update your profile with nickname, email and password empty.");
+    }
+    
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_ROOT}/api/users/update`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ newNickname: nickname, newEmail: email, newPassword: password})
+      });
+
+      if(response.status !== 200) {
+        setEditMode(false);
+        setIsLoading(false);
+        return Alert.alert('Error', 'Server error trying to update your profile.');
+      }
+
+      await AsyncStorage.setItem("nickname", nickname);
+      await AsyncStorage.setItem("email", email);
+
+      setEditMode(false);
+      setIsLoading(false);
+      return;
+      
+    } catch (error) {
+      setEditMode(false);
+      setIsLoading(false);
+      return Alert.alert("Error", "Something went wrong trying to update your profile.");
+    }
   }
 
   const handleConfirmDelete = async () => {
-    setIsLoading(true); // Inicia la carga
+    setIsLoading(true);
     try {
       const response = await fetch(`${API_ROOT}/api/users/delete`, {
         method: 'DELETE',
@@ -76,7 +99,7 @@ const UserSettings = () => {
     } catch (error) {
       return Alert.alert("Error", "Something went wrong trying to delete your profile.");
     } finally {
-      setIsLoading(false); // Finaliza la carga
+      setIsLoading(false);
     }
   };
 
@@ -99,7 +122,7 @@ const UserSettings = () => {
 
   return (
     <View style={style.container}>
-      {isLoading && ( // Muestra el spinner si isLoading es true
+      {isLoading && (
         <ActivityIndicator size="large" color="#3C5252" />
       )}
       <ModalPop
@@ -130,7 +153,6 @@ const UserSettings = () => {
               setNickname(prevNickname);
               setEmail(prevEmail);
               setPassword(prevPassword);
-              setUrlImage(prevUrlImage);
             }}>
               <Text style={style.editCancel}>Cancel</Text>
             </TouchableOpacity>
