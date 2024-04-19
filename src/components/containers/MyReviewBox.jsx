@@ -30,27 +30,25 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const handleEdit = async () => {
         setIsEditing(prevEditing => !prevEditing);
         if(isEditing){
-            console.log('Enviando la descripción editada:', editedDescription);
-            console.log(starsSelected);
-            // try {
-            //     const response = await fetch(`${API_ROOT}/api/reviews/updateContent`, {
-            //         method: 'PUT',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Authorization': `Bearer ${token}`
-            //         },
-            //         body: JSON.stringify({
-            //             newContent: editedDescription,
-            //             movieId: movieId
-            //         })
-            //     });
+            try {
+                const response = await fetch(`${API_ROOT}/api/reviews/update`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        movieId: movieId,
+                        newContent: editedDescription,
+                        newScore: starsSelected
+                    })
+                });
 
-            //     console.log(response.status);
-            //     if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
-            //     return setIsModalVisible(false);
-            // } catch (error) {
-            //     return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
-            // }
+                if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+                return setIsModalVisible(false);
+            } catch (error) {
+                return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
+            }
         }
     };
 

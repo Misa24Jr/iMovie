@@ -6,23 +6,24 @@
 -- 6. Hacer el metodo de subir imagen en firebase en user 
 
 !!GENERAL!!
-1. Loading spinner mientras se hacen los fetchsR (GeneralChat)
+1. spinner de carga mientras se hace login y register
 2. Rayita del nav bar
 
 !!POR VISTAS!!
 -- MovieView --
 
 -- SearchView --
-1. Metodo buscar por categoria
+1. Agregar el spinner al hacer los searchs
 2. navegar con el click en una pelicula hasta MovieView
 
 -- MyReviewView -- .
-1. Metodo para actualizar el rating
+1. agregar el spinner al hacer el delete y el update.
 
 -- ChatGeneral --
 1. al intentar enviar un mensaje, el input queda por debajo del teclado y no se ve lo que uno va escribiendo (No logro ponerlo encima del teclado)
 
 -- UserSetting -- 
-1. Replantear la pantalla de user settings
+1. Rehacer la vista
 2. Metodos de configuración de usuarios.
 3. Sigue sin salir la opción para cambiar la foto de perfil. **URGENTE** Da un error aun
+4. spinner de carga para update y delete profile
