@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 const BoxMovie = ({ poster, title, rating, year, actors }) => {
     return(
         <View style={style.container}>
-            <View style={style.containerImage}>
+            <View style={style.containerImage} >
                 <Image
                     style={{width: 80, height: 100, borderRadius: 10, margin: 10}}
                     source={{
