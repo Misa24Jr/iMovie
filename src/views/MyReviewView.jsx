@@ -96,7 +96,7 @@ const style = StyleSheet.create({
         height: '60%',
     },
     loadingContainer: {
-        marginTop: 20, // Ajusta el margen superior para separar el componente de carga del componente MyReviewTitle
+        marginTop: 20,
     },
     noReviewsText: {
         color: '#667e7e',

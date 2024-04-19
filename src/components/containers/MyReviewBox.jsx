@@ -6,8 +6,6 @@ import { API_ROOT } from "@env";
 import { getAndSetToken } from "../../utils/tokenHandler.js";
 import StarRating from "./StartRating";
 import ModalPop from "./ModalPop.jsx";
-import Loading from "../others/Loading.jsx";
-
 
 const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const [token, setToken] = useState('');
@@ -46,14 +44,18 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                     })
                 });
 
-                if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+                if(response.status !== 200) {
+                    Alert.alert('Oops', 'Error response from server.');
+                    setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+                    return;
+                }
 
                 setIsProcessing(false); // Finaliza el proceso de carga
                 setIsModalVisible(false);
                 // Actualiza el estado de la revisión aquí si es necesario
             } catch (error) {
                 setIsProcessing(false); // Finaliza el proceso de carga en caso de error
-                return Alert.alert('Oops', 'Something went wrong trying to edit your review.');
+                Alert.alert('Oops', 'Something went wrong trying to edit your review.');
             }
         }
     };
@@ -70,14 +72,18 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                 body: JSON.stringify({ movieId })
             });
 
-            if(response.status !== 200) return Alert.alert('Oops', 'Error response from server deleting your review.');
+            if(response.status !== 200) {
+                Alert.alert('Oops', 'Error response from server deleting your review.');
+                setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+                return;
+            }
 
             setIsProcessing(false); // Finaliza el proceso de carga
             setIsModalVisible(false);
             // Actualiza el estado de la revisión aquí si es necesario
         } catch (error) {
             setIsProcessing(false); // Finaliza el proceso de carga en caso de error
-            return Alert.alert('Oops', 'Something went wrong trying to delete your review.');
+            Alert.alert('Oops', 'Something went wrong trying to delete your review.');
         }
     }
 
@@ -87,7 +93,6 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
 
     return(
         <>
-            {isProcessing && <Loading />} {/* Mostrar el componente de carga cuando se esté procesando una operación */}
             <View style={style.containerBox}>
                 <View style={style.containerImage}>
                     <View style={style.containerButton}>
@@ -137,9 +142,14 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
                 handleClose={handleClose} 
                 visible={isModalVisible} 
                 toggleModal={toggleModal} 
-                body={'Are yo sure you want to delete this review?'}
+                body={'Are you sure you want to delete this review?'}
                 handleSumit={handleDelete}
             />
+            {isProcessing && (
+                <View style={style.loadingContainer}>
+                    <Text>Loading...</Text>
+                </View>
+            )}
         </>
     )
 };
@@ -170,7 +180,6 @@ const style = StyleSheet.create({
         height: '40%',
         display : 'flex',
         top: 10,
-
     },
     description: {
         color: '#fff',
@@ -201,7 +210,17 @@ const style = StyleSheet.create({
         borderRadius: 5, 
         zIndex: 1,
         gap: 10,
-    }
+    },
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default MyReviewBox;
