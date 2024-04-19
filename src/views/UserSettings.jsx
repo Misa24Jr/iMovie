@@ -1,307 +1,193 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, TextInput } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ImagePicker from 'react-native-image-picker';
-import { API_ROOT } from "@env";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 
-// Componentes
+// Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
-import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
-  const navigation = useNavigation();
-  const [token, setToken] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+    const [editMode, setEditMode] = useState(false);
+    const [nickname, setNickname] = useState("Misa24jr");
+    const [email, setEmail] = useState("user@example.com");
+    const [password, setPassword] = useState("password123");
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isLogoutVisible, setIsLogoutVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
+    return (
+      <View style={style.container}>
+        <HomeTemplateComponent/>
+        <View style={style.card}>
+          {!editMode && (
+            <View style={style.btnEdit}>
+            <TouchableOpacity onPress={() => setEditMode(true)}>
+              <Text style={style.changeImage}>Edit Profile</Text>
+            </TouchableOpacity>
+            </View>
+          )}
 
-  const getUserData = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem("token");
-      const userNickname = await AsyncStorage.getItem("nickname");
-      const userEmail = await AsyncStorage.getItem("email");
-      const userUrlImage = await AsyncStorage.getItem("url_image") || url_image;
-
-      setToken(userToken);
-      setNickname(userNickname || "");
-      setEmail(userEmail || "");
-      setUrlImage(userUrlImage);
-    } catch (error) {
-      Alert.alert("Error", "Something went wrong trying to get user data.");
-    }
-  };
-
-  const toggleEdit = useCallback(() => {
-    setIsEditing(prevState => !prevState);
-  }, []);
-
-  const handleConfirmChanges = useCallback(() => {
-    setIsEditing(false);
-    setShowPassword(true);
-    console.log(nickname)
-    console.log(email)
-    console.log(password)
-  }, []);
-
-  const toggleModal = useCallback(() => {
-    setIsModalVisible(prevState => !prevState);
-  }, []);
-
-  const handleLogout = useCallback(() => {
-    setIsLogoutVisible(prevState => !prevState);
-  }, []);
-
-  const handleClose = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
-
-  const handleCloseLogout = useCallback(() => {
-    setIsLogoutVisible(false);
-  }, []);
-
-  const logout = async () => {
-    await AsyncStorage.clear();
-    navigation.navigate("Welcome");
-  };
-
-  const handleImagePicker = () => {
-    const options = {
-      mediaType: 'photo',
-      quality: 1,
-    };
-  
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        // Aquí response.assets contiene la información de la imagen seleccionada
-        if (response.assets.length > 0) {
-          const selectedImage = response.assets[0];
-          setUrlImage(selectedImage.uri);
-        }
-      }
-    });
-  };
-
-  const handleConfirmDelete = async () => {
-    try {
-      const response = await fetch(`${API_ROOT}/api/users/delete`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if(response.status !== 200) return Alert.alert('Error', 'Server error trying to delete your profile.');
-
-      await AsyncStorage.clear();
-      return navigation.navigate("Welcome");
-    } catch (error) {
-      return Alert.alert("Error", "Something went wrong trying to delete your profile.");
-    }
-  };
-
-  const handleEditNickname = async () => {
-    try {
-
-    } catch (error) {
-      return Alert.alert("Error", "Something went wrong trying to edit your nickname.");
-    }
-  }
-
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  return (
-    <View style={styles.container}>
-      <HomeTemplateComponent />
-      <View style={styles.containerBody}>
-        <View style={styles.containerCard}>
-          <TouchableOpacity onPress={toggleEdit}>
-            <Text style={styles.link}>Edit Profile</Text>
-          </TouchableOpacity>
-          <View style={styles.containerImage}>
-
-            <Image
-              source={{ uri: url_image }}
-              style={{ width: 140, height: 200 }}
-            />
-
-            {isEditing && (
-                <TouchableOpacity
-                onPress={handleImagePicker}
-                >
-                  <Text style={styles.nameInput}>Changes</Text>
-                </TouchableOpacity>
-            )}
-
-            {isEditing ? (
+          <View style={style.containerImage}>
+            {editMode ? (
               <TextInput
-                style={styles.name}
                 value={nickname}
-                editable={isEditing}
-                onChangeText={(text) => setNickname(text)}
+                onChangeText={setNickname}
+                style={style.inputNickname}
+                autoFocus
               />
-            ) : (<Text style={styles.name}>{nickname}</Text>)
-            }
+            ) : (
+              <Text style={style.nickname}>{nickname}</Text>
+            )}
+            <Image
+              source={{uri: 'https://reactnative.dev/img/tiny_logo.png'}}
+              style={{width: 120, height: 140}}
+            />
+            {editMode && (
+              <TouchableOpacity onPress={() => console.log("Change photo")}>
+                <Text style={style.changeImage}>Change</Text>
+              </TouchableOpacity>
+            )}
           </View>
 
-          <View style={styles.containerInput}>
+          <View style={style.containerInput}>
+            <View style={style.inputName}>
+              <Text style={style.name}>Email</Text>
+              <TextInput
+                value={email}
+                onChangeText={setEmail}
+                editable={editMode}
+                style={style.input}
+              />
+            </View>
 
-              <View style={styles.containerInputName}>
-                <Text style={styles.nameInput}>Email</Text>
-                <TextInput
-                  style={styles.input}
-                  value={email}
-                  editable={isEditing}
-                  onChangeText={(text) => setEmail(text)}
-                />
-              </View>
+            <View style={style.inputName}>
+              <Text style={style.name}>Password</Text>
+              <TextInput
+                value={password}
+                onChangeText={setPassword}
+                editable={editMode}
+                secureTextEntry={true}
+                style={style.input}
+              />
+            </View>
 
-              <View style={styles.containerInputName}>
-                <Text style={styles.nameInput}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  editable={isEditing}
-                  onChangeText={setPassword}
-                />
-              </View>
-
-            {isEditing && (
-              <TouchableOpacity
-                onPress={handleConfirmChanges}
-                style={styles.BtnSave}
-              >
-                <Text style={styles.textSave}>Confirm Changes</Text>
+            {editMode && (
+              <TouchableOpacity style={style.btn} onPress={() => setEditMode(false)}>
+                <Text style={style.save}>Confirm Changes</Text>
               </TouchableOpacity>
             )}
           </View>
         </View>
-        {isEditing ? (
-          <TouchableOpacity onPress={toggleModal} style={styles.textDelete}>
-            <Text style={styles.linkDelete}>I want to delete my profile</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={handleLogout} style={styles.textDelete}>
-            <Text style={styles.linkDelete}>Log out</Text>
-          </TouchableOpacity>
-        )}
+        
+        <View style={style.redContainer}>
+          {editMode ? (
+            <TouchableOpacity onPress={() => console.log("Deleting account")}>
+              <Text style={style.red}>I want to delete my profile</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => console.log("Logging out")}>
+              <Text style={style.red}>Log Out</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
-      <ModalPop
-        handleClose={handleClose}
-        handleSumit={handleConfirmDelete}
-        visible={isModalVisible}
-        toggleModal={toggleModal}
-        body={"Are you sure you want to delete your profile?"}
-      />
-      <ModalPop
-        handleClose={handleCloseLogout}
-        visible={isLogoutVisible}
-        toggleModal={handleLogout}
-        body={"Are you sure you want to log out?"}
-        handleSumit={logout}
-      />
-    </View>
-  );
+    );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
-    backgroundColor: "#151515",
-    height: "100%",
-    alignItems: "center",
-  },
-  containerBody: {
-    top: 150,
-  },
-  containerCard: {
-    width: 330,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#151515',
+},
+card:{
+    width: 315,
     height: 510,
-    backgroundColor: "#1c1c1c",
+    backgroundColor: 'rgba(60, 82, 82, 0.1)',
     borderRadius: 20,
     padding: 20,
-    gap: 50,
-  },
-  link: {
-    color: "#3C5252",
-    fontSize: 12,
-    fontFamily: "Jura_400Regular",
-  },
-  linkDelete: {
-    color: "#ff0000",
-    fontSize: 12,
-    fontFamily: "Jura_400Regular",
-  },
-  containerImage: {
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  name: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontFamily: "Jura_400Regular",
-  },
-  containerInput: {
-    gap: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  BtnSave: {
-    width: 212,
-    height: 40,
-    backgroundColor: "#3C5252",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 25,
-  },
-  textSave: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontFamily: "Jura_400Regular",
-  },
-  textDelete: {
-    alignItems: "flex-end",
-    padding: 20,
-  },
-  btnLogout: {
-    alignItems: "flex-end", // Ajusta esto según sea necesario
-  },
-  linkLogout: {
-    color: "#ff0000", // Este es solo un ejemplo, ajusta el color como prefieras
-    fontSize: 12,
-    fontFamily: "Jura_400Regular",
-  },
-  nameInput: {
-    color: "#3C5252",
-    fontSize: 15,
-    fontFamily: "Jura_400Regular",
-  },
-  containerInputName:{
-    width: 280,
-    gap: 25,
-    display: 'flex',
-    flexDirection: 'row',
+},
+containerImage:{
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  input: {
-    width: 200,
-    height: 40,
-    borderRadius: 10,
-    backgroundColor: '#1c1c1c',
-    color: '#ffffff',
-    padding: 10,
+    paddingTop: 20,
+    gap: 10,
+},
+containerInput:{
+    paddingTop: 40,
+    gap: 30,
+    alignItems: 'center',
+},
+inputName:{
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 30,
+},
+input: { 
+  height: 40,
+  borderWidth: 0.5,
+  width: 150,
+  color: 'white',
+  borderRadius: 10,
+  padding: 5,
+  borderColor: '#8CCECC'
+},
+inputNickname: { 
+  height: 40,
+  color: 'white',
+  borderWidth: 0.5,
+  width: 150,
+  textAlign: 'center',
+  marginBottom: 10,
+  borderRadius: 10,
+  padding: 5,
+  borderColor: '#8CCECC'
+},
+name:{
+  color: '#8CCECC',
+  fontFamily: 'Jura_400Regular',
+  fontSize: 12,
+},
+nickname:{
+  color: 'white',
+  fontFamily: 'Jura_400Regular',
+  fontSize: 20,
+},
+changeImage:{
+  color: '#3C5252',
+  fontFamily: 'Jura_400Regular',
+  fontSize: 11,
+  textAlign: 'center',
+},
+btn:{
+  width: 215,
+  height: 42,
+  backgroundColor: '#3C5252',
+  borderRadius: 25,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+save:{
+  color: 'white',
+  fontFamily: 'Jura_400Regular',
+  fontSize: 15,
+  textAlign: 'center',
+},
+red:{
+  color: 'red',
+  fontFamily: 'Jura_400Regular',
+  fontSize: 15,
+  right: 0,
+},
+redContainer:{
+  paddingTop: 20,
+  width: 315,
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  paddingRight: 20,
+},
+btnEdit:{
+  width: "100%",
+  flexDirection: 'row',
+  justifyContent: 'flex-start',
 },
 });
 
 export default UserSettings;
+
