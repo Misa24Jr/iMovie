@@ -64,6 +64,7 @@ const SearchView = () => {
                         {activeTab === 'All' && searchResults.movies && searchResults.movies.map((movie, index) => (
                             <BoxMovie
                                 key={index}
+                                id={movie.id}
                                 poster={movie.poster_path}
                                 title={movie.title}
                                 year={movie.release_date}
@@ -73,7 +74,8 @@ const SearchView = () => {
                         ))}
                         {searchResults.tvs && searchResults.tvs.length > 0 && searchResults.tvs.map((tv, index) => (
                             <BoxMovie 
-                                key={index} 
+                                key={index}
+                                id={tv.id}
                                 poster={tv.poster_path}
                                 title={tv.title} 
                                 year={tv.release_date}
@@ -86,6 +88,7 @@ const SearchView = () => {
                         {activeTab === 'Movies' && searchResults.movies && searchResults.movies.map((movie, index) => (
                             <BoxMovie
                                 key={index}
+                                id={movie.id}
                                 poster={movie.poster_path}
                                 title={movie.title}
                                 year={movie.release_date}
@@ -96,6 +99,7 @@ const SearchView = () => {
                         {activeTab === 'Tv Shows' && searchResults.tvs && searchResults.tvs.map((tv, index) => (
                             <BoxMovie
                                 key={index}
+                                id={tv.id}
                                 poster={tv.poster_path}
                                 title={tv.title}
                                 year={tv.release_date}
@@ -106,6 +110,7 @@ const SearchView = () => {
                         {activeTab === 'Most Recent' && searchResults.movies && searchResults.movies.map((movie, index) => (
                             <BoxMovie
                                 key={index}
+                                id={movie.id}
                                 poster={movie.poster_path}
                                 title={movie.title}
                                 year={movie.release_date}
@@ -116,6 +121,7 @@ const SearchView = () => {
                         {activeTab === 'Most Rated' && searchResults.movies && searchResults.movies.map((movie, index) => (
                             <BoxMovie
                                 key={index}
+                                id={movie.id}
                                 poster={movie.poster_path}
                                 title={movie.title}
                                 year={movie.release_date}

@@ -22,7 +22,7 @@ import Loading from "../components/others/Loading.jsx";
 
 const MovieView = (props) =>{
     const navigation = useNavigation();
-    const movieId = props.route.params.movie.id;
+    const movieId = props.route.params.movie.id || props.route.params.movie;
 
     const [token, setToken] = useState('');
     const [reviewInputValue, setReviewInputValue] = useState('');
@@ -61,6 +61,7 @@ const MovieView = (props) =>{
     };
 
     const getMovieDetails = async () => {
+        console.log('getting details for: ', movieId);
         try {
             const response = await fetch(`${API_ROOT}/api/movies/getDetailsByMovieId`, {
                 method: 'POST',

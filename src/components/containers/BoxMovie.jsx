@@ -1,16 +1,25 @@
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-const BoxMovie = ({ poster, title, rating, year, actors }) => {
+const BoxMovie = ({ id, poster, title, rating, year, actors }) => {
+    const navigation = useNavigation();
+
+    handleMoviePress = () => {
+        navigation.navigate('MovieView', { movie: id });
+    }
+
     return(
         <View style={style.container}>
             <View style={style.containerImage} >
-                <Image
-                    style={{width: 80, height: 100, borderRadius: 10, margin: 10}}
-                    source={{
-                        uri: poster,
-                    }}
-                />
+                <TouchableOpacity onPress={handleMoviePress}>
+                    <Image
+                        style={{width: 80, height: 100, borderRadius: 10, margin: 10}}
+                        source={{
+                            uri: poster,
+                        }}
+                    />
+                </TouchableOpacity>
             </View>
             
             <View style={style.containerDescrip}>

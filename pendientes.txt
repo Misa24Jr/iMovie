@@ -1,23 +1,8 @@
-** EN EL FRONT SE NECESITA UNA FUNCIÓN PARA TRANSFORMAR EL TIEMPO DE DURACIÓN DE UNA PELI DE MIN. A HOR.
-** EN EL FRONT SE NECESITA UN SCRIPT PARA PROCESAR EL PUNTAJE EN BASE A 5.
-** EN EL FRONT SE NECESITA UN SCRIPT PARA TRANSFORMAR LA FECHA DE "2024-03-02" Y DEJAR SOLO EL AÑO.
-** EN EL FRONT HAY QUE UNIFICAR LOS ID DE LOS GENEROS TANTO DE LAS SERIES COMO DE LAS PELICULAS
-
--- 6. Hacer el metodo de subir imagen en firebase en user 
-
 !!GENERAL!!
 1. spinner de carga mientras se hace login y register
 2. Rayita del nav bar
 
 !!POR VISTAS!!
--- MovieView --
-
--- SearchView --
-2. navegar con el click en una pelicula hasta MovieView (Mavarez)
 
 -- MyReviewView -- .
 No fucniona el loading
-
--- UserSetting -- 
-2. Metodos de configuración de usuarios.
-4. spinner de carga para update y delete profile
