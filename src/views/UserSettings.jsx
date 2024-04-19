@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, View, Text, Image, TextInput, TouchableOpacity, Alert, Modal } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useNavigation } from "@react-navigation/native";
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
+import ModalPop from "../components/containers/ModalPop";
 
 const UserSettings = () => {
-  const navigation = useNavigation();
   const [editMode, setEditMode] = useState(false);
   const [token, setToken] = useState("");
   const [url_image, setUrlImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
@@ -18,6 +17,9 @@ const UserSettings = () => {
   const [prevEmail, setPrevEmail] = useState("");
   const [prevPassword, setPrevPassword] = useState("");
   const [prevUrlImage, setPrevUrlImage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalLogOut, setModalLogOut] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     getUserData();
@@ -53,8 +55,54 @@ const UserSettings = () => {
     return setPassword("");
   }
 
+  const handleConfirmDelete = async () => {
+    try {
+      const response = await fetch(`${API_ROOT}/api/users/delete`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if(response.status !== 200) return Alert.alert('Error', 'Server error trying to delete your profile.');
+
+      await AsyncStorage.clear();
+      return navigation.navigate("Welcome");
+    } catch (error) {
+      return Alert.alert("Error", "Something went wrong trying to delete your profile.");
+    }
+  };
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+  const toggleModalLogOut = () => {
+    setModalLogOut(!modalLogOut);
+  };
+  const handleCloseLogOut = () => {
+    setModalLogOut(false);
+  };
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
+  const logOut = () =>{
+    AsyncStorage.clear();
+    navigation.navigate("Welcome");
+  }; 
+
   return (
     <View style={style.container}>
+      <ModalPop
+        body={"Are you sure you want to delete your account?"}
+        handleSumit={handleConfirmDelete}
+        visible={isModalVisible}
+        handleClose={handleClose}
+      />
+
+      <ModalPop
+        body={"Are you sure you want to log out?"}
+        handleSumit={logOut}
+        visible={modalLogOut}
+        handleClose={handleCloseLogOut}
+      />
       <HomeTemplateComponent/>
       <View style={[style.card, editMode && style.largeCard]}>
         {!editMode ? (
@@ -91,11 +139,6 @@ const UserSettings = () => {
             source={{uri: url_image}}
             style={{width: 120, height: 140}}
           />
-          {editMode && (
-            <TouchableOpacity onPress={() => console.log("Change photo")}>
-              <Text style={style.changeImage}>Change</Text>
-            </TouchableOpacity>
-          )}
         </View>
 
         <View style={style.containerInput}>
@@ -131,6 +174,15 @@ const UserSettings = () => {
           )}
         </View>
       </View>
+      {editMode ? (
+          <TouchableOpacity style={style.redContainer} onPress={toggleModal}>
+              <Text style={style.red}>Delete Account</Text>
+          </TouchableOpacity>
+      ):(
+        <TouchableOpacity style={style.redContainer} onPress={toggleModalLogOut}>
+          <Text style={style.red}>Log out</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -150,7 +202,7 @@ const style = StyleSheet.create({
     padding: 20,
   },
   largeCard: {
-    height: 540, // Altura más grande cuando está en modo de edición
+    height: 520, // Altura más grande cuando está en modo de edición
   },
   containerImage:{
     justifyContent: 'center',
