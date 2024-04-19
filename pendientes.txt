@@ -13,11 +13,10 @@
 -- MovieView --
 
 -- SearchView --
-1. Agregar el spinner al hacer los searchs
-2. navegar con el click en una pelicula hasta MovieView
+2. navegar con el click en una pelicula hasta MovieView (Mavarez)
 
 -- MyReviewView -- .
-1. agregar el spinner al hacer el delete y el update.
+1. agregar el spinner al hacer el delete y el update.(Bugueado)
 
 -- ChatGeneral --
 1. al intentar enviar un mensaje, el input queda por debajo del teclado y no se ve lo que uno va escribiendo (No logro ponerlo encima del teclado)
