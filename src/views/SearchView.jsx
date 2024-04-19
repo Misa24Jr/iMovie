@@ -228,14 +228,30 @@ const SearchView = () => {
 
             const data = await response.json();
 
+            setSearchResults({});
             return setSearchResults(data.searchResult);
         } catch (error) {
             return Alert.alert('Error', `Something went wrong trying to get results for ${searchInputValue}`);
         }
     }
 
-    const handleGenreSearchSubmit = () => {
-        console.log("Genres selected:", genresSelected);
+    const handleGenreSearchSubmit = async () => {
+        try {
+            const response = await fetch(`${API_ROOT}/api/movies/searchByGenre`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ genres: genresSelected }),
+            });
+
+            if(response.status !== 200) return Alert.alert('Error', `Server error trying to get results`);
+
+            const data = await response.json();
+
+            setSearchResults({});
+            return setSearchResults(data.searchResult);
+        } catch (error) {
+            return Alert.alert('Error', `Something went wrong trying to get results for ${searchInputValue}`);
+        }
     }
 
     useEffect(() => {

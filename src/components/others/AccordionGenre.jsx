@@ -51,7 +51,7 @@ const AccordionGenre = ({ title, onGenresSelection, onSearchSubmit, isGenreSelec
                         <View style={styles.containerGroup}>
                             <Text style={styles.title}>{title}</Text>
 
-                            <TouchableOpacity style={styles.searchButton} onPress={onSearchSubmit}>
+                            <TouchableOpacity style={styles.searchButton} onPress={onSearchSubmit} disabled={!isGenreSelected} >
                                 <Ionicons name="search" size={24} color={isGenreSelected ? "#FFFFFF" : "#555959"} />
                             </TouchableOpacity>
                         </View>

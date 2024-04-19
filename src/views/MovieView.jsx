@@ -50,11 +50,10 @@ const MovieView = (props) =>{
                 },
                 body: JSON.stringify({movieId, content: reviewInputValue, score: starsSelected, poster: movieDetails.poster_path})
             });
-
-            setIsModalVisible(false);
-
+         
             if(response.status !== 201) return Alert.alert('Oops', 'Error response from server.');
-
+            
+            setIsModalVisible(false);
             return Alert.alert('Great!', 'Yo have published your review.');
         } catch (error) {
             return Alert.alert('Oops', 'Something went wrong trying to publish your review.');
