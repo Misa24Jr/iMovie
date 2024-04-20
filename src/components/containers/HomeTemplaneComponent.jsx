@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 // Components
 import TitlePage from "../others/TitlePage";
@@ -28,7 +28,6 @@ const style = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // Agrega otros estilos según tus necesidades
     },
     containerNav: {
         position: 'absolute',
@@ -39,7 +38,6 @@ const style = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // Agrega otros estilos según tus necesidades
     }
 });
 

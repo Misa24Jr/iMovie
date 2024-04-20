@@ -11,7 +11,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
     const [token, setToken] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false); // Nuevo estado para controlar si se está procesando una operación
+    const [isProcessing, setIsProcessing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(description);
     const [starsSelected, setStarsSelected] = useState(rating);
     const [editedUrl, setEditedUrl] = useState(url);
@@ -30,7 +30,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
         setIsEditing(prevEditing => !prevEditing);
         if(isEditing){
             try {
-                setIsProcessing(true); // Indicar que se está procesando la operación
+                setIsProcessing(true);
                 const response = await fetch(`${API_ROOT}/api/reviews/update`, {
                     method: 'PUT',
                     headers: {
@@ -46,15 +46,14 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
 
                 if(response.status !== 200) {
                     Alert.alert('Oops', 'Error response from server.');
-                    setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+                    setIsProcessing(false);
                     return;
                 }
 
-                setIsProcessing(false); // Finaliza el proceso de carga
+                setIsProcessing(false);
                 setIsModalVisible(false);
-                // Actualiza el estado de la revisión aquí si es necesario
             } catch (error) {
-                setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+                setIsProcessing(false);
                 Alert.alert('Oops', 'Something went wrong trying to edit your review.');
             }
         }
@@ -62,7 +61,7 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
 
     const handleDelete = async () => {
         try {
-            setIsProcessing(true); // Indicar que se está procesando la operación
+            setIsProcessing(true);
             const response = await fetch(`${API_ROOT}/api/reviews/delete`, {
                 method: "DELETE",
                 headers: {
@@ -74,15 +73,14 @@ const MyReviewBox = ({movieId, poster, url, description, rating}) => {
 
             if(response.status !== 200) {
                 Alert.alert('Oops', 'Error response from server deleting your review.');
-                setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+                setIsProcessing(false);
                 return;
             }
 
-            setIsProcessing(false); // Finaliza el proceso de carga
+            setIsProcessing(false);
             setIsModalVisible(false);
-            // Actualiza el estado de la revisión aquí si es necesario
         } catch (error) {
-            setIsProcessing(false); // Finaliza el proceso de carga en caso de error
+            setIsProcessing(false);
             Alert.alert('Oops', 'Something went wrong trying to delete your review.');
         }
     }

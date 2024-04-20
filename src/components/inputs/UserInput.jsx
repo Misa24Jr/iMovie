@@ -15,8 +15,8 @@ const UserInput = ({ placeholder, name, value, secureTextEntry, editable = true 
                     placeholderTextColor={'#ffffff'}
                     value={value}
                     secureTextEntry={secureTextEntry}
-                    editable={editable} // Aquí se configura la propiedad editable del TextInput
-                    onChangeText={(text) => console.log(text)} // Puedes agregar tu lógica de manejo de cambios aquí
+                    editable={editable}
+                    onChangeText={(text) => console.log(text)}
                 />
             </View>
 

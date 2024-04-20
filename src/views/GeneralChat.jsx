@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  Alert,
-  KeyboardAvoidingView,
-  Platform, 
-  Keyboard
-} from "react-native";
+import { StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput, Alert, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+//import socket from "../utils/socket.js";
 import { Ionicons } from '@expo/vector-icons';
 import { API_ROOT } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import socket from "../utils/socket";
 
 const GeneralChat = () => {
     const navigation = useNavigation();
@@ -22,6 +13,7 @@ const GeneralChat = () => {
     const [inputMessage, setInputMessage] = useState('');
 
     const handleMessageSend = async () => {
+        //socket.emit('chat message', {content: inputMessage, userId: "65f8d2cfaea5f502f38acd1c"});
         setInputMessage('');
     };
 
@@ -87,7 +79,7 @@ const GeneralChat = () => {
                             value={inputMessage}
                             onChangeText={setInputMessage}
                             placeholderTextColor={'#444747'}
-                            onSubmitEditing={handleMessageSend} // Agrega esto para enviar el mensaje al presionar "Enviar" en el teclado
+                            onSubmitEditing={handleMessageSend}
                         />
                         <TouchableOpacity 
                             style={styles.sendButton} 
@@ -156,7 +148,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         position: 'absolute',
-        bottom: 0, // Ajusta la posición a la parte inferior de la pantalla
+        bottom: 0,
         left: 0,
         right: 0,
         paddingHorizontal: 20,

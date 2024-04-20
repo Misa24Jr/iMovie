@@ -8,7 +8,6 @@ const ModalRateThis = ({ visible, handleClose, handleChangeText, handleStarsSele
     const handleRating = (newValue) => {
         setValue(newValue);
         handleStarsSelectedChange(newValue);
-        //console.log('Selected rating:', newValue)
     }
 
     return (

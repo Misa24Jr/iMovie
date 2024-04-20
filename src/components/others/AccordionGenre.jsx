@@ -6,7 +6,6 @@ import { TMDB_API_ROOT } from "@env";
 // Components
 import Genre from "../containers/Genre";
 
-// Habilitar LayoutAnimation en Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
@@ -14,7 +13,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const AccordionGenre = ({ title, onGenresSelection, onSearchSubmit, isGenreSelected }) => {
     const [expanded, setExpanded] = useState(false);
     const [genres, setGenres] = useState([]);
-    const [selectedGenres, setSelectedGenres] = useState([]);
 
     const toggleAccordion = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -64,7 +62,7 @@ const AccordionGenre = ({ title, onGenresSelection, onSearchSubmit, isGenreSelec
                                     key={index}
                                     id={genre.id}
                                     name={genre.name}
-                                    onPress={onGenresSelection}
+                                    handlePress={onGenresSelection}
                                 />
                             ))}
                     </View>

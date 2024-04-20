@@ -1,51 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, ScrollView, Text } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { API_ROOT } from "@env";
 
 // Components
 import HomeTemplateComponent from "../components/containers/HomeTemplaneComponent";
 import MyReviewTitle from "../components/others/MyReviewTitle";
 import MyReviewBox from "../components/containers/MyReviewBox";
-import { getAndSetToken } from "../utils/tokenHandler.js";
 import Loading from "../components/others/Loading.jsx";
 
 const MyReviewView = () => {
-    const [token, setToken] = useState('');
     const [myReviews, setMyReviews] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const getMyReviews = async () => {
         try {
+            setLoading(true);
             const userToken = await AsyncStorage.getItem('token');
             const response = await fetch(`${API_ROOT}/api/reviews/getAllByUserId`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${userToken}` }
             });
 
-            if(response.status !== 200) return Alert.alert('Oops', 'Error response from server.');
+            if(response.status === 404) return setLoading(false);
+
+            if(response.status !== 200 ) {
+                setLoading(false);
+                return Alert.alert('Oops', 'Error server trying to get your reviews.');
+            }
 
             const reviews = await response.json();
-            return setMyReviews(reviews);
+            setMyReviews(reviews);
+            return setLoading(false);
         } catch (error) {
+            setLoading(false);
             return Alert.alert('Oops', 'Something went wrong trying to get your reviews.');
         }
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try{
-                await getAndSetToken(setToken);
-                await getMyReviews();
-                setLoading(false);
-            }
-            catch(error){
-                Alert.alert('Oops', 'Something went wrong trying to get your reviews.');
-                setLoading(false);
-            }
-        };
-        fetchData();
+        getMyReviews();
     }, []);
 
     return(
@@ -99,7 +93,7 @@ const style = StyleSheet.create({
         marginTop: 20,
     },
     noReviewsText: {
-        color: '#667e7e',
+        color: '#43bebe',
         fontSize: 20,
         fontFamily: 'Jura_400Regular',
         textAlign: 'center',

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Animated, LayoutAnimation, Platform, UIManager } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
-// Habilitar LayoutAnimation en Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }

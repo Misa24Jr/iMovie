@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-const Genre = ({ id, name, onPress }) => {
+const Genre = ({ id, name, handlePress }) => {
     const [selected, setSelected] = useState(false);
 
     const toggleSelected = () => {
         setSelected(!selected);
-        onPress(id)
+        handlePress(id)
     };
 
     return (

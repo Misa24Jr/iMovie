@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity, Alert, ScrollView, Button } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
-import { Video } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
 import YoutubePlayer from "react-native-youtube-iframe";
 
@@ -18,7 +17,6 @@ import BoxCriticReview from "../components/containers/BoxCriticReview.jsx";
 import ModalReview from "../components/containers/ModalRateThis.jsx";
 import Loading from "../components/others/Loading.jsx";
 
-// Imagenes
 
 const MovieView = (props) =>{
     const navigation = useNavigation();

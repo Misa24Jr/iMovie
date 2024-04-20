@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#151515', // Fondo de degradado semi-transparente
-    borderRadius: 20, // Bordes redondeados para un aspecto más suave
+    backgroundColor: '#151515',
+    borderRadius: 20, 
   },
 });
 

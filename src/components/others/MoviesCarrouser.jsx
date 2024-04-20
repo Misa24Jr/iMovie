@@ -1,22 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { 
-    View, 
-    Text, 
-    StyleSheet, 
-    FlatList, 
-    Image, 
-    Dimensions, 
-    Animated,
-    Alert,
-    TouchableOpacity
-} from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions, Animated, Alert, TouchableOpacity } from "react-native";
 import { TMDB_API_ROOT, TMDB_TOKEN, TMDB_IMAGES_ROOT } from "@env";
 import parseAudienceScore from "../../helpers/parseAudienceScore.js";
 import { useNavigation } from '@react-navigation/native';
 import Loading from "./Loading.jsx";
 
 const width = Dimensions.get('window').width;
-// const height = Dimensions.get('window').height;
 
 const ANCHO_CONTENEDOR = width * 0.7;
 const ESPACIO_LATERAL = (width - ANCHO_CONTENEDOR) / 2;

@@ -230,13 +230,13 @@ const style = StyleSheet.create({
   },
   card:{
     width: 315,
-    height: 330, // Altura inicial más pequeña
+    height: 330,
     backgroundColor: 'rgba(60, 82, 82, 0.1)',
     borderRadius: 20,
     padding: 20,
   },
   largeCard: {
-    height: 520, // Altura más grande cuando está en modo de edición
+    height: 520,
   },
   containerImage:{
     justifyContent: 'center',

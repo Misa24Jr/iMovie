@@ -6,7 +6,6 @@ import BtnRegister from "../components/button/BtnRegister";
 import BtnLogin from "../components/button/BtnLogin";
 import Title from "../components/others/Title";
 import { useNavigation } from "@react-navigation/native";
-import LinearGradient from 'react-native-linear-gradient';
 
 const Welcome = () =>{
     const navigation = useNavigation();

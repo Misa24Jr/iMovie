@@ -23,7 +23,7 @@ const RegisterView = () =>{
     const handleRegisterButtonClick = async () => { 
         if (!InputValidator.registerInputsValidation(email, nickname, password)) return;
 
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
 
         try {
             const response = await fetch(`${API_ROOT}/api/auth/register`, {
@@ -48,7 +48,7 @@ const RegisterView = () =>{
         } catch (error) {
             Alert.alert('Error', 'Something went wrong trying to register.');
         } finally {
-            setIsLoading(false); // End loading
+            setIsLoading(false);
         }
     }
 

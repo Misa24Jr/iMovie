@@ -12,7 +12,6 @@ import UserSettings from '../views/UserSettings';
 import MovieView from '../views/MovieView';
 import SearchView from '../views/SearchView';
 import GeneralChat from '../views/GeneralChat';
-import MessagesView from '../views/MessagesView';
 
 // Components
 import HomeTemplaneComponent from '../components/containers/HomeTemplaneComponent'
@@ -101,14 +100,6 @@ function MyStack(){
             <Stack.Screen
                 name="GeneralChat"
                 component={GeneralChat}
-                options={{
-                    headerShown: false
-                }}
-            />
-
-            <Stack.Screen
-                name="MessagesView"
-                component={MessagesView}
                 options={{
                     headerShown: false
                 }}

@@ -19,11 +19,11 @@ const LoginView = () => {
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
     const [loginBtnDisabled, setLoginBtnDisabled] = useState(true);
-    const [loading, setLoading] = useState(false);  // Estado para el indicador de carga
+    const [loading, setLoading] = useState(false);
 
     const handleLoginButtonClick = async () => {
         if (!InputValidator.loginInputsValidation(nickname, password)) return;
-        setLoading(true);  // Activa el indicador de carga
+        setLoading(true);
 
         try {
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
@@ -54,7 +54,7 @@ const LoginView = () => {
             console.log(error);
             Alert.alert('Error', 'Something went wrong trying to login.');
         } finally {
-            setLoading(false);  // Desactiva el indicador de carga
+            setLoading(false);
         }
     }
 

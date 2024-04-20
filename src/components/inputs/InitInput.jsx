@@ -6,7 +6,7 @@ const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry, par
 
     const resetState = () => {
         setInputValue('');
-        parentSetterFunction(''); // Call the parentSetterValue to update the state
+        parentSetterFunction('');
     };
 
     return (
@@ -17,7 +17,7 @@ const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry, par
                 placeholder={placeholder}
                 onChangeText={(input) => {
                     setInputValue(input);
-                    changeTextHandler(input); // Call the changeTextHandler to update the state
+                    changeTextHandler(input);
                 }}
                 maxLength={max}
                 placeholderTextColor={'#444747'}
@@ -25,7 +25,7 @@ const InitInput = ({ name, placeholder, max, changeTextHandler, secureEntry, par
                 value={inputValue}
             />
 
-            {inputValue !== '' && (  // Only show the clear button when there is text in the input
+            {inputValue !== '' && (
                 <TouchableOpacity style={style.clear} onPress={resetState}>
                     <Text style={style.textClear}>X</Text>
                 </TouchableOpacity>

@@ -2,11 +2,6 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, Modal, Text, Image } from "react-native";
 
 const ModalPop = ({ body, visible, handleClose, handleSumit }) => {
-
-    // const handleClose = () => {
-    //     visible(false)
-    // }
-
     return (
         <Modal
             animationType="fade"
