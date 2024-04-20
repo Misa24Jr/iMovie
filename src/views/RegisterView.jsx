@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
 
@@ -18,9 +18,12 @@ const RegisterView = () =>{
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
     const [registerBtnDisabled, setRegisterBtnDisabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleRegisterButtonClick = async () => { 
         if (!InputValidator.registerInputsValidation(email, nickname, password)) return;
+
+        setIsLoading(true); // Start loading
 
         try {
             const response = await fetch(`${API_ROOT}/api/auth/register`, {
@@ -35,18 +38,17 @@ const RegisterView = () =>{
 
             if(response.status === 400) {
                 const data = await response.json();
-                return Alert.alert('Oops', `${data.message}, try again.`);
+                Alert.alert('Oops', `${data.message}, try again.`);
+            } else if (response.status === 201) {
+                Alert.alert('Success', 'You have been registered successfully.');
+                navigation.navigate('LoginView');
+            } else {
+                Alert.alert('Oops', 'Unknown error in server, try again later.');
             }
-
-            if(response.status !== 201 && response.status !== 400) {
-                return Alert.alert('Oops', 'Unknown error in server, try again later.');
-            } 
-
-            Alert.alert('Success', 'You have been registered successfully.');
-
-            return navigation.navigate('LoginView');
         } catch (error) {
-            return Alert.alert('Error', 'Something went wrong trying to register.');
+            Alert.alert('Error', 'Something went wrong trying to register.');
+        } finally {
+            setIsLoading(false); // End loading
         }
     }
 
@@ -54,9 +56,11 @@ const RegisterView = () =>{
         if(email && nickname && password) setButton('#3C5252');
         else setButton('gray');
 
-        if(email.length !== 0 && nickname .length !== 0 && password .length !== 0) {
+        if(email.length !== 0 && nickname.length !== 0 && password.length !== 0) {
             setRegisterBtnDisabled(false);
-        } else setRegisterBtnDisabled(true);
+        } else {
+            setRegisterBtnDisabled(true);
+        }
     });
 
     return(
@@ -89,14 +93,18 @@ const RegisterView = () =>{
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnRegister
-                    text={'Register'}
-                    clickHandler={handleRegisterButtonClick}
-                    color={button}
-                    disabled={registerBtnDisabled}
-                />
+                {isLoading ? (
+                    <ActivityIndicator size="large" color="#8CCECC" />
+                ) : (
+                    <BtnRegister
+                        text={'Register'}
+                        clickHandler={handleRegisterButtonClick}
+                        color={button}
+                        disabled={registerBtnDisabled}
+                    />
+                )}
                 <InitLink 
-                    text={"Already have an acount?"} 
+                    text={"Already have an account?"} 
                     clickHandler={() => navigation.navigate('LoginView')}
                 />
             </View>

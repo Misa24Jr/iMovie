@@ -1,8 +1,3 @@
 !!GENERAL!!
 1. spinner de carga mientras se hace login y register
 2. Rayita del nav bar
-
-!!POR VISTAS!!
-
--- MyReviewView -- .
-No fucniona el loading

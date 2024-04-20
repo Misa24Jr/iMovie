@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { API_ROOT } from "@env";
 import { saveToken } from "../utils/tokenHandler.js";
@@ -12,17 +12,18 @@ import InitInput from "../components/inputs/InitInput";
 import InitLink from "../components/others/InitLink";
 import InputValidator from "../utils/inputValidators.js";
 
-const LoginView = () =>{
+const LoginView = () => {
     
     const navigation = useNavigation();
-
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [button, setButton] = useState('gray');
     const [loginBtnDisabled, setLoginBtnDisabled] = useState(true);
-    
+    const [loading, setLoading] = useState(false);  // Estado para el indicador de carga
+
     const handleLoginButtonClick = async () => {
         if (!InputValidator.loginInputsValidation(nickname, password)) return;
+        setLoading(true);  // Activa el indicador de carga
 
         try {
             const response = await fetch(`${API_ROOT}/api/auth/login`, {
@@ -36,36 +37,34 @@ const LoginView = () =>{
 
             const data = await response.json();
 
-            if(response.status === 400) return Alert.alert('Oops', `${data.message.description}, try again.`);
-            if(response.status !== 200 && response.status !== 400) return Alert.alert('Oops', 'Unknown error in server, try again later.');
-            if(!data.token) return Alert.alert('Oops', 'Unable to get session token from server.');
-
-            await Promise.all([
-                saveToken(data.token),
-                AsyncStorage.setItem('nickname', data.userData.nickname),
-                AsyncStorage.setItem('email', data.userData.email),
-                AsyncStorage.setItem('url_image', data.userData.url_image)
-            ]);
-
-            return navigation.navigate('NewsView');
+            if (response.status === 400 || !data.token) {
+                Alert.alert('Oops', `${data.message?.description || 'Error during login'}, try again.`);
+            } else if (response.status === 200) {
+                await Promise.all([
+                    saveToken(data.token),
+                    AsyncStorage.setItem('nickname', data.userData.nickname),
+                    AsyncStorage.setItem('email', data.userData.email),
+                    AsyncStorage.setItem('url_image', data.userData.url_image)
+                ]);
+                navigation.navigate('NewsView');
+            } else {
+                Alert.alert('Oops', 'Unknown error in server, try again later.');
+            }
         } catch (error) {
             console.log(error);
-            return Alert.alert('Error', 'Something went wrong trying to login.');
+            Alert.alert('Error', 'Something went wrong trying to login.');
+        } finally {
+            setLoading(false);  // Desactiva el indicador de carga
         }
     }
-    // return navigation.navigate('NewsView');
-// }
 
     useEffect(() => {
-        if(nickname && password) setButton('#3C5252');
-        else setButton('gray');
-
-        if(nickname.length !== 0 && password.length !== 0) setLoginBtnDisabled(false);
-        else setLoginBtnDisabled(true);
+        setButton(nickname && password ? '#3C5252' : 'gray');
+        setLoginBtnDisabled(!(nickname.length !== 0 && password.length !== 0));
     });
 
-    return(
-        <View style={style.container}> 
+    return (
+        <View style={style.container}>
             <View style={style.containerTitle}>
                 <Title/>
             </View>
@@ -76,7 +75,6 @@ const LoginView = () =>{
                     max={20}
                     changeTextHandler={text => setNickname(text)}
                     secureEntry={false}
-                    parentSetterFunction={setNickname}
                 />
                 <InitInput 
                     name={'password'} 
@@ -84,23 +82,26 @@ const LoginView = () =>{
                     max={20}
                     changeTextHandler={text => setPassword(text)}
                     secureEntry={true}
-                    parentSetterFunction={setPassword}
                 />
             </View>
             <View style={style.containerBtn}>
-                <BtnLogin
-                    text={'Login'}
-                    clickHandler={handleLoginButtonClick}
-                    color={button}
-                    disabled={loginBtnDisabled}
-                />
+                {loading ? (
+                    <ActivityIndicator size="large" color="#8CCECC" />
+                ) : (
+                    <BtnLogin
+                        text={'Login'}
+                        clickHandler={handleLoginButtonClick}
+                        color={button}
+                        disabled={loginBtnDisabled}
+                    />
+                )}
                 <InitLink 
-                    text={"Don't have an acount yet?"} 
+                    text={"Don't have an account yet?"} 
                     clickHandler={() => navigation.navigate('RegisterView')}
                 />
             </View>
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({
@@ -128,6 +129,6 @@ const style = StyleSheet.create({
         gap: 30,
         marginBottom: '20%',
     }
-  });
-  
+});
+
 export default LoginView;
